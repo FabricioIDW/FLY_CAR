@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pagos', function (Blueprint $table) {
             $table->id();
-            $table->text('nroPago')->unique();
+            $table->integer('nroPago')->unique();
             $table->timestamp('fechaHoraGenerado')->useCurrent();
             $table->float('importe');
             $table->timestamps();

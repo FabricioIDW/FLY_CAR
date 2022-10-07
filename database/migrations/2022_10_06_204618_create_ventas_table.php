@@ -15,7 +15,16 @@ return new class extends Migration
     {
         Schema::create('ventas', function (Blueprint $table) {
             $table->id();
+            $table->timestamp('fechaHoraGenerada')->useCurrent();
+            $table->float('comision');
+            $table->boolean('concretada');
+            $table->integer('nroPago');
+            $table->unsignedBigInteger('idCotizacion');
+            $table->string('dniVendedor', 8);
             $table->timestamps();
+            $table->foreign('nroPago')->references('nroPago')->on('pagos');
+            $table->foreign('idCotizacion')->references('id')->on('cotizaciones');
+            $table->foreign('dniVendedor')->references('dniVendedor')->on('vendedores');
         });
     }
 

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->float('importe');
             $table->timestamp('fechaHoraVencimiento')->useCurrent();
             $table->unsignedBigInteger('idCotizacion');
-            $table->text('nroPago');
+            $table->integer('nroPago');
             $table->timestamps();
             $table->foreign('idCotizacion')->references('id')->on('cotizaciones');
             $table->foreign('nroPago')->references('nroPago')->on('pagos');
