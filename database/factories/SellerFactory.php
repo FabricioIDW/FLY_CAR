@@ -16,8 +16,12 @@ class SellerFactory extends Factory
      */
     public function definition()
     {
+        $id = $this->faker->unique()->numberBetween(25, 30);
         return [
-            //
+            'dni' => $this->faker->unique()->numberBetween(10000000, 99999999),
+            'name' => $this->faker->name(15),
+            'lastName' => $this->faker->name(15),
+            'user_id' => $id,
         ];
     }
 }

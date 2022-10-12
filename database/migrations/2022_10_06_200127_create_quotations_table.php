@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
             $table->timestamp('dateTimeGenerated')->useCurrent();
-            $table->float('finalAmount');
+            $table->float('finalAmount', 20);
             $table->boolean('valid')->default(true);
             $table->timestamp('dateTimeExpiration')->useCurrent();
             $table->unsignedBigInteger('customer_id'); //Tal vez tiene que ser cliente_id

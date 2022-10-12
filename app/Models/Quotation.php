@@ -11,16 +11,12 @@ class Quotation extends Model
     public function vehicles()
     {
         // M:M
-        return $this->hasMany(Vehicle::class);
+        return $this->belongsToMany(Vehicle::class);
     }
     public function customer()
     {
         // 1:1 
     return $this->belongsTo(Customer::class);
     }
-    public function vehicleAccessories()
-    {
-        // M:M
-        
-    }
+ 
 }

@@ -16,4 +16,17 @@ class Vehicle extends Model
     {
         return $this->belongsTo(VehicleModel::class);
     }
+    public function getPrice()
+    {
+        $offer = $this->offer;
+        if ($offer) {
+            return $this->price - (($offer->discount / 100) * $this->price); 
+        }
+        return $this->price;
+    }
+    public function accessoriesQuotation()
+    {
+        // M:M
+        return $this->belongsToMany(Accessory::class, 'accessory_quotation_vehicle');
+    }
 }

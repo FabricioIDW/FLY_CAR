@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
             $table->string('chassis', 17)->unique();
-            $table->float('price', 14);
+            $table->float('price', 20);
             $table->text('description');
             $table->year('year');
             $table->text('image');
             $table->boolean('enabled')->default(true);
-            $table->enum('vehicleState', ['sold', 'reserved', 'availabled']);
+            $table->enum('vehicleState', ['sold', 'reserved', 'availabled'])->default('availabled');
             $table->boolean('removed')->default(false);
             $table->unsignedBigInteger('vehicle_model_id');
             $table->unsignedBigInteger('offer_id');

@@ -8,6 +8,7 @@ use App\Models\Accessory;
 use App\Models\Brand;
 use App\Models\Customer;
 use App\Models\Offer;
+use App\Models\Seller;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Models\VehicleModel;
@@ -23,13 +24,15 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        Offer::factory(10)->create();
-        Accessory::factory(25)->create();
         $this->call(UserTypeSeeder::class);
-        User::factory(25)->create();
+        User::factory(30)->create();
         Customer::factory(25)->create();
+        Seller::factory(5)->create();
+        Offer::factory(10)->create();
         Brand::factory(5)->create();
+        Accessory::factory(25)->create();
         $this->call(VehicleModelSeeder::class);
-        Vehicle::factory(5)->create();
+        Vehicle::factory(10)->create();
+        $this->call(QuotationSeeder::class);
     }
 }
