@@ -16,6 +16,6 @@ class Accessory extends Model
     // M:M
     public function models()
     {
-        return $this->belongsToMany(VehicleModel::class);
+        return $this->belongsToMany(VehicleModel::class)->withPivot('price');
     }
 }

@@ -14,7 +14,7 @@ class VehicleModel extends Model
     }
     public function accessories()
     {
-        return $this->belongsToMany(Accessory::class);
+        return $this->belongsToMany(Accessory::class)->withPivot('price');
     }
     public function vehicles()
     {
