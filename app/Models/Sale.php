@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Sale extends Model
 {
     use HasFactory;
+    // RELACIONES
     public function payment()
     {
-        return $this->hasOne(Payment::class);
+        return $this->belongsTo(Payment::class);
     }
     public function quotation()
     {
@@ -19,5 +20,10 @@ class Sale extends Model
     public function seller()
     {
         return $this->belongsTo(Seller::class);
+    }
+    // FUNCIONES
+    public function calculateComission($amount)
+    {
+        return (10 * $amount) / 100;
     }
 }

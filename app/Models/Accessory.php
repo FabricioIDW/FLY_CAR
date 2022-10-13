@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Accessory extends Model
 {
     use HasFactory;
-    // RELATIONS
+    // RELACIONES
     public function offer()
     {
         // 1:1
@@ -19,16 +19,7 @@ class Accessory extends Model
         // M:M
         return $this->belongsToMany(VehicleModel::class)->withPivot('price');
     }
-    // FUNCTIONS
-    // public function getPrice($model_id)
-    // {
-    //     $price = VehicleModel::where
-    //     $offer = $this->offer;
-    //     if ($offer) {
-    //         return $this->price - (($offer->discount / 100) * $this->price);
-    //     }
-    //     return $this->price;
-    // }
+    // FUNCIONES
     public function discountStock()
     {
         if ($this->stock >= 1) {
@@ -45,5 +36,13 @@ class Accessory extends Model
     {
         $this->enabled = $valor;
         $this->save();
+    }
+    public function getPrice($price)
+    {
+        if ($this->offer) {
+            // return $price - (($this->offer->discount / 100) * $price);
+            return Discount::calculateDiscount($price, $this->offer->discount);
+        }
+        return $price;
     }
 }

@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->integer('paymentNumber')->unique();
+            // $table->integer('paymentNumber')->unique();
             $table->timestamp('dateTimeGenerated')->useCurrent();
-            $table->float('amount');
+            $table->float('amount', 20)->default(0);
             $table->timestamps();
         });
     }

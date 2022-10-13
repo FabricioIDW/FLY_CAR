@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vehicle extends Model
 {
     use HasFactory;
-    // RELATIONS
+    // RELACIONES
     public function offer()
     {
         return $this->belongsTo(Offer::class);
@@ -20,21 +20,21 @@ class Vehicle extends Model
     public function accessoriesQuotation()
     {
         // M:M
-        return $this->belongsToMany(Accessory::class, 'accessory_quotation_vehicle');
+        return $this->belongsToMany(Accessory::class, 'accessory_quotation_vehicle', 'vehicle_id', 'accessory_id')->withPivot('quotation_id');
     }
 
-    // FUNCTIONS
+    // FUNCIONES
     public function getPrice()
     {
         $offer = $this->offer;
         if ($offer) {
-            return $this->price - (($offer->discount / 100) * $this->price);
+            return Discount::calculateDiscount($this->price, $offer->discount);
         }
         return $this->price;
     }
-    public function setReserved()
+    public function setState($state)
     {
-        $this->vehicleState = 'reserved';
+        $this->vehicleState = $state;
         $this->save();
     }
 }

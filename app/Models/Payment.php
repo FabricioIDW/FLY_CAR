@@ -10,10 +10,10 @@ class Payment extends Model
     use HasFactory;
     public function reserve()
     {
-        return $this->belongsTo(Reserve::class);
+        return $this->hasOne(Reserve::class);
     }
     public function sale()
     {
-        return $this->belongsTo(Sale::class);
+        return $this->hasOne(Sale::class);
     }
 }

@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
         $this->call(UserTypeSeeder::class);
         User::factory(30)->create();
         Customer::factory(25)->create();
@@ -32,7 +31,9 @@ class DatabaseSeeder extends Seeder
         Brand::factory(5)->create();
         Accessory::factory(25)->create();
         $this->call(VehicleModelSeeder::class);
-        Vehicle::factory(10)->create();
+        Vehicle::factory(30)->create();
         $this->call(QuotationSeeder::class);
+        $this->call(ReserveSeeder::class);
+        $this->call(SaleSeeder::class);
     }
 }

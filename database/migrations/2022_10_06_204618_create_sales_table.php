@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->timestamp('dateTimeGenerated')->useCurrent();
-            $table->float('comission');
-            $table->boolean('concretized');
-            $table->unsignedBigInteger('payment_id');
-            $table->unsignedBigInteger('quotation_id');
-            $table->unsignedBigInteger('seller_id');
+            $table->float('comission', 20)->nullable()->default(0);
+            $table->boolean('concretized')->default(true);
+            $table->unsignedBigInteger('payment_id')->nullable()->default(null);
+            $table->unsignedBigInteger('quotation_id')->nullable()->default(null);
+            $table->unsignedBigInteger('seller_id')->nullable()->default(null);
             $table->timestamps();
             $table->foreign('payment_id')->references('id')->on('payments');
             $table->foreign('quotation_id')->references('id')->on('quotations');

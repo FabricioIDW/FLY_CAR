@@ -19,7 +19,7 @@ class VehicleFactory extends Factory
     public function definition()
     {
         return [
-            'chassis' => $this->faker->unique()->text(17),
+            'chassis' => $this->faker->unique()->numberBetween(11111111111111111, 99999999999999999),
             'price' => $this->faker->randomFloat(2, 500000, 14500500),
             'description' => $this->faker->text(100),
             'year' => $this->faker->year(),

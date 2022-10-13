@@ -17,7 +17,7 @@ class PaymentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id' => $this->faker->numberBetween(11111, 99999),
         ];
     }
 }
