@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Accessory;
 use App\Models\Customer;
 use App\Models\Quotation;
 use App\Models\Vehicle;
@@ -21,12 +22,13 @@ class QuotationSeeder extends Seeder
         for ($i = 1; $i <= 5; $i++) {
             $vehicle = Vehicle::where('vehicleState', '=', 'availabled')->first();
             $quotation = new Quotation();
-            $quotation->id = $i; 
+            // $quotation->id = $i;
             $quotation->finalAmount = $vehicle->getPrice();
             $quotation->customer_id = Customer::all()->random()->id;
             $quotation->save();
-            $vehicle->vehicleState = 'reserved';
-            $vehicle->save();
+            $vehicle->setReserved();
+            $accessory = Accessory::where('stock', '>=', '1')->first();
+            $quotation->vehicleAccesories()->attach($vehicle->id, ['accessory_id' => $accessory->id]);
             $quotation->vehicles()->attach($vehicle->id);
         }
     }

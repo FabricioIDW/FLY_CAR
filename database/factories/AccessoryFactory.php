@@ -19,9 +19,9 @@ class AccessoryFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->word(20),
-            'stock' => $this->faker->randomNumber(),
+            'stock' => $this->faker->numberBetween(1, 50),
             'description' => $this->faker->text(100),
-            'image' => $this->faker->text(100),
+            'image' => $this->faker->imageUrl(),
             'offer_id' => Offer::all()->random()->id,
         ];
     }

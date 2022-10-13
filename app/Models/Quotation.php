@@ -16,7 +16,6 @@ class Quotation extends Model
     public function customer()
     {
         // 1:1 
-    return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class);
     }
- 
 }
