@@ -45,11 +45,3 @@ class SaleSeeder extends Seeder
         }
     }
 }
-
-/*
-cotizacion = 1
-reserva = 410491.37 (5%)
-venta = 779933.61 (comission)
-cotizacion = 7799336.10 (finalAmount)
-cotizacion sin reserva = 8209827,47
-*/

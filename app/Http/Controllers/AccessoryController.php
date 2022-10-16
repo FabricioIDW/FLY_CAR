@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAccessory;
+use App\Models\Accessory;
 use Illuminate\Http\Request;
 
 class AccessoryController extends Controller
@@ -13,7 +15,8 @@ class AccessoryController extends Controller
      */
     public function index()
     {
-        //
+        $accessories = Accessory::orderBy('id', 'updated_at')->paginate();
+        return view('accessories.index', compact('accessories'));
     }
 
     /**
@@ -23,7 +26,7 @@ class AccessoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('accessories.create');
     }
 
     /**
@@ -32,9 +35,10 @@ class AccessoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAccessory $request)
     {
-        //
+        $accessory = Accessory::create($request->all());
+        return redirect()->route('accessories.show', $accessory);
     }
 
     /**
@@ -43,9 +47,9 @@ class AccessoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Accessory $accessory)
     {
-        //
+        return view('accessories.show', compact('accessories'));
     }
 
     /**
@@ -54,9 +58,9 @@ class AccessoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Accessory $accessory)
     {
-        //
+        return view('accessories.edit', compact('accessories'));
     }
 
     /**
@@ -66,9 +70,10 @@ class AccessoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreAccessory $request, Accessory $accessory)
     {
-        //
+        $accessory->update($request->all());
+        return redirect()->route('accessories.show', $accessory);
     }
 
     /**
@@ -77,8 +82,9 @@ class AccessoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Accessory $accessory)
     {
-        //
+        $accessory->delete();
+        return  redirect()->route('accessories.index');
     }
 }

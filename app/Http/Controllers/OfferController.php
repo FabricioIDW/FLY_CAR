@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreOffer;
+use App\Models\Offer;
 use Illuminate\Http\Request;
 
 class OfferController extends Controller
@@ -13,7 +15,8 @@ class OfferController extends Controller
      */
     public function index()
     {
-        //
+        $offers = Offer::orderBy('id', 'updated_at')->paginate();
+        return view('offers.index', compact('offers'));
     }
 
     /**
@@ -23,7 +26,7 @@ class OfferController extends Controller
      */
     public function create()
     {
-        //
+        return view('offers.create');
     }
 
     /**
@@ -32,9 +35,10 @@ class OfferController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreOffer $request)
     {
-        //
+        $offer = Offer::create($request->all());
+        return redirect()->route('offers.show', $offer);
     }
 
     /**
@@ -43,9 +47,9 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Offer $offer)
     {
-        //
+        return view('offers.show', compact('offer'));
     }
 
     /**
@@ -54,9 +58,9 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Offer $offer)
     {
-        //
+        return view('offers.edit', compact('offer'));
     }
 
     /**
@@ -66,9 +70,10 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreOffer $request, Offer $offer)
     {
-        //
+        $offer->update($request->all());
+        return redirect()->route('offers.show', $offer);
     }
 
     /**
@@ -77,8 +82,9 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Offer $offer)
     {
-        //
+        $offer->delete();
+        return  redirect()->route('offers.index');
     }
 }

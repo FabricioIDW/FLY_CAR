@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreVehicle;
-use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
-class VehicleController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +13,7 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        $vehicles = Vehicle::orderBy('updated_at', 'desc')->paginate();
-        return view('vehicles.index', compact('vehicles'));
+        //
     }
 
     /**
@@ -26,7 +23,7 @@ class VehicleController extends Controller
      */
     public function create()
     {
-        return view('vehicles.create');
+        //
     }
 
     /**
@@ -35,10 +32,9 @@ class VehicleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreVehicle $request)
+    public function store(Request $request)
     {
-        $vehicle = Vehicle::create($request->all());
-        return redirect()->route('vehicles.show', $vehicle);
+        //
     }
 
     /**
@@ -47,10 +43,9 @@ class VehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Vehicle $vehicle)
+    public function show($id)
     {
-        // return $vehicle;
-        return view('vehicles.show', compact('vehicle'));
+        //
     }
 
     /**
@@ -59,9 +54,9 @@ class VehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Vehicle $vehicle)
+    public function edit($id)
     {
-        return view('vehicles.edit', compact('vehicle'));
+        //
     }
 
     /**
@@ -71,10 +66,9 @@ class VehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreVehicle $request, Vehicle $vehicle)
+    public function update(Request $request, $id)
     {
-        $vehicle->update($request->all());
-        return redirect()->route('vehicles.show', $vehicle);
+        //
     }
 
     /**
@@ -83,9 +77,8 @@ class VehicleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Vehicle $vehicle)
+    public function destroy($id)
     {
-        $vehicle->delete();
-        return  redirect()->route('vehicles.index');
+        //
     }
 }
