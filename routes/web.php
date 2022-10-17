@@ -21,3 +21,13 @@ Route::get('/', function () {
 // Route::resource('vehicles', VehicleController::class)->parameters(['vehicles' => 'vehicles'])->names('vehicles');
 
 Route::resource('vehicles', VehicleController::class);
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
