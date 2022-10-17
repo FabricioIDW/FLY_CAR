@@ -23,4 +23,9 @@
         @method('delete')
         <button type="submit">Eliminar</button>
     </form>
-@endsection
+    @endsection
+@push('scripts')
+<script>
+console.log('asdasd');
+</script>
+@endpush
