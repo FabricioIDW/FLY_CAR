@@ -6,16 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .active {
             color: red;
             font-weight: bold;
         }
     </style>
+      @vite('resources/css/app.css')
 </head>
 
 <body>
+<<<<<<< HEAD
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -34,6 +36,12 @@
             </div>
         </div>
     </x-app-layout>
+=======
+    @include('layouts.partials.header')
+     @yield('content')
+    @include('layouts.partials.footer')
+    @stack('scripts')
+>>>>>>> 59dca736b72a597783d275273ea311dd68cb37f7
 </body>
 
 </html>
