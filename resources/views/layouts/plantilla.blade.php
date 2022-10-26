@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,15 +8,32 @@
     <title>@yield('title')</title>
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     <style>
-        .active{
+        .active {
             color: red;
             font-weight: bold;
         }
     </style>
 </head>
+
 <body>
-    @include('layouts.partials.header')
-     @yield('content')
-    @include('layouts.partials.footer')
+    <x-app-layout>
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Dashboard') }}
+            </h2>
+        </x-slot>
+
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                    @include('layouts.partials.header')
+                    <hr>
+                    @yield('content')
+                    @include('layouts.partials.footer')
+                </div>
+            </div>
+        </div>
+    </x-app-layout>
 </body>
+
 </html>

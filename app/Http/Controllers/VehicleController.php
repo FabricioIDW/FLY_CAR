@@ -8,11 +8,13 @@ use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        // $this->middleware('can:vehicles.index')->only('index');
+        // $this->middleware('can:vehicles.create')->only(['create', 'store']);
+        $this->middleware('can:vehicles.edit')->only(['edit', 'update']);
+        // $this->middleware('can:vehicles.destroy')->only('destroy');
+    }
     public function index()
     {
         $vehicles = Vehicle::orderBy('updated_at', 'desc')->paginate();

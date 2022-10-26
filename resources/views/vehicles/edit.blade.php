@@ -1,41 +1,32 @@
 @extends('layouts.plantilla')
-@section('title', 'Editar oferta')
+@section('title', 'Editar vehiculo')
 @section('content')
-    <h1>Editar oferta</h1>
+    <h1>Editar vehiculo</h1>
     <section>
-        <form action="{{ route('ofertas.update', $oferta) }}" method="POST">
+        <form action="{{ route('vehicles.update', $vehicle) }}" method="POST">
             @csrf
             @method('put')
-            <label>Descuento:
-                <input type="number" name="descuento" step="0.1" value="{{ old('descuento', $oferta->descuento) }}">
+            <label>chassis:
+                <input type="number" name="chassis" step="0.1" value="{{ old('chassis', $vehicle->chassis) }}">
             </label>
-            @error('descuento')
+            @error('chassis')
                 <br>
                 <small>*{{ $message }}</small>
                 <br>
             @enderror
             <br>
             <label>
-                Fecha de inicio:
-                <input type="date" name="fechaInicio" value="{{ old('fechaInicio', $oferta->fechaInicio) }}">
+                Precio:
+                <input type="date" name="price" value="{{ old('price', $vehicle->price) }}">
             </label>
-            @error('fechaInicio')
+            @error('price')
                 <br>
                 <small>*{{ $message }}</small>
                 <br>
             @enderror
             <br>
-            <label>
-                Fecha de fin:
-                <input type="date" name="fechaFin" value="{{ old('fechaFin', $oferta->fechaFin) }}">
-            </label>
-            @error('fechaFin')
-                <br>
-                <small>*{{ $message }}</small>
-                <br>
-            @enderror
             <br>
-            <input type="submit" value="Editar oferta">
+            <input type="submit" value="Editar vehiculo">
         </form>
     </section>
 @endsection
