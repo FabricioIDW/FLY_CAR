@@ -15,7 +15,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:admin.index')->only('index');
+        $this->middleware('can:admin.index')->only('indexAdmin');
         $this->middleware('can:usersSeller.create')->only(['create_seller', 'store_seller']);
     }
     public function userList()
