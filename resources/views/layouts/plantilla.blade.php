@@ -17,7 +17,6 @@
 </head>
 
 <body>
-<<<<<<< HEAD
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -36,12 +35,6 @@
             </div>
         </div>
     </x-app-layout>
-=======
-    @include('layouts.partials.header')
-     @yield('content')
-    @include('layouts.partials.footer')
-    @stack('scripts')
->>>>>>> 59dca736b72a597783d275273ea311dd68cb37f7
 </body>
 
 </html>
