@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('startDate');
             $table->date('endDate');
             $table->timestamps();
+            $table->unique(['discount', 'startDate', 'endDate']);
         });
     }
 

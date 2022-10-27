@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreOffer extends FormRequest
+class UpdateOffer extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class StoreOffer extends FormRequest
     public function rules()
     {
         return [
-            'discount' => 'required|min:0.01|max:99.99|unique:offers,discount,NULL,id,startDate,' . $this->input('startDate') . ',endDate,' . $this->input('endDate'),
+            'discount' => 'required|unique:offers,discount,' . $this->input('id') . ',id,startDate,' . $this->input('startDate') . ',endDate,' . $this->input('endDate'),
             'startDate' => 'required',
             'endDate' => 'required',
         ];

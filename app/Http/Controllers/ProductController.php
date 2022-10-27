@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Accessory;
+use App\Models\Vehicle;
+use App\Models\VehicleModel;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -13,7 +16,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $accesorios = Accessory::all();
+        $vehiculos = Vehicle::all();
+
+        return view('products.buscar', compact('accesorios', 'vehiculos'));
     }
 
     /**
@@ -23,7 +29,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products/create');
     }
 
     /**
@@ -80,5 +86,10 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function catalogo(){
+        $vehiculos = Vehicle::where('vehicleState', 'availabled')->get();
+
+        return view('welcome', compact('vehiculos'));
     }
 }

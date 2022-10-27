@@ -1,3 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.titulos{
+    @apply text-6xl; 
+    @apply font-bold; 
+    @apply text-center;
+  }
+  .scroll-container {
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .scroll-container {
+      width: 1000px;
+      height: 497px;
+      overflow-y: scroll;
+      scroll-behavior: smooth;
+      scroll-padding-block-end: 0;
+    }
+    .scroll-containerChico {
+      width: 60%;
+      height: 350px;
+      overflow-y: scroll;
+      scroll-behavior: smooth;
+    }
+    .flecha{
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      margin: 7px;
+      transition: 0.4s ease;
+      cursor: pointer;
+    }
+
+    .flecha div{
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      border-top: 8px solid #202020;
+      border-left: 8px solid #202020;
+      transform: rotate(-45deg);
+      left: 27.5px;
+      top: 35px;
+    }
+    /* .scroll-page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      font-size: 5em;
+    } */
+  

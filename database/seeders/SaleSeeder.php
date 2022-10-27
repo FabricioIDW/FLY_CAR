@@ -40,7 +40,7 @@ class SaleSeeder extends Seeder
             $sale->quotation_id = $quotation->id;
             $sale->seller_id = $seller_id;
             $sale->save();
-            $quotation->setVehiclesSold('sold');
+            $quotation->setVehicles('sold');
             $quotation->setValid(0);
         }
     }

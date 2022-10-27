@@ -16,12 +16,10 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'Fabricio Ojeda',
             'email' => 'fabri@gmail.com',
             'password' => bcrypt('laravel12'),
         ])->assignRole('Admin');
         User::create([
-            'name' => 'Yamil Cruz',
             'email' => 'yamil@gmail.com',
             'password' => bcrypt('laravel12'),
         ])->assignRole('Customer');

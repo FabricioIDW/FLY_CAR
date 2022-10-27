@@ -43,6 +43,28 @@
                 <br>
             @enderror
             <br>
+            <label>
+                Descripción:
+                <textarea name="description" cols="30" rows="10">{{}}</textarea>
+            </label>
+            @error('price')
+                <br>
+                <small>*{{ $message }}</small>
+                <br>
+            @enderror
+            <br>
+            {{-- <label>
+                Imágen:
+                <input type="image" name="image" {{ old('image') }}>
+            </label>
+            @error('image')
+                <br>
+                <small>*{{ $message }}</small>
+                <br>
+            @enderror
+            <br> --}}
+            
+            <br>
             <input type="submit" value="Crear vehículo">
         </form>
     </section>

@@ -134,6 +134,14 @@
 
 @extends('layouts.plantilla')
 @section('title', 'Principal')
+@section('titleH1', 'Catálogo de vehículos')
+    
 @section('content')
-
+<div class="scroll-container">
+    <div class="columns-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mx-auto space-x-1 space-y-1">
+        @foreach ($vehiculos as $veh)
+            <img src="{{$veh->image}}">
+         @endforeach
+    </div>
+</div>
 @endsection

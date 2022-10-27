@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Accessory extends Model
 {
     use HasFactory;
+    protected $guarded = [];
     // RELACIONES
     public function offer()
     {

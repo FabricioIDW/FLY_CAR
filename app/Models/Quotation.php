@@ -35,16 +35,24 @@ class Quotation extends Model
         $this->save();
         return $this->finalAmount;
     }
-    public function setVehiclesSold()
+    public function setVehicles($state)
     {
-        $vehicles = $this->vehicles;
-        foreach ($vehicles as $vehicle) {
-            $vehicle->setState('sold');
+        foreach ($this->vehicles as $vehicle) {
+            $vehicle->setState($state);
         }
     }
     public function setValid($valor)
     {
         $this->valid = $valor;
         $this->save();
+    }
+    public function checkVehiclesState() 
+    {
+        foreach ($this->vehicles as $vehicle) {
+            if (!$vehicle->enabled) {
+                return false;
+            }
+        }
+        return true;
     }
 }

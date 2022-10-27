@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sale extends Model
 {
     use HasFactory;
+    protected $guarded = [];
     // RELACIONES
     public function payment()
     {
@@ -22,7 +23,7 @@ class Sale extends Model
         return $this->belongsTo(Seller::class);
     }
     // FUNCIONES
-    public function calculateComission($amount)
+    public static function calculateComission($amount)
     {
         return (10 * $amount) / 100;
     }

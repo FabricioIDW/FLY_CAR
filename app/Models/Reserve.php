@@ -22,4 +22,9 @@ class Reserve extends Model
     {
         return (5 * $price) / 100;
     }
+    public function setState($state)
+    {
+        $this->reserveState = $state;
+        $this->save();
+    }
 }
