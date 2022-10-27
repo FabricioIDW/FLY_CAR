@@ -1,5 +1,19 @@
 @php
     $nav_links = [
+        // Admin
+        [
+            'name' => 'Administración',
+            'route' => route('admin.index'),
+            'active' => request()->routeIs('admin.index'),
+            'can' => 'admin.index',
+        ],
+        [
+            'name' => 'Crear cuenta vendedor',
+            'route' => route('usersSeller.create'),
+            'active' => request()->routeIs('usersSeller.create'),
+            'can' => 'usersSeller.create',
+        ],
+        // Customer/Seller
         [
             'name' => 'Catálogo',
             'route' => route('home'),
@@ -7,16 +21,17 @@
             'can' => '',
         ],
         [
-            'name' => 'Vehículos',
-            'route' => route('vehicles.index'),
-            'active' => request()->routeIs('vehicles.*'),
-            'can' => '',
+            'name' => 'Mi cotización',
+            'route' => route('quotations.miCotizacion'),
+            'active' => request()->routeIs('quotations.miCotizacion'),
+            'can' => 'quotations.miCotizacion',
         ],
+        // Seller
         [
-            'name' => 'Usuarios',
-            'route' => route('admin.users.index'),
-            'active' => request()->routeIs('admin.user.*'),
-            'can' => 'admin.users.index',
+            'name' => 'Buscar cotización',
+            'route' => route('quotations.search'),
+            'active' => request()->routeIs('quotations.search'),
+            'can' => 'quotations.search',
         ],
     ];
 @endphp
@@ -50,27 +65,6 @@
                         </div>
                     @endif
                 @endforeach
-
-                {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
-                        {{ __('Inicio') }}
-                    </x-jet-nav-link>
-                </div>
-
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('vehicles.index') }}" :active="request()->routeIs('vehicles.*')">
-                        {{ __('Vehículos') }}
-                    </x-jet-nav-link>
-                </div>
-
-                @can('admin.users.index')
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-jet-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')">
-                            {{ __('Usuarios') }}
-                        </x-jet-nav-link>
-                    </div>
-                </div>
-            @endcan --}}
 
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
                     <!-- Teams Dropdown -->
@@ -230,23 +224,6 @@
                     </div>
                 @endif
             @endforeach
-            {{-- <div class="pt-2 pb-3 space-y-1">
-                <x-jet-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
-                    {{ __('Inicio') }}
-                </x-jet-responsive-nav-link>
-            </div>
-           
-            <div class="pt-2 pb-3 space-y-1">
-                <x-jet-responsive-nav-link href="{{ route('vehicles.index') }}" :active="request()->routeIs('vehicles.*')">
-                    {{ __('Vehículos') }}
-                </x-jet-responsive-nav-link>
-            </div>
-
-            <div class="pt-2 pb-3 space-y-1">
-                <x-jet-responsive-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')">
-                    {{ __('Usuarios') }}
-                </x-jet-responsive-nav-link>
-            </div> --}}
 
             <!-- Responsive Settings Options -->
             <div class="pt-4 pb-1 border-t border-gray-200">

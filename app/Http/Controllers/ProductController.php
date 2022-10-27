@@ -92,4 +92,24 @@ class ProductController extends Controller
 
         return view('welcome', compact('vehiculos'));
     }
+    public function searchV()
+    {
+        // 
+    }
+    public function searchA()
+    {
+        // 
+    }
+    public function modelsBrand()
+    {
+        // 
+    }
+    public function destroy_vehicle()
+    {
+        // 
+    }
+    public function destroy_accesory()
+    {
+        // 
+    }
 }

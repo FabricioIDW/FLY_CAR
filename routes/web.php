@@ -20,24 +20,34 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// DE PRUEBA
+Route::resource('vehicles', VehicleController::class);
+
+// PROYECTO
+Route::get('/', function () {
+    return redirect()->route('productos.catalogo');
+})->name('home');
 
 Route::controller(ProductController::class)->group(function(){
     Route::get('catalogo', 'catalogo')->name('productos.catalogo');   
     Route::get('searchProducts', 'index')->name('productos.buscar');
+    
+    Route::get('busquedaV', 'searchV')->name('productos.buscarVehiculos');
+    Route::get('busquedaA', 'searchA')->name('productos.buscarAccesorios');
+
+    Route::get('modelsByBrand', 'modelsBrand')->name('productos.modelosPorMarca');
+
     Route::get('products/create', 'create')->name('productos.create');
+    Route::get('products/search/vehicle/{id}', 'destroy_vehicle')->name('productos_vehiculos.destroy');
+    Route::get('products/search/accesory/{id}', 'destroy_accesory')->name('productos_accesorio.destroy');
     
    });
 
    Route::controller(UserController::class)->group(function(){
     Route::get('indexAdmin', 'indexAdmin')->name('admin.index');
-
    });
    
-   Route::get('/', function () {
-       return redirect()->route('productos.catalogo');
-   })->name('home');
 
-Route::resource('vehicles', VehicleController::class);
 // Offers
 Route::controller(OfferController::class)->group(function () {
     Route::get('/ofertas', 'index')->name('offers.index');
@@ -55,6 +65,10 @@ Route::controller(PaymentController::class)->group(function () {
 // Quotations
 Route::controller(QuotationController::class)->group(function () {
     Route::get('/cotizacion/{quotation}', 'show')->name('quotations.show');
+    Route::get('/quotation/{vehiculo}', 'simularCotizacion')->name('quotations.simularCotizacion');
+    Route::post('/cotizacion', 'agregarOtroVehiculo')->name('quotations.cotizar');
+    Route::get('/miCotizacion', 'generarCotizacion')->name('quotations.miCotizacion');
+    Route::get('/buscarCotizacion', 'buscarCotizacion')->name('quotations.search');
 });
 // Reserve
 Route::controller(ReserveController::class)->group(function () {

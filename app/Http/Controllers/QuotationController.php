@@ -90,4 +90,20 @@ class QuotationController extends Controller
     {
         //
     }
+    public function simularCotizacion()
+    {
+        // 
+    }
+    public function agregarOtroVehiculo()
+    {
+        // 
+    }
+    public function generarCotizacion()
+    {
+        // 
+    }
+    public function buscarCotizacion()
+    {
+        // 
+    }
 }

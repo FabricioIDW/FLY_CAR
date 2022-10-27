@@ -87,7 +87,7 @@ class UserController extends Controller
     }
     public function store_seller(StoreSeller $request)
     {
-        $user = $this->createUser($request->email, $request->password, 'Vendedor');
+        $user = $this->createUser($request->email, $request->password, 'Seller');
         $seller = Seller::create([
             'dni' => $request->dni,
             'name' => $request->name,
@@ -96,13 +96,12 @@ class UserController extends Controller
         ]);
         return ['user' => $user, 'seller' => $seller];
     }
-    private function createUser($email, $password, $userType)
+    private function createUser($email, $password, $role)
     {
         return User::create([
             'email' => $email,
             'password' => bcrypt($password),
-            'user_type_id' => UserType::where('description', $userType)->first()->id,
-        ]);
+        ])->assignRole($role);
     }
     /**
      * Display the specified resource.
