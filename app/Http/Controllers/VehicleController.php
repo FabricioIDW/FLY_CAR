@@ -10,14 +10,14 @@ class VehicleController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('can:vehicles.index')->only('index');
-        // $this->middleware('can:vehicles.create')->only(['create', 'store']);
+        $this->middleware('can:vehicles.index')->only('index');
+        $this->middleware('can:vehicles.create')->only(['create', 'store']);
         $this->middleware('can:vehicles.edit')->only(['edit', 'update']);
-        // $this->middleware('can:vehicles.destroy')->only('destroy');
+        $this->middleware('can:vehicles.destroy')->only('destroy');
     }
     public function index()
     {
-        $vehicles = Vehicle::orderBy('updated_at', 'desc')->paginate();
+        $vehicles = Vehicle::where('enabled', 1)->orderBy('updated_at', 'desc')->paginate();
         return view('vehicles.index', compact('vehicles'));
     }
 
@@ -87,7 +87,9 @@ class VehicleController extends Controller
      */
     public function destroy(Vehicle $vehicle)
     {
-        $vehicle->delete();
+        $vehicle->update([
+            'enabled' => 0,
+        ]);
         return  redirect()->route('vehicles.index');
     }
 }
