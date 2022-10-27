@@ -70,7 +70,7 @@ class UserController extends Controller
             'user' => $user,
             'customer' => $customer,
         ];
-        return $data;
+        return view('auth.login');
     }
     public function store_existing_customer(StoreExistingCustomer $request)
     {
@@ -78,7 +78,7 @@ class UserController extends Controller
         $customer = Customer::where('dni', $request->dni)->first();
         $customer->user_id = $user->id;
         $customer->save();
-        return $user;
+        return view('auth.login');
     }
     // update customer
     public function update_customer(Request $request)
@@ -99,7 +99,7 @@ class UserController extends Controller
             'lastName' => $request->lastName,
             'user_id' => $user->id,
         ]);
-        return ['user' => $user, 'seller' => $seller];
+        return view('auth.create-seller-account', ['message' => 'La cuenta del vendedor ' . $request->name . ' ' . $request->lastName . ' se creo correctamente']);
     }
     private function createUser($email, $password, $role)
     {
