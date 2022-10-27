@@ -1,7 +1,12 @@
+@extends('layouts.plantilla')
+@section('title', 'Principal')
+@section('titleH1', 'Crear cuenta de vendedor')
+    
+@section('content')
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            {{-- <x-jet-authentication-card-logo /> --}}
         </x-slot>
 
         {{-- <x-jet-validation-errors class="mb-4" /> --}}
@@ -89,14 +94,12 @@
             @endif
 
             <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('¿Ya se encuentra registrado?') }}
-                </a>
 
                 <x-jet-button class="ml-4">
-                    {{ __('Registrarse') }}
+                    {{ __('Crear cuenta') }}
                 </x-jet-button>
             </div>
         </form>
     </x-jet-authentication-card>
 </x-guest-layout>
+@endsection

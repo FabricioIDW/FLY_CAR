@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\Route;
 Route::resource('vehicles', VehicleController::class);
 
 // PROYECTO
+Route::get('/dashboard', function () {
+    return redirect()->route('productos.catalogo');
+});
 Route::get('/', function () {
     return redirect()->route('productos.catalogo');
 })->name('home');
@@ -96,12 +99,12 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/crearCuenta/vendedor', 'store_seller')->name('usersSeller.store');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/', function () {
-        return redirect()->route('productos.catalogo');
-    })->name('home');
-});
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified'
+// ])->group(function () {
+//     Route::get('/', function () {
+//         return redirect()->route('productos.catalogo');
+//     })->name('home');
+// });

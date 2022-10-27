@@ -11,14 +11,16 @@ use Illuminate\Http\Request;
 
 class OfferController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('can:offers.index')->only('index');
+        $this->middleware('can:offers.create')->only(['create', 'store']);
+        $this->middleware('can:offers.edit')->only(['edit', 'update']);
+        $this->middleware('can:offers.destroy')->only('destroy');
+    }
     public function index()
     {
-        $offers = Offer::orderBy('updated_at', 'desc')->paginate(10);
+        $offers = Offer::orderBy('updated_at', 'desc')->paginate(5);
         return view('offers.index', compact('offers'));
     }
 
