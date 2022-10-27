@@ -59,4 +59,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+    public function customer()
+    {
+        // 1:1 
+        return $this->hasOne(Customer::class);
+    }
+    public function seller()
+    {
+        // 1:1 
+        return $this->hasOne(Seller::class);
+    }
 }

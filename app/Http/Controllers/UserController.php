@@ -51,7 +51,7 @@ class UserController extends Controller
      */
     public function store_new_customer(StoreNewCustomer $request)
     {
-        $user = $this->createUser($request->email, $request->password, 'Cliente');
+        $user = $this->createUser($request->email, $request->password, 'Customer');
         $customer = Customer::create([
             'dni' => $request->dni,
             'name' => $request->name,
@@ -69,7 +69,7 @@ class UserController extends Controller
     }
     public function store_existing_customer(StoreExistingCustomer $request)
     {
-        $user = $this->createUser($request->email, $request->password, 'Cliente');
+        $user = $this->createUser($request->email, $request->password, 'Customer');
         $customer = Customer::where('dni', $request->dni)->first();
         $customer->user_id = $user->id;
         $customer->save();
