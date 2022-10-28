@@ -38,4 +38,15 @@ class Vehicle extends Model
         $this->vehicleState = $state;
         $this->save();
     }
+    public static function getPriceEnd(Array $vehiculos)
+    {
+        $priceEnd = 0;
+        foreach ($vehiculos as $vehiculo) {
+         
+                $priceEnd = $priceEnd + $vehiculo->getPrice();
+
+            }
+        
+        return $priceEnd;
+    }
 }

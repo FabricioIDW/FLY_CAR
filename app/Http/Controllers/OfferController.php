@@ -18,9 +18,14 @@ class OfferController extends Controller
         $this->middleware('can:offers.edit')->only(['edit', 'update']);
         $this->middleware('can:offers.destroy')->only('destroy');
     }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $offers = Offer::orderBy('updated_at', 'desc')->paginate(5);
+        $offers = Offer::orderBy('updated_at', 'desc')->paginate(10);
         return view('offers.index', compact('offers'));
     }
 

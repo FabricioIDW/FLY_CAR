@@ -1,16 +1,8 @@
 @extends('layouts.plantilla')
+@section('title', 'Buscar productos')
+@section('titleH1', 'Buscar productos')
 @section('content')
 <div class="content">
-
-    {{-- NAVBAR --}}
-<div class="m-auto justify-between flex items-center text-gray-700">
-    <a href="{{route('admin.index')}}"><button class="block py-3 px-4 mx-2 rounded focus:outline-none hover:bg-gray-200 group">
-        <div class="flecha"><div></div></div>{{-- La clase flecha hace la flecha en css --}}
-    </button></a>
-    <div class="titulos">FLY<br>CAR</div>
-    <div>IMAGEN SESION</div>
-{{-- END NAVBAR --}}
-</div>
 
 <div class="grid grid-cols-2 place-items-center max-h-full">
     {{-- Scroll Vehiculos --}}

@@ -3,16 +3,6 @@
 <div class="content">
 @vite(['resources/js/selectProducto.js'])
 
-    {{-- NAVBAR --}}
-<div class="m-auto justify-between flex items-center text-gray-700">
-    <a href="{{route('admin.index')}}"><button class="block py-3 px-4 mx-2 rounded focus:outline-none hover:bg-gray-200 group">
-        <div class="flecha"><div></div></div>{{-- La clase flecha hace la flecha en css --}}
-    </button></a>
-    <div class="titulos">FLY<br>CAR</div>
-    <div>IMAGEN SESION</div>
-{{-- END NAVBAR --}}
-</div>
-<div class="titulos">CREAR PRODUCTOS</div>
 <div class="grid grid-cols-2">
 <div class="grid grid-cols-2">
 
@@ -61,3 +51,4 @@
         }
     }
 </script>
+@endsection

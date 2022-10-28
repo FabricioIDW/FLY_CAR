@@ -15,9 +15,14 @@ class VehicleController extends Controller
         $this->middleware('can:vehicles.edit')->only(['edit', 'update']);
         $this->middleware('can:vehicles.destroy')->only('destroy');
     }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $vehicles = Vehicle::where('enabled', 1)->orderBy('updated_at', 'desc')->paginate();
+        $vehicles = Vehicle::orderBy('updated_at', 'desc')->paginate();
         return view('vehicles.index', compact('vehicles'));
     }
 
@@ -87,9 +92,7 @@ class VehicleController extends Controller
      */
     public function destroy(Vehicle $vehicle)
     {
-        $vehicle->update([
-            'enabled' => 0,
-        ]);
+        $vehicle->delete();
         return  redirect()->route('vehicles.index');
     }
 }
