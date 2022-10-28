@@ -8,31 +8,36 @@
         <div class="grid grid-cols-4">
             <div class="mx-auto grid grid-cols-1">
                 <div class="text-2xl font-semibold text-center">Productos</div><br>
-                <a href="{{ route('productos.create') }}"><button
-                        class="rounded-xl bg-gray-600 font-semibold text-2xl py-6">Crear Producto</button></a><br>
-                <a href="{{ route('productos.buscar') }}"><button
-                        class="rounded-xl bg-gray-600 font-semibold text-2xl py-6">Buscar Producto</button></a>
+                <a href="{{ route('productos.create') }}">
+                    <x-button value="" openBtn="Crear producto"></x-button>
+                </a><br>
+                <a href="{{ route('productos.buscar') }}">
+                    <x-button value="" openBtn="Buscar producto"></x-button>
+                </a>
             </div>
             <div class="mx-auto grid grid-cols-1">
                 <div class="text-2xl font-semibold text-center">Ofertas</div><br>
-                
+
                 <a href="{{ route('offers.index') }}">
-                    <button class="rounded-xl bg-gray-600 font-semibold text-2xl py-6">Ver ofertas</button>
+                    <x-button value="" openBtn="Ver ofertas"></x-button>
                 </a>
                 <a href="{{ route('offers.create') }}">
-                    <button class="rounded-xl bg-gray-600 font-semibold text-2xl py-6">Crear Oferta</button><br>
+                    <x-button value="" openBtn="Crear oferta"></x-button>
                 </a>
             </div>
             <div class="mx-auto grid grid-cols-1">
-                <div class="text-2xl font-semibold text-center">Estadisticas</div><br>
-                <button class="rounded-xl bg-gray-600 font-semibold text-2xl py-6">Comisiones mensuales</button><br>
-                <button class="rounded-xl bg-gray-600 font-semibold text-2xl py-6">Modelos mas vendidos</button>
+                <div class="text-2xl font-semibold text-center">Estadísticas</div><br>
+                <x-button value="" openBtn="Comisiones mensuales"></x-button>
+                <br>
+                <x-button value="" openBtn="Modelos más vendidos"></x-button>
             </div>
             <div class="mx-auto grid grid-cols-1">
                 <div class="text-2xl font-semibold text-center">Reportes</div><br>
-                <button class="rounded-xl bg-gray-600 font-semibold text-2xl py-6">Accesorio más solicitado</button><br>
-                <button class="rounded-xl bg-gray-600 font-semibold text-2xl py-6">Ventas no concretadas</button><br>
-                <button class="rounded-xl bg-gray-600 font-semibold text-2xl py-6">Vehiculos más cotizados</button>
+                <x-button value="" openBtn="Accesorios más solicitados"></x-button>
+                <br>
+                <x-button value="" openBtn="Ventas no concretadas"></x-button>
+                <br>
+                <x-button value="" openBtn="Vehículos más cotizados"></x-button>
             </div>
         </div>
 
