@@ -8,6 +8,7 @@
         <div class="grid grid-cols-4">
             <div class="mx-auto grid grid-cols-1">
                 <div class="text-2xl font-semibold text-center">Productos</div><br>
+                
                 <a href="{{ route('productos.create') }}">
                     <x-button value="" openBtn="Crear producto"></x-button>
                 </a><br>

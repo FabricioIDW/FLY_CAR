@@ -12,6 +12,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
         <!-- Styles -->
         @livewireStyles
@@ -40,5 +41,10 @@
         @stack('modals')
 
         @livewireScripts
+        <script>
+            Livewire.on('alert', (message) => {
+                swal("¡Buen trabajo!", message, "success");
+            })
+        </script>
     </body>
 </html>

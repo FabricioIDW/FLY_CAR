@@ -142,11 +142,12 @@
                                                     {{ Auth::user()->customer->name }}
                                                     {{ Auth::user()->customer->lastName }}
                                                 @else
-                                                @if (Auth::user()->seller)
-                                                    {{ Auth::user()->seller->name }} {{ Auth::user()->seller->lastName }}
-                                                @else
-                                                ADMIN
-                                                @endif
+                                                    @if (Auth::user()->seller)
+                                                        {{ Auth::user()->seller->name }}
+                                                        {{ Auth::user()->seller->lastName }}
+                                                    @else
+                                                        ADMIN
+                                                    @endif
                                                 @endif
 
                                                 <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
@@ -158,10 +159,16 @@
                                             </button>
                                         </span>
                                     @else
-                                        <a href="{{ route('login') }}"
-                                            class="text-sm text-gray-700 dark:text-gray-500 underline">Iniciar sesión</a>
-                                        <a href="{{ route('register') }}"
-                                            class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Registrarse</a>
+                                        <div
+                                            class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+                                            <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                                                <a href="{{ route('login') }}"
+                                                    class="text-sm text-gray-700 dark:text-gray-500 underline">Iniciar
+                                                    sesión</a>
+                                                <a href="{{ route('register') }}"
+                                                    class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Registrarse</a>
+                                            </div>
+                                        </div>
                                     @endauth
                                 @endif
                             </x-slot>
@@ -251,10 +258,15 @@
                         </div>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Iniciar
-                        sesión</a>
-                    <a href="{{ route('register') }}"
-                        class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Registrarse</a>
+                    <div
+                        class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+                        <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                            <a href="{{ route('login') }}"
+                                class="text-sm text-gray-700 dark:text-gray-500 underline">Iniciar sesión</a>
+                            <a href="{{ route('register') }}"
+                                class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Registrarse</a>
+                        </div>
+                    </div>
                 @endauth
 
                 <div class="mt-3 space-y-1">

@@ -1,13 +1,13 @@
 @extends('layouts.plantilla')
 @section('title', 'Ofertas')
 @section('content')
-    <h1>Listado de ofertas</h1>
     <!-- component -->
+    @livewire('show-offers', ['title' => 'Título de prueba'])
     <div
         class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
         <div class="w-full lg:w-5/6">
             <div class="bg-white shadow-md rounded my-6">
-                <table class="min-w-max w-full table-auto">
+                {{-- <table class="min-w-max w-full table-auto">
                     <thead>
                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                             <th class="py-3 px-6 text-left">Descuento</th>
@@ -54,7 +54,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $offers->links() }}
+                {{ $offers->links() }} --}}
             </div>
             <x-modal  title="Eliminar oferta" leftBtn="Eliminar" rightBtn="Cancelar" ref="offers.destroy"
                 value="" id="idModal">
