@@ -4,6 +4,7 @@ use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReserveController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\UserController;
@@ -98,6 +99,14 @@ Route::controller(UserController::class)->group(function () {
     // Seller
     Route::get('/crearCuenta/vendedor', 'create_seller')->name('usersSeller.create');
     Route::post('/crearCuenta/vendedor', 'store_seller')->name('usersSeller.store');
+});
+
+// Reports
+Route::controller(ReportController::class)->group(function () {
+    Route::get('/reportes/vehiculosMasCotizados', 'vehiculosMasCotizados')->name('reportes.vehiculosMasCotizados');
+    Route::get('/reportes/ventasNoConcretadas', 'ventasNoConcretadas')->name('reportes.ventasNoConcretadas');
+    Route::get('/reportes/accesoriosMasSolicitados', 'accesoriosMasSolicitados')->name('reportes.accesoriosMasSolicitados');
+    Route::get('/reportes/comisionesMensuales', 'comisionesMensuales')->name('reportes.comisionesMensuales');
 });
 
 // Route::middleware([
