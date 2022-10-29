@@ -39,6 +39,7 @@ Route::controller(ProductController::class)->group(function(){
     Route::get('busquedaA', 'searchA')->name('productos.buscarAccesorios');
 
     Route::get('modelsByBrand', 'modelsBrand')->name('productos.modelosPorMarca');
+    Route::post('products', 'store')->name('productos.store');
 
     Route::get('products/create', 'create')->name('productos.create');
     Route::get('products/search/vehicle/{id}', 'destroy_vehicle')->name('productos_vehiculos.destroy');

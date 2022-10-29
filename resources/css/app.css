@@ -19,8 +19,8 @@
       scroll-padding-block-end: 0;
     }
     .scroll-containerChico {
-      width: 60%;
-      height: 350px;
+      width: 100%;
+      @apply max-h-96;
       overflow-y: scroll;
       scroll-behavior: smooth;
     }
