@@ -4,9 +4,9 @@
     <!-- component -->
     @livewire('show-offers', ['title' => 'Título de prueba'])
     <div
-        class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
-        <div class="w-full lg:w-5/6">
-            <div class="bg-white shadow-md rounded my-6">
+    class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
+    <div class="w-full lg:w-5/6">
+                {{-- <x-jet-modal id="1"/> --}}
                 {{-- <table class="min-w-max w-full table-auto">
                     <thead>
                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
