@@ -107,6 +107,7 @@ Route::controller(ReportController::class)->group(function () {
     Route::get('/reportes/ventasNoConcretadas', 'ventasNoConcretadas')->name('reportes.ventasNoConcretadas');
     Route::get('/reportes/accesoriosMasSolicitados', 'accesoriosMasSolicitados')->name('reportes.accesoriosMasSolicitados');
     Route::get('/reportes/comisionesMensuales', 'comisionesMensuales')->name('reportes.comisionesMensuales');
+    // Route::get('/reportes/generarPDF','generatePDF')->name('reportes.generarPDF');
 });
 
 // Route::middleware([

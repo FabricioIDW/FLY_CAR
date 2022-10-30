@@ -7,6 +7,7 @@ use App\Models\Quotation;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\PDF;
 
 class ReportController extends Controller
 {
