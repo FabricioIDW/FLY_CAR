@@ -15,9 +15,45 @@ class AccessorySeeder extends Seeder
      */
     public function run()
     {
-        $accessories = Accessory::factory(20)->create();
+
+        $accessoriesData = [
+            [
+                'name' => 'Vidrio polarizado',
+                'description' => 'Polarizado al 65%',
+            ],
+            [
+                'name' => 'Alerón trasero',
+                'description' => '',
+            ],
+            [
+                'name' => 'Porta equipaje',
+                'description' => '',
+            ],
+            [
+                'name' => 'Perilla de cambio de cuero',
+                'description' => '',
+            ],
+            [
+                'name' => 'Tapizado para volante',
+                'description' => 'Tapizado de cuero',
+            ],
+            [
+                'name' => 'Cubre alfombra',
+                'description' => 'Para todos los asientos',
+            ],
+            [
+                'name' => 'Tapizado de cuero',
+                'description' => 'Cuerina 75%',
+            ],
+        ];
+        $accessories = Accessory::factory(count($accessoriesData))->create();
+        $i = 0;
         foreach ($accessories as $accessory) {
-            
+            $accessory->update([
+                'name' => $accessoriesData[$i]['name'],
+                'description' => $accessoriesData[$i]['description'],
+            ]);
+            $i++;
         }
     }
 }

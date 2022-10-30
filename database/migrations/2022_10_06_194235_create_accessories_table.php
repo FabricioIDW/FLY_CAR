@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('accessories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('offer_id')->nullable()->default(null);
-            $table->string('name');
+            $table->string('name')->default('');
             $table->integer('stock');
-            $table->text('description');
+            $table->text('description')->default('');
             $table->text('image');
             $table->boolean('enabled')->default(true);
             $table->boolean('removed')->default(false);
