@@ -28,11 +28,13 @@
             </div>
             <div class="mx-auto grid grid-cols-1">
                 <div class="text-2xl font-semibold text-center">Estadísticas</div><br>
-                <a href="{{ route('reportes.comisionesMensuales') }}">
+                <a href="{{ route('estadisticas.comisionesMensuales') }}">
                 <x-button value="" openBtn="Comisiones mensuales"></x-button>
                 </a>
                 <br>
-                <x-button value="" openBtn="Modelos más vendidos"></x-button>
+                <a href="{{ route('estadisticas.modelosMasVendidos') }}">
+                    <x-button value="" openBtn="Modelos más vendidos"></x-button>
+                </a>
             </div>
             <div class="mx-auto grid grid-cols-1">
                 <div class="text-2xl font-semibold text-center">Reportes</div><br>

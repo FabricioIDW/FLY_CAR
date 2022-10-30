@@ -10,6 +10,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,8 +107,13 @@ Route::controller(ReportController::class)->group(function () {
     Route::get('/reportes/vehiculosMasCotizados', 'vehiculosMasCotizados')->name('reportes.vehiculosMasCotizados');
     Route::get('/reportes/ventasNoConcretadas', 'ventasNoConcretadas')->name('reportes.ventasNoConcretadas');
     Route::get('/reportes/accesoriosMasSolicitados', 'accesoriosMasSolicitados')->name('reportes.accesoriosMasSolicitados');
-    Route::get('/reportes/comisionesMensuales', 'comisionesMensuales')->name('reportes.comisionesMensuales');
-    // Route::get('/reportes/generarPDF','generatePDF')->name('reportes.generarPDF');
+    Route::get('/estadisticas/comisionesMensuales', 'comisionesMensuales')->name('estadisticas.comisionesMensuales');
+    Route::get('/estadisticas/modelosMasVendidos', 'modelosMasVendidos')->name('estadisticas.modelosMasVendidos');
+    Route::get('/reporte', 'reporte')->name('reportes.reporte');
+});
+
+Route::controller(PDFController::class)->group(function () {
+    Route::get('/generate-pdf', 'generatePDF')->name('reportes.generarPDF');
 });
 
 // Route::middleware([
