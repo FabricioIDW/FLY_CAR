@@ -10,21 +10,21 @@
                 <div class="text-2xl font-semibold text-center">Productos</div><br>
 
                 <a href="{{ route('productos.create') }}">
-                    <x-button value="" openBtn="Crear producto"></x-button>
+                    <x-button-normal openBtn="Crear producto"></x-button-normal>
                 </a>
                 <br>
                 <a href="{{ route('productos.buscar') }}">
-                    <x-button value="" openBtn="Buscar producto"></x-button>
+                    <x-button-normal openBtn="Buscar producto"></x-button-normal>
                 </a>
             </div>
             <div class="mx-auto grid grid-cols-1">
                 <div class="text-2xl font-semibold text-center">Ofertas</div><br>
 
                 <a href="{{ route('offers.index') }}">
-                    <x-button value="" openBtn="Ver ofertas"></x-button>
+                    <x-button-normal openBtn="Ver ofertas"></x-button-normal>
                 </a>
                 <a href="{{ route('offers.create') }}">
-                    <x-button value="" openBtn="Crear oferta"></x-button>
+                    <x-button-normal openBtn="Crear oferta"></x-button-normal>
                 </a>
             </div>
             <div class="mx-auto grid grid-cols-1">
@@ -86,8 +86,7 @@
                     <x-jet-input type="date" class="w-full" name="startDate" required
                         max="{{ now()->toDateString('Y-m-d') }}" />
                     <x-jet-label value="Fecha de fin" />
-                    <x-jet-input type="date" class="w-full" name="endDate" required
-                        max="{{ now()->toDateString('Y-m-d') }}" />
+                    <x-jet-input type="date" class="w-full" name="endDate" required/>
                     <!--Footer-->
                     <div class="flex justify-end pt-2">
                         <button type="submit"

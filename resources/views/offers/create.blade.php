@@ -1,5 +1,6 @@
 @extends('layouts.plantilla')
 @section('title', 'Crear oferta')
+@section('titleH1', 'Crear oferta')
 @section('content')
     <div class="mt-10 sm:mt-0">
         <div class="md:grid md:grid-cols-3 md:gap-6">

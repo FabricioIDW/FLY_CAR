@@ -87,6 +87,7 @@ Route::controller(SaleController::class)->group(function () {
 // Route::resource('users', UserController::class)->only(['index', 'edit'])->middleware('can:admin.users.index')->names('admin.users');
 
 Route::controller(UserController::class)->group(function () {
+    Route::get('/cuenta', 'actualizarCuenta')->name('cuenta.actualizar'); 
     // Customer
     Route::get('/users', 'userList')->middleware('can:admin.users.index')->name('admin.users.index'); //Probando middleware
     Route::get('/users/{user}', 'userEdit')->middleware('can:admin.users.edit')->name('admin.users.edit'); //Probando middleware
@@ -95,10 +96,11 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/crearCuenta/clienteExistente', 'create_existing_customer')->name('usersCustomer.createExisting');
     Route::post('/crearCuenta/nuevoCliente', 'store_new_customer')->name('usersCustomer.storeNew');
     Route::post('/crearCuenta/clienteExistente', 'store_existing_customer')->name('usersCustomer.storeExisting');
-    Route::put('/user/profile', 'update_customer')->name('usersCustomer.update');
+    Route::put('/perfil/actualizarCliente', 'update_customer')->name('usersCustomer.update');
     // Seller
     Route::get('/crearCuenta/vendedor', 'create_seller')->name('usersSeller.create');
     Route::post('/crearCuenta/vendedor', 'store_seller')->name('usersSeller.store');
+    Route::put('/perfil/actualizarVendedor', 'update_seller')->name('usersSeller.update');
 });
 
 // Reports

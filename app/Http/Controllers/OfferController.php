@@ -8,6 +8,7 @@ use App\Models\Accessory;
 use App\Models\Offer;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class OfferController extends Controller
 {
@@ -70,6 +71,7 @@ class OfferController extends Controller
                 ]);
             }
         }
+        Alert::success('La oferta se creó correctamente.');
         return redirect()->route('offers.index');
     }
 
@@ -147,6 +149,7 @@ class OfferController extends Controller
                 ]);
             }
         }
+        Alert::success('La oferta se actualizó correctamente.');
         return redirect()->route('offers.index');
     }
 
@@ -159,6 +162,7 @@ class OfferController extends Controller
     public function destroy(Offer $offer)
     {
         $offer->delete();
+        Alert::success('La oferta se eliminó correctamente.');
         return  redirect()->route('offers.index');
     }
 }

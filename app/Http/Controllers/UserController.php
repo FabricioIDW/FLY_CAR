@@ -8,8 +8,9 @@ use App\Http\Requests\StoreSeller;
 use App\Models\Customer;
 use App\Models\Seller;
 use App\Models\User;
-use App\Models\UserType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
@@ -18,6 +19,12 @@ class UserController extends Controller
         $this->middleware('can:admin.index')->only('indexAdmin');
         $this->middleware('can:usersSeller.create')->only(['create_seller', 'store_seller']);
     }
+
+    public function actualizarCuenta()
+    {
+        return view('profile.actualizar-cuenta');
+    }
+
     public function userList()
     {
         $users = User::all();
@@ -66,10 +73,7 @@ class UserController extends Controller
             'email' => $request->email,
             'user_id' => $user->id,
         ]);
-        $data = [
-            'user' => $user,
-            'customer' => $customer,
-        ];
+        Alert::success('La cuenta se creó correctamente.');
         return view('auth.login');
     }
     public function store_existing_customer(StoreExistingCustomer $request)
@@ -78,12 +82,20 @@ class UserController extends Controller
         $customer = Customer::where('dni', $request->dni)->first();
         $customer->user_id = $user->id;
         $customer->save();
+        Alert::success('La cuenta se creó correctamente.');
         return view('auth.login');
     }
     // update customer
     public function update_customer(Request $request)
     {
-        return  $request;
+        Auth::user()->customer->update([
+            'name' => $request->name,
+            'lastName' => $request->lastName,
+            'address' => $request->address,
+            'birthDate' => $request->birthDate,
+        ]);
+        Alert::success('La cuenta se actualizó correctamente.');
+        return  view('profile.actualizar-cuenta');
     }
     // SELLER
     public function create_seller()
@@ -99,8 +111,21 @@ class UserController extends Controller
             'lastName' => $request->lastName,
             'user_id' => $user->id,
         ]);
-        return view('auth.create-seller-account', ['message' => 'La cuenta del vendedor ' . $request->name . ' ' . $request->lastName . ' se creo correctamente']);
+        Alert::success('La cuenta del vendedor ' . $request->name . ' ' . $request->lastName . ' se creó correctamente');
+        return view('auth.create-seller-account');
     }
+
+    public function update_seller(Request $request)
+    {
+        Auth::user()->seller->update([
+            'name' => $request->name,
+            'lastName' => $request->lastName,
+        
+        ]);
+        Alert::success('La cuenta se actualizó correctamente.');
+        return  view('profile.actualizar-cuenta');
+    }
+
     private function createUser($email, $password, $role)
     {
         return User::create([
@@ -108,50 +133,7 @@ class UserController extends Controller
             'password' => bcrypt($password),
         ])->assignRole($role);
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
     public function indexAdmin()
     {
         return view('indexAdmin');
