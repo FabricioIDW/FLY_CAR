@@ -28,11 +28,11 @@ class ReportController extends Controller
             ->get();
         return view('reports.reporte', compact('reporte'));
     }
-    public function vehiculosMasCotizados()
+    public function vehiculosMasCotizados(Request $request)
     {
         $title = "Vehículos más cotizados";
-        $startDate = '2022-10-21 00:00:00';
-        $endDate = '2022-10-31 00:00:00';
+        $startDate = $request->startDate . ' 00:00:00';
+        $endDate = $request->endDate . ' 00:00:00';
         $sortBy = 'Cantidad';
         $queryBuilder = DB::table('quotation_vehicle AS q_v')
             ->join('quotations AS q', 'q_v.quotation_id', '=', 'q.id')
@@ -46,8 +46,10 @@ class ReportController extends Controller
             ->get();
         return view('reports.reporte', compact('queryBuilder', 'title'));
     }
-    public function ventasNoConcretadas()
+    public function ventasNoConcretadas(Request $request)
     {
+        $startDate = $request->startDate . ' 00:00:00';
+        $endDate = $request->endDate . ' 00:00:00';
         $sales = Sale::where('concretized', 0)->get();
         $reporte = [];
         // $quotation->vehicles[0]->accessoriesQuotation[0]->models[0]->pivot->price; //Precio del accesorio para un modelo
@@ -79,11 +81,11 @@ class ReportController extends Controller
         }
         return $reporte;
     }
-    public function accesoriosMasSolicitados()
+    public function accesoriosMasSolicitados(Request $request)
     {
         $title = "Accesorios más solicitados";
-        $startDate = '2022-10-21 00:00:00';
-        $endDate = '2022-10-31 00:00:00';
+        $startDate = $request->startDate . ' 00:00:00';
+        $endDate = $request->endDate . ' 00:00:00';
         $sortBy = 'Cantidad';
         $queryBuilder = DB::table('accessory_quotation_vehicle AS a_q_v')
             ->join('quotations AS q', 'a_q_v.quotation_id', '=', 'q.id')
@@ -95,11 +97,11 @@ class ReportController extends Controller
             ->get();
         return view('reports.reporte', compact('queryBuilder', 'title'));
     }
-    public function comisionesMensuales()
+    public function comisionesMensuales(Request $request)
     {
         $title = "Comisiones mensuales";
-        $startDate = '2022-10-21 00:00:00';
-        $endDate = '2022-10-31 00:00:00';
+        $startDate = $request->startDate . ' 00:00:00';
+        $endDate = $request->endDate . ' 00:00:00';
         $queryBuilder = DB::table('sales AS s')
             ->join('sellers AS sl', 's.seller_id', '=', 'sl.id')
             ->select([DB::raw("CONCAT(sl.name, ' ', sl.lastName) AS Vendedor"), 'sl.dni', DB::raw('SUM(s.comission) AS Comision'), DB::raw('COUNT(*) AS Ventas')])
@@ -110,11 +112,11 @@ class ReportController extends Controller
             ->get();
         return view('reports.reporte', compact('queryBuilder', 'title'));
     }
-    public function modelosMasVendidos()
+    public function modelosMasVendidos(Request $request)
     {
         $title = "Modelos más vendidos";
-        $startDate = '2022-10-21 00:00:00';
-        $endDate = '2022-10-31 00:00:00';
+        $startDate = $request->startDate . ' 00:00:00';
+        $endDate = $request->endDate . ' 00:00:00';
         $sortBy = 'Cantidad';
         $queryBuilder = DB::table('sales AS s')
             ->join('quotation_vehicle AS q_v', 'q_v.quotation_id', '=', 's.quotation_id')

@@ -33,10 +33,10 @@ Route::get('/', function () {
     return redirect()->route('productos.catalogo');
 })->name('home');
 
-Route::controller(ProductController::class)->group(function(){
-    Route::get('catalogo', 'catalogo')->name('productos.catalogo');   
+Route::controller(ProductController::class)->group(function () {
+    Route::get('catalogo', 'catalogo')->name('productos.catalogo');
     Route::get('searchProducts', 'index')->name('productos.buscar');
-    
+
     Route::get('busquedaV', 'searchV')->name('productos.buscarVehiculos');
     Route::get('busquedaA', 'searchA')->name('productos.buscarAccesorios');
 
@@ -46,13 +46,12 @@ Route::controller(ProductController::class)->group(function(){
     Route::get('products/create', 'create')->name('productos.create');
     Route::get('products/search/vehicle/{id}', 'destroy_vehicle')->name('productos_vehiculos.destroy');
     Route::get('products/search/accesory/{id}', 'destroy_accesory')->name('productos_accesorio.destroy');
-    
-   });
+});
 
-   Route::controller(UserController::class)->group(function(){
+Route::controller(UserController::class)->group(function () {
     Route::get('indexAdmin', 'indexAdmin')->name('admin.index');
-   });
-   
+});
+
 
 // Offers
 Route::controller(OfferController::class)->group(function () {
@@ -104,12 +103,12 @@ Route::controller(UserController::class)->group(function () {
 
 // Reports
 Route::controller(ReportController::class)->group(function () {
-    Route::get('/reportes/vehiculosMasCotizados', 'vehiculosMasCotizados')->name('reportes.vehiculosMasCotizados');
-    Route::get('/reportes/ventasNoConcretadas', 'ventasNoConcretadas')->name('reportes.ventasNoConcretadas');
-    Route::get('/reportes/accesoriosMasSolicitados', 'accesoriosMasSolicitados')->name('reportes.accesoriosMasSolicitados');
-    Route::get('/estadisticas/comisionesMensuales', 'comisionesMensuales')->name('estadisticas.comisionesMensuales');
-    Route::get('/estadisticas/modelosMasVendidos', 'modelosMasVendidos')->name('estadisticas.modelosMasVendidos');
-    Route::get('/reporte', 'reporte')->name('reportes.reporte');
+    Route::post('/reportes/vehiculosMasCotizados', 'vehiculosMasCotizados')->name('reportes.vehiculosMasCotizados');
+    Route::post('/reportes/ventasNoConcretadas', 'ventasNoConcretadas')->name('reportes.ventasNoConcretadas');
+    Route::post('/reportes/accesoriosMasSolicitados', 'accesoriosMasSolicitados')->name('reportes.accesoriosMasSolicitados');
+    Route::post('/estadisticas/comisionesMensuales', 'comisionesMensuales')->name('estadisticas.comisionesMensuales');
+    Route::post('/estadisticas/modelosMasVendidos', 'modelosMasVendidos')->name('estadisticas.modelosMasVendidos');
+    Route::post('/reporte', 'reporte')->name('reportes.reporte');
 });
 
 Route::controller(PDFController::class)->group(function () {
