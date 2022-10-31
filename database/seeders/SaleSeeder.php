@@ -18,7 +18,7 @@ class SaleSeeder extends Seeder
      */
     public function run()
     {
-        $cant = 5;
+        $cant = 15;
         $quotations = Quotation::where('valid', 1)->limit($cant)->get();
         foreach ($quotations as $quotation) {
             $sale = Sale::create();

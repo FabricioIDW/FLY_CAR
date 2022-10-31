@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Accessory;
 use App\Models\Brand;
 use App\Models\Vehicle;
 use App\Models\VehicleModel;
@@ -340,15 +341,20 @@ class BrandSeeder extends Seeder
                 ],
             ],
         ];
+        $accessoriesCount = Accessory::all()->count();
         for ($i = 0; $i < count($brands); $i++) {
             $brand = Brand::create([
                 'name' => $brands[$i]['brand'],
             ]);
             foreach ($brands[$i]['models'] as $model) {
-                VehicleModel::create([
+                $vehicleModel = VehicleModel::create([
                     'name' => $model,
                     'brand_id' => $brand->id,
                 ]);
+                $accessories = Accessory::all()->take(rand(1, $accessoriesCount));
+                foreach ($accessories as $accessory) {
+                    $vehicleModel->accessories()->attach($accessory->id);
+                }
             }
         }
     }
