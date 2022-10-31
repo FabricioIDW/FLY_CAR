@@ -33,8 +33,8 @@ class DatabaseSeeder extends Seeder
         $this->call(BrandSeeder::class);
         $this->call(AccessorySeeder::class);
         // Accessory::factory(25)->create();
-        $this->call(VehicleModelSeeder::class);
-        Vehicle::factory(30)->create();
+        // $this->call(VehicleModelSeeder::class);
+        Vehicle::factory(86)->create();
         $this->call(QuotationSeeder::class);
         $this->call(ReserveSeeder::class);
         $this->call(SaleSeeder::class);
