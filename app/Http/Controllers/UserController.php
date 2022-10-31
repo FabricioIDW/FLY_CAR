@@ -74,7 +74,7 @@ class UserController extends Controller
             'user_id' => $user->id,
         ]);
         Alert::success('La cuenta se creó correctamente.');
-        return view('auth.login');
+        return view('auth.login', ['newEmail' => $request->email]);
     }
     public function store_existing_customer(StoreExistingCustomer $request)
     {
@@ -83,7 +83,7 @@ class UserController extends Controller
         $customer->user_id = $user->id;
         $customer->save();
         Alert::success('La cuenta se creó correctamente.');
-        return view('auth.login');
+        return view('auth.login', ['newEmail' => $request->email]);
     }
     // update customer
     public function update_customer(Request $request)
