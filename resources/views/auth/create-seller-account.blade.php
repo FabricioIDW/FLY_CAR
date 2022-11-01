@@ -3,20 +3,11 @@
 @section('titleH1', 'Crear cuenta de vendedor')
 
 @section('content')
-    <x-guest-layout>
-        <x-jet-authentication-card>
-            <x-slot name="logo">
-                {{-- <x-jet-authentication-card-logo /> --}}
-            </x-slot>
+    <div>
+        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
 
             <form method="POST" action="{{ route('usersSeller.store') }}">
                 {{-- <x-jet-validation-errors class="mb-4" /> --}}
-                @if (isset($message))
-                    <div class="alert alert-danger">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        {{ $message }}
-                    </div>
-                @endif
                 @csrf
                 <div>
                     <x-jet-label for="name" value="{{ __('Nombre') }}" />
@@ -105,6 +96,7 @@
                     </x-jet-button>
                 </div>
             </form>
-        </x-jet-authentication-card>
-    </x-guest-layout>
+        </div>
+    </div>
+
 @endsection

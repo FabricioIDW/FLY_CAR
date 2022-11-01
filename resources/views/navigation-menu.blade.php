@@ -179,8 +179,8 @@
                                     {{ __('Opciones de cuenta') }}
                                 </div>
 
-                                <x-jet-dropdown-link href="{{ route('profile.show') }}">
-                                    {{ __('Modificar perfil') }}
+                                <x-jet-dropdown-link href="{{ route('cuenta.actualizar') }}">
+                                    {{ __('Modificar cuenta') }}
                                 </x-jet-dropdown-link>
 
                                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())

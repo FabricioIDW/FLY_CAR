@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('vehicle_models', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->timestamps();
             $table->foreign('brand_id')->references('id')->on('brands')->nullOnDelete();
+            $table->unique(['name', 'brand_id']);
         });
     }
 

@@ -1,4 +1,4 @@
-<x-jet-form-section submit="updateProfileInformation">
+<x-jet-form-section submit="updateProfileInformation" action="{{ Auth::user()->customer ? route('usersCustomer.update') : route('usersSeller.update') }}">
     <x-slot name="title">
         {{ __('Información de la cuenta') }}
     </x-slot>
@@ -52,17 +52,18 @@
             </div>
         @endif
         
-        <!-- Name -->
+        <form action="{{ Auth::user()->customer ? route('usersCustomer.update') : route('usersSeller.update') }}">
+            <!-- Name -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="name" value="{{ __('Nombre') }}" />
-            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autocomplete="name"  />
+            <x-jet-input id="name" type="text" class="mt-1 block w-full" value="{{ Auth::user()->customer ? Auth::user()->customer->name : Auth::user()->seller->name }}" autocomplete="name"  />
             <x-jet-input-error for="name" class="mt-2" />
         </div>
         
         <!-- Last Name -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="lastName" value="{{ __('Apellido') }}" />
-            <x-jet-input id="lastName" type="text" class="mt-1 block w-full" wire:model.defer="state.lastName" autocomplete="lastName" />
+            <x-jet-input id="lastName" type="text" class="mt-1 block w-full" value="{{ Auth::user()->customer ? Auth::user()->customer->lastName : Auth::user()->seller->lastName }}" autocomplete="lastName" />
             <x-jet-input-error for="lastName" class="mt-2" />
         </div>
         
@@ -102,6 +103,7 @@
                 @endif
             @endif
         </div>
+        </form>
     </x-slot>
 
     <x-slot name="actions">

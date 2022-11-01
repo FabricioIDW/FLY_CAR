@@ -20,7 +20,7 @@ class ReserveSeeder extends Seeder
      */
     public function run()
     {
-        $cant = 2;
+        $cant = 10;
         $reserves = Reserve::factory($cant)->create();
         $quotations = Quotation::take($cant)->get();
         for ($i = 0; $i < $cant; $i++) {

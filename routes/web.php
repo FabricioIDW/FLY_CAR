@@ -10,6 +10,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,10 +33,10 @@ Route::get('/', function () {
     return redirect()->route('productos.catalogo');
 })->name('home');
 
-Route::controller(ProductController::class)->group(function(){
-    Route::get('catalogo', 'catalogo')->name('productos.catalogo');   
+Route::controller(ProductController::class)->group(function () {
+    Route::get('catalogo', 'catalogo')->name('productos.catalogo');
     Route::get('searchProducts', 'index')->name('productos.buscar');
-    
+
     Route::get('busquedaV', 'searchV')->name('productos.buscarVehiculos');
     Route::get('busquedaA', 'searchA')->name('productos.buscarAccesorios');
 
@@ -45,13 +46,12 @@ Route::controller(ProductController::class)->group(function(){
     Route::get('products/create', 'create')->name('productos.create');
     Route::get('products/search/vehicle/{id}', 'destroy_vehicle')->name('productos_vehiculos.destroy');
     Route::get('products/search/accesory/{id}', 'destroy_accesory')->name('productos_accesorio.destroy');
-    
-   });
+});
 
-   Route::controller(UserController::class)->group(function(){
+Route::controller(UserController::class)->group(function () {
     Route::get('indexAdmin', 'indexAdmin')->name('admin.index');
-   });
-   
+});
+
 
 // Offers
 Route::controller(OfferController::class)->group(function () {
@@ -87,6 +87,7 @@ Route::controller(SaleController::class)->group(function () {
 // Route::resource('users', UserController::class)->only(['index', 'edit'])->middleware('can:admin.users.index')->names('admin.users');
 
 Route::controller(UserController::class)->group(function () {
+    Route::get('/cuenta', 'actualizarCuenta')->name('cuenta.actualizar'); 
     // Customer
     Route::get('/users', 'userList')->middleware('can:admin.users.index')->name('admin.users.index'); //Probando middleware
     Route::get('/users/{user}', 'userEdit')->middleware('can:admin.users.edit')->name('admin.users.edit'); //Probando middleware
@@ -95,18 +96,25 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/crearCuenta/clienteExistente', 'create_existing_customer')->name('usersCustomer.createExisting');
     Route::post('/crearCuenta/nuevoCliente', 'store_new_customer')->name('usersCustomer.storeNew');
     Route::post('/crearCuenta/clienteExistente', 'store_existing_customer')->name('usersCustomer.storeExisting');
-    Route::put('/user/profile', 'update_customer')->name('usersCustomer.update');
+    Route::put('/perfil/actualizarCliente', 'update_customer')->name('usersCustomer.update');
     // Seller
     Route::get('/crearCuenta/vendedor', 'create_seller')->name('usersSeller.create');
     Route::post('/crearCuenta/vendedor', 'store_seller')->name('usersSeller.store');
+    Route::put('/perfil/actualizarVendedor', 'update_seller')->name('usersSeller.update');
 });
 
 // Reports
 Route::controller(ReportController::class)->group(function () {
-    Route::get('/reportes/vehiculosMasCotizados', 'vehiculosMasCotizados')->name('reportes.vehiculosMasCotizados');
-    Route::get('/reportes/ventasNoConcretadas', 'ventasNoConcretadas')->name('reportes.ventasNoConcretadas');
-    Route::get('/reportes/accesoriosMasSolicitados', 'accesoriosMasSolicitados')->name('reportes.accesoriosMasSolicitados');
-    Route::get('/reportes/comisionesMensuales', 'comisionesMensuales')->name('reportes.comisionesMensuales');
+    Route::post('/reportes/vehiculosMasCotizados', 'vehiculosMasCotizados')->name('reportes.vehiculosMasCotizados');
+    Route::post('/reportes/ventasNoConcretadas', 'ventasNoConcretadas')->name('reportes.ventasNoConcretadas');
+    Route::post('/reportes/accesoriosMasSolicitados', 'accesoriosMasSolicitados')->name('reportes.accesoriosMasSolicitados');
+    Route::post('/estadisticas/comisionesMensuales', 'comisionesMensuales')->name('estadisticas.comisionesMensuales');
+    Route::post('/estadisticas/modelosMasVendidos', 'modelosMasVendidos')->name('estadisticas.modelosMasVendidos');
+    Route::post('/reporte', 'reporte')->name('reportes.reporte');
+});
+
+Route::controller(PDFController::class)->group(function () {
+    Route::get('/generate-pdf', 'generatePDF')->name('reportes.generarPDF');
 });
 
 // Route::middleware([

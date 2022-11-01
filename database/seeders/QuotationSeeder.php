@@ -19,7 +19,7 @@ class QuotationSeeder extends Seeder
      */
     public function run()
     {
-        $cant = 10;
+        $cant = 30;
         // Crea cotizaciones, a cada una le asigna 1 vehiculo y 1 accesorio para el mismo.
         for ($i = 1; $i <= $cant; $i++) {
             $quotation = Quotation::create();
