@@ -96,7 +96,7 @@
                             class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">
                             Generar reporte
                         </button>
-                        <button
+                        <button type="button"
                             class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Cancelar</button>
                     </div>
                 </form>
@@ -112,7 +112,6 @@
                 toggleModal();
                 console.log(element.value);
                 form.action = element.value;
-                // modal.href = `ofertas/${element.value}`;
             });
         });
 

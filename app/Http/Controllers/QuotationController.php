@@ -11,6 +11,7 @@ use App\Models\Reserve;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuotationController extends Controller
 {
@@ -88,64 +89,62 @@ class QuotationController extends Controller
 
     public function generarCotizacion()
     {
-
-        if (!session()->exists('user')) {
-            if (!session()->exists('quotation')) {
-                $quotation = Quotation::create();
-                $precioFinal = 0;
-                // $quotation = Quotation::find('1');
-                $usuario = User::find('1'); //session('user');
-                $customer = Customer::where('user_id', $usuario->id)->first(); ///busco usuario de roll cliente
-                if (session()->exists('vehiculosSelec')) {
-                    $vehiculos = session('vehiculosSelec');
-                    foreach ($vehiculos as $vehiculo) {
-                        if (session()->exists('accesoriosSelec')) {
-                            $accesoriosSelec = session('accesoriosSelec');
-                            foreach ($accesoriosSelec[$vehiculo->id] as $accesorio) {
-                                $precioFinal += $accesorio->getPrice($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price));
-                                $accesorio->discountStock();
-                                $vehiculo->accessoriesQuotation()->attach($accesorio->id, ['quotation_id' => $quotation->id]);
-                            }
-                        }
-                        $vehiculo->setState('reserved');
-                        $precioFinal += $vehiculo->getPrice();
-                        $quotation->vehicles()->attach($vehiculo->id);
+        $quotation = Quotation::create();
+        // $quotation = Quotation::find($quotation->id);
+        $precioFinal = 0;
+        if (session()->exists('vehiculosSelec')) {
+            foreach (session('vehiculosSelec') as $vehiculo) {
+                if (session()->exists('accesoriosSelec')) {
+                    $accesoriosSelec = session('accesoriosSelec');
+                    foreach ($accesoriosSelec[$vehiculo->id] as $accesorio) {
+                        $precioFinal += $accesorio->getPrice($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price));
+                        $accesorio->discountStock();
+                        $vehiculo->accessoriesQuotation()->attach($accesorio->id, ['quotation_id' => $quotation->id]);
                     }
                 }
+                $vehiculo->setState('reserved');
+                $precioFinal += $vehiculo->getPrice();
+                $quotation->vehicles()->attach($vehiculo->id);
+            }
+        }
+        // $quotation->dateTimeExpiration = ExpirationDate::getExpiration((string)$quotation->dateTimeGenerated, 2); // TO DO arreglar esta línea
+        if (Auth::user()->customer->hasValidQuotation()) {
+            Auth::user()->customer->getQuotation()->setVehicles('availabled');
+            Auth::user()->customer->disableQuotation();
+        }
+        // $quotation = Quotation::find($quotation->id);
+        $quotation->finalAmount = $precioFinal;
+        $quotation->customer_id = Auth::user()->customer->id;
+        $quotation->save();
+        $reserve = new Reserve();
+        $reserve->amount = $reserve->calculateAmount($quotation->finalAmount);
+        $vehiculos = session('vehiculosSelec');
+        $colecAccesorios = session('accesoriosSelec');
+        session(['reserve' => $reserve]);
+        session(['quotation' => $quotation]);
+        session()->forget('vehiculo1');
+        session()->forget('vehiculo2');
+        session()->forget('colecAccesorios'); //Probando
+        return view('quotations.miCotizacion', compact('quotation', 'reserve', 'vehiculos', 'colecAccesorios'));
+    }
 
-                //creo una nueva cotizacion
-
-                $quotation->dateTimeExpiration = ExpirationDate::getExpiration((string)$quotation->dateTimeGenerated, 2);
-                if ($customer->hasValidQuotation()) {
-
-                    $customer->disableQuotation();
-                }
-
-                $quotation = Quotation::find($quotation->id);
-                $quotation->finalAmount = $precioFinal;
-                $quotation->customer_id = $customer->id;
-                $quotation->save();
+    // Buscar mi cotizacion
+    public function miCotizacion()
+    {
+        if (!session('quotation')) {
+            $quotation = Quotation::where('customer_id', Auth::user()->customer->id)->where('valid', 1)->first();
+            if ($quotation) {
                 $reserve = new Reserve();
                 $reserve->amount = $reserve->calculateAmount($quotation->finalAmount);
-                $vehiculos = session('vehiculosSelec');
-                $colecAccesorios = session('accesoriosSelec');
-                session(['reserve' => $reserve]);
                 session(['quotation' => $quotation]);
-                return view('quotations.miCotizacion', compact('quotation', 'reserve', 'vehiculos', 'colecAccesorios'));
+                session(['reserve' => $reserve]);
+                $colecAccesorios = [];
+                foreach ($quotation->vehicles as $vehicle) {
+                    
+                }
             }
-            session()->forget('vehiculo1');
-            session()->forget('vehiculo2');
-            $quotation = session('quotation'); //cotizacion a crear
-            $reserve = session('reserve');
-            //$reserve->amount = $reserve->calculateAmount($quotation->finalAmount);
-            $vehiculos = session('vehiculosSelec');
-            $colecAccesorios = session('accesoriosSelec');
-            session(['reserve' => $reserve]);
-            session(['quotation' => $quotation]);
-            return view('quotations.miCotizacion', compact('quotation', 'reserve', 'vehiculos', 'colecAccesorios'));
-        } else {
-            return view('auth.login');
         }
+        return view('quotations.miCotizacion');
     }
 
     // Buscador de Cotizaciones 

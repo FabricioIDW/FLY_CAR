@@ -1,6 +1,6 @@
 @extends('layouts.plantilla')
-@extends('layouts.partials.contenedorMiCotizacion')
-@section('title', 'Mi Cotizacion')
+@section('title', 'Mi cotización')
+@section('titleH1', 'Mi cotización')
 
 @section('contend')
  
@@ -86,5 +86,4 @@ $values = ['action' => 'venta', 'amount' => $quotation->finalAmount];
     Realizar Reserva
 </button> --}}
 </div>
-@endsection
 @endsection
