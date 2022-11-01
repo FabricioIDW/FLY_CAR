@@ -35,23 +35,34 @@ Route::get('/', function () {
 
 Route::controller(ProductController::class)->group(function () {
     Route::get('catalogo', 'catalogo')->name('productos.catalogo');
-    Route::get('searchProducts', 'index')->name('productos.buscar');
+    Route::get('products/searchVehicles', 'indexVehiculos')->name('vehiculos.buscar');
+    Route::get('products/searchAccesories', 'indexAccesorios')->name('accesorios.buscar');
 
     Route::get('busquedaV', 'searchV')->name('productos.buscarVehiculos');
     Route::get('busquedaA', 'searchA')->name('productos.buscarAccesorios');
 
+    Route::get('vehicleEdit/{vehiculo}', 'editVehicle')->name('vehiculos.editar');
+    Route::get('accessoryEdit/{accesorio}', 'editAccesory')->name('accesorios.editar');
+
+    Route::put('vehicle/{vehiculo}', 'updateVehicle')->name('vehiculos.actualizar');
+    Route::put('accesory/{accesorio}', 'updateAccesory')->name('accesorios.actualizar');
+
+    Route::get('products/vehicleDown/{vehiculo}', 'destroyVehicle')->name('vehiculos.baja');
+    Route::get('products/accessoryDown/{accesorio}', 'destroyAccesory')->name('accesorios.baja');
+
     Route::get('modelsByBrand', 'modelsBrand')->name('productos.modelosPorMarca');
-    Route::post('products', 'store')->name('productos.store');
+
 
     Route::get('products/create', 'create')->name('productos.create');
-    Route::get('products/search/vehicle/{id}', 'destroy_vehicle')->name('productos_vehiculos.destroy');
-    Route::get('products/search/accesory/{id}', 'destroy_accesory')->name('productos_accesorio.destroy');
+
+    Route::post('products', 'store')->name('productos.store');
+
+    Route::get('products/search/products/{id}', 'destroy_vehicle')->name('productos.destroy');
 });
 
 Route::controller(UserController::class)->group(function () {
     Route::get('indexAdmin', 'indexAdmin')->name('admin.index');
 });
-
 
 // Offers
 Route::controller(OfferController::class)->group(function () {
@@ -84,10 +95,8 @@ Route::controller(SaleController::class)->group(function () {
     Route::get('/venta/{concretized}', 'create')->name('sales.create');
 });
 // User
-// Route::resource('users', UserController::class)->only(['index', 'edit'])->middleware('can:admin.users.index')->names('admin.users');
-
 Route::controller(UserController::class)->group(function () {
-    Route::get('/cuenta', 'actualizarCuenta')->name('cuenta.actualizar'); 
+    Route::get('/cuenta', 'actualizarCuenta')->name('cuenta.actualizar');
     // Customer
     Route::get('/users', 'userList')->middleware('can:admin.users.index')->name('admin.users.index'); //Probando middleware
     Route::get('/users/{user}', 'userEdit')->middleware('can:admin.users.edit')->name('admin.users.edit'); //Probando middleware

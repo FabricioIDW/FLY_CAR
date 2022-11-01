@@ -13,8 +13,11 @@
                     <x-button-normal openBtn="Crear producto"></x-button-normal>
                 </a>
                 <br>
-                <a href="{{ route('productos.buscar') }}">
-                    <x-button-normal openBtn="Buscar producto"></x-button-normal>
+                <a href="{{ route('vehiculos.buscar') }}">
+                    <x-button-normal openBtn="Buscar vehículos"></x-button-normal>
+                </a>
+                <a href="{{ route('accesorios.buscar') }}">
+                    <x-button-normal openBtn="Buscar accesorios"></x-button-normal>
                 </a>
             </div>
             <div class="mx-auto grid grid-cols-1">
@@ -86,7 +89,7 @@
                     <x-jet-input type="date" class="w-full" name="startDate" required
                         max="{{ now()->toDateString('Y-m-d') }}" />
                     <x-jet-label value="Fecha de fin" />
-                    <x-jet-input type="date" class="w-full" name="endDate" required/>
+                    <x-jet-input type="date" class="w-full" name="endDate" required />
                     <!--Footer-->
                     <div class="flex justify-end pt-2">
                         <button type="submit"
