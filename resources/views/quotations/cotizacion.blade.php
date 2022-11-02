@@ -1,107 +1,101 @@
 @extends('layouts.plantilla')
-@extends('layouts.partials.contenedorCotizaciones')
-@section('title', 'Cotizacion')
+@section('title', 'Simular cotización')
+@section('titleH1', 'Simular cotización')
 
 @section('content')
-
-    <div class="py-8 ml-6 mr-6 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 shadow-lg">
-        <div class="w-full h-full pt-2 pb-8 col-span-4 lg:col-span-5">
-            <h1
-                class="pb-8 w-full text-center mt-2 order-1 text-2xl uppercase lg:capitalize lg:text-3xl font-bold text-blue-700">
-                Cotizacion
-            </h1>
-        </div>
-
+    @php
+        $precioFinal = 0;
+        $cols = count($vehiculos);
+    @endphp
+    <div class="grid justify-center md:grid-cols-{{ $cols }} lg:grid-cols-{{ $cols }} gap-2 lg:gap-2 my-1">
         @foreach ($vehiculos as $vehiculo)
-            <div class="w-full h-17 pb-4 text-right col-span-4 lg:col-span-2 sm:col-span-1">
-                <p class="text-left mx-2">
-                    <span class="text-xl font-bold">Modelo: </span>{{ $vehiculo->vehicleModel->name }} <br>
-                    <span class="text-xl font-bold">Marca: </span>{{ $vehiculo->vehicleModel->brand->name }} <br>
-                    <span class="text-xl font-bold">Año: </span>{{ $vehiculo->year }} <br>
-                    <span class="text-xl font-bold w-full flex-none mt-2 order-1 text-green-700">Precio: $
-                        {{ round($vehiculo->price, 2) }}</span><span
-                        class="text-red-600 ml-4 font-semibold">{{ $vehiculo->offer->discount }} %</span>
-                </p>
-            </div>
-            <div class="col-span-4 lg:col-span-1">
-                <h1 class="text-center text-bold text-sm">Accesorios</h1>
-
-
-
-                <p class="text-left mx-1 py-0">
-                    <?php
-    $precioFinalAccesorio = 0;
-    if(!(empty($colecAccesorios[$vehiculo->id]))){
-    ?>
-                    @foreach ($colecAccesorios[$vehiculo->id] as $accesorio)
-                        <li class="text-sm my-1 font-bold text-left"> {{ $accesorio->name }} </li>
-                    @endforeach
-                    <?php
-}
-?>
-                </p>
-            </div>
-            <div class="col-span-4 lg:col-span-1 text-right">
-                <h1 class="text-center text-bold text-sm">Precios</h1>
-                <p class="text-left mx-1 py-0">
-                    <?php
-    if(!(empty($colecAccesorios[$vehiculo->id]))){
-    ?>
-                    @foreach ($colecAccesorios[$vehiculo->id] as $accesorio)
-                        <li class="text-sm my-1 font-semibold text-center text-green-700 text-left">$
-                            {{ round($accesorio->getPrice($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price)), 2) }}
-                            <?php $precioFinalAccesorio += $accesorio->getPrice($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price)); ?></li>
-                    @endforeach
-                    <?php
-    
-    }
-    ?>
-                </p>
-            </div>
-
-            <div
-                class="w-full mx-3 col-span-3 sm:col-span-4 sm:px-12 sm:col-span-4 lg:px-0 lg:col-span-1  rounded-lg shadow-lg overflow-hidden">
-                <img class="w-full rounded-lg " src="{{ $vehiculo->image }}" alt="">
+            <!-- Card 1 -->
+            <div class="bg-white rounded-lg border shadow-md max-w-xs md:max-w-none overflow-hidden">
+                <img class="h-56 lg:h-60 w-full object-cover" src="{{ $vehiculo->image }}"
+                    alt="{{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}" />
+                <div class="p-3">
+                    {{-- <span class="text-sm text-primary">November 19, 2022</span> --}}
+                    <h3 class="font-semibold text-xl leading-6 text-gray-700 my-2">
+                        {{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}
+                    </h3>
+                    <p class="paragraph-normal text-gray-600">
+                        Año: {{ $vehiculo->year }}
+                    </p>
+                    <p class="paragraph-normal text-gray-600">
+                        Número de chasis: {{ $vehiculo->chassis }}
+                    </p>
+                    <p class="paragraph-normal text-gray-600">
+                        Precio: ${{ round($vehiculo->price, 2) }}
+                    </p>
+                    @php $precioFinal += $vehiculo->getPrice(); @endphp
+                    @if (is_null($vehiculo->offer))
+                        <p class="paragraph-normal text-red-600">
+                            Este vehículo no posee oferta
+                        </p>
+                    @else
+                        <p class="paragraph-normal text-red-600">
+                            Actualmente posee una oferta del: {{ $vehiculo->offer->discount }}%
+                        </p>
+                    @endif
+                    </p>
+                    @if ($vehiculo->accessories)
+                        <h3 class="font-semibold text-xl leading-6 text-gray-700 my-2">
+                            Accesorios
+                        </h3>
+                        <p class="paragraph-normal text-gray-600">
+                            @php
+                                $precioFinalAccesorio = 0;
+                            @endphp
+                            @if (!empty($colecAccesorios[$vehiculo->id]))
+                                <ul>
+                                    @foreach ($colecAccesorios[$vehiculo->id] as $accesorio)
+                                        <li class="text-sm my-1 font-bold text-left">
+                                            {{ $accesorio->name }} precio:
+                                            {{ round($accesorio->getPrice($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price)), 2) }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </p>
+                    @endif
+                </div>
             </div>
         @endforeach
-        <div class="pt-4 mx-4 col-span-4 font-extrabold text-2xl text-left text-green-700">
-            <p class="mx-10 font-bold"> <span class="font-bold text-black text-left">Importe total: </span> <span
-                    class="float-right">$ {{ round($vehiculos[0]->getPriceEnd($vehiculos) + $precioFinalAccesorio, 2) }}
-                </span>
-            </p>
-        </div>
-        <div class="capitalice col-span-3 lg:col-span-1 pt-4 pb-4 pr-0 flex justify-end">
-            @if (!session()->exists('user'))
-                {{-- @php  
-    $usuario = User::find('1');//session('user');
-    $customer = Customer::where('user_id',$usuario->id)->first();///busco usuario de roll cliente
-    @endphp
-        @if ($customer->hasValidQuotation()) --}}
-                <x-popup openBtn="Generar Cotizacion" title="Usted tiene una cotizacion vigente"
-                    leftBtn="Continuar Operacion" rightBtn="Cancelar Operacion" ref="quotations.miCotizacion"
-                    value="">
-                    <p>
-                        ¿Desea continuar con la operacion?
+    </div>
+    <div class="pt-4 mx-4 col-span-4 font-extrabold text-2xl text-left text-green-700">
+        <span class="float-right">Importe total: ${{ round($precioFinal, 2) }} </span></p>
+    </div>
+    <br>
+    {{-- Generar cotización --}}
+    <div class="capitalice col-span-3 lg:col-span-1 pt-4 pb-4 pr-0 flex justify-end">
+        @if (Auth::user())
+            @if (Auth::user()->customer->hasValidQuotation())
+                @if (Auth::user()->customer->getQuotation()->reserve)
+                    <p class="paragraph-normal text-red-600">
+                        Usted tiene una cotización con una reserva válida. Para poder generar otra cotización debe finalizar
+                        el proceso de compra de manera presencial.
                     </p>
-                </x-popup>
-                {{-- @else   
-     <x-modal  openBtn="Generar Cotizacion" title="Generar una Cotizacion" leftBtn="Cancelar" rightBtn="Continuar" ref="quotations.miCotizacion"
-     value="">
-     <p>
-    ¿Desea continuar con la operacion?
-      </p> 
-     </x-modal>
-     @endif --}}
+                @else
+                    <x-popup openBtn="Generar cotización" title="Usted tiene una cotización vigente"
+                        leftBtn="Continuar operación" rightBtn="Cancelar operación" ref="quotations.generarCotizacion"
+                        value="">
+                        <p>
+                            ¿Desea continuar con la operacion?
+                        </p>
+                    </x-popup>
+                @endif
             @else
-                <button
-                    class="text-xs content-center lg:text-sm h-10 px-6 font-semibold hidden:bg-blue-400 rounded-full bg-blue-700 text-white hover:bg-opacity-40 hover:text-blue-700"
-                    onclick="parent.location = '{{ route('quotations.miCotizacion') }}'">
-                    Generar Cotizacion
-                </button>
+                <a href="{{ route('quotations.generarCotizacion') }}">
+                    <x-button-normal openBtn="Generar cotización">
+                    </x-button-normal>
+                </a>
             @endif
-
-
-        </div>
-
+        @else
+            <span class="float-right">
+                <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">
+                    Para generar la cotización debe iniciar sesión
+                </a>
+            </span>
+        @endif
     </div>
 @endsection

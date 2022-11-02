@@ -13,8 +13,11 @@
                     <x-button-normal openBtn="Crear producto"></x-button-normal>
                 </a>
                 <br>
-                <a href="{{ route('productos.buscar') }}">
-                    <x-button-normal openBtn="Buscar producto"></x-button-normal>
+                <a href="{{ route('vehiculos.buscar') }}">
+                    <x-button-normal openBtn="Buscar vehículos"></x-button-normal>
+                </a>
+                <a href="{{ route('accesorios.buscar') }}">
+                    <x-button-normal openBtn="Buscar accesorios"></x-button-normal>
                 </a>
             </div>
             <div class="mx-auto grid grid-cols-1">
@@ -49,9 +52,7 @@
     {{-- Modal --}}
     <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
         <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-
         <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-
             <div
                 class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
                 <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
@@ -86,14 +87,14 @@
                     <x-jet-input type="date" class="w-full" name="startDate" required
                         max="{{ now()->toDateString('Y-m-d') }}" />
                     <x-jet-label value="Fecha de fin" />
-                    <x-jet-input type="date" class="w-full" name="endDate" required/>
+                    <x-jet-input type="date" class="w-full" name="endDate" required />
                     <!--Footer-->
                     <div class="flex justify-end pt-2">
                         <button type="submit"
                             class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">
                             Generar reporte
                         </button>
-                        <button
+                        <button type="button"
                             class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Cancelar</button>
                     </div>
                 </form>
@@ -109,7 +110,6 @@
                 toggleModal();
                 console.log(element.value);
                 form.action = element.value;
-                // modal.href = `ofertas/${element.value}`;
             });
         });
 

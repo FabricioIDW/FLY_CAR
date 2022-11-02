@@ -8,23 +8,18 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('can:payments.index')->only('index');
+        $this->middleware('can:payments.store')->only('store');
+    }
     public function index($action, $amount)
     {
         // Action = De donde se llama el pago (reserve o sale).
         session(['action' => $action]);
         return view('payments.index', compact('amount'));
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         if ($request->accepted) {

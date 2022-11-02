@@ -22,36 +22,39 @@ use App\Http\Controllers\PDFController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// DE PRUEBA
-Route::resource('vehicles', VehicleController::class);
-
-// PROYECTO
+// Home y redirección
 Route::get('/dashboard', function () {
     return redirect()->route('productos.catalogo');
 });
 Route::get('/', function () {
     return redirect()->route('productos.catalogo');
 })->name('home');
-
+// Products
 Route::controller(ProductController::class)->group(function () {
     Route::get('catalogo', 'catalogo')->name('productos.catalogo');
-    Route::get('searchProducts', 'index')->name('productos.buscar');
-
+    // Vehicles
+    Route::get('productos/buscarVehiculos', 'indexVehiculos')->name('vehiculos.buscar');
     Route::get('busquedaV', 'searchV')->name('productos.buscarVehiculos');
+    Route::get('editarVehiculo/{vehiculo}', 'editVehicle')->name('vehiculos.editar');
+    Route::put('vehiculo/{vehiculo}', 'updateVehicle')->name('vehiculos.actualizar');
+    Route::get('productos/eliminarVehiculo/{vehiculo}', 'destroyVehicle')->name('vehiculos.baja');
+    // Accessories
+    Route::get('productos/buscarAccesorios', 'indexAccesorios')->name('accesorios.buscar');
     Route::get('busquedaA', 'searchA')->name('productos.buscarAccesorios');
-
+    Route::get('editarAccesorio/{accesorio}', 'editAccesory')->name('accesorios.editar');
+    Route::put('accesorio/{accesorio}', 'updateAccesory')->name('accesorios.actualizar');
+    Route::get('productos/eliminarAccesorio/{accesorio}', 'destroyAccesory')->name('accesorios.baja');
+    // Models
     Route::get('modelsByBrand', 'modelsBrand')->name('productos.modelosPorMarca');
-    Route::post('products', 'store')->name('productos.store');
-
-    Route::get('products/create', 'create')->name('productos.create');
-    Route::get('products/search/vehicle/{id}', 'destroy_vehicle')->name('productos_vehiculos.destroy');
-    Route::get('products/search/accesory/{id}', 'destroy_accesory')->name('productos_accesorio.destroy');
+    // Products
+    Route::get('productos/crear', 'create')->name('productos.create');
+    Route::post('productos', 'store')->name('productos.store');
+    Route::get('productos/buscar/productos/{id}', 'destroy_vehicle')->name('productos.destroy');
 });
-
+// Vista admin
 Route::controller(UserController::class)->group(function () {
-    Route::get('indexAdmin', 'indexAdmin')->name('admin.index');
+    Route::get('administracion', 'indexAdmin')->name('admin.index');
 });
-
 
 // Offers
 Route::controller(OfferController::class)->group(function () {
@@ -69,10 +72,10 @@ Route::controller(PaymentController::class)->group(function () {
 });
 // Quotations
 Route::controller(QuotationController::class)->group(function () {
-    Route::get('/cotizacion/{quotation}', 'show')->name('quotations.show');
-    Route::get('/quotation/{vehiculo}', 'simularCotizacion')->name('quotations.simularCotizacion');
+    Route::get('/cotizacion/{vehiculo}', 'simularCotizacion')->name('quotations.simularCotizacion');
     Route::post('/cotizacion', 'agregarOtroVehiculo')->name('quotations.cotizar');
-    Route::get('/miCotizacion', 'generarCotizacion')->name('quotations.miCotizacion');
+    Route::get('/generarCotizacion', 'generarCotizacion')->name('quotations.generarCotizacion');
+    Route::get('/miCotizacion', 'miCotizacion')->name('quotations.miCotizacion');
     Route::get('/buscarCotizacion', 'buscarCotizacion')->name('quotations.search');
 });
 // Reserve
@@ -84,13 +87,9 @@ Route::controller(SaleController::class)->group(function () {
     Route::get('/venta/{concretized}', 'create')->name('sales.create');
 });
 // User
-// Route::resource('users', UserController::class)->only(['index', 'edit'])->middleware('can:admin.users.index')->names('admin.users');
-
 Route::controller(UserController::class)->group(function () {
-    Route::get('/cuenta', 'actualizarCuenta')->name('cuenta.actualizar'); 
+    Route::get('/cuenta', 'actualizarCuenta')->name('cuenta.actualizar');
     // Customer
-    Route::get('/users', 'userList')->middleware('can:admin.users.index')->name('admin.users.index'); //Probando middleware
-    Route::get('/users/{user}', 'userEdit')->middleware('can:admin.users.edit')->name('admin.users.edit'); //Probando middleware
     Route::get('/crearCuenta', 'index')->name('usersCustomer.index');
     Route::get('/crearCuenta/nuevoCliente', 'create_new_customer')->name('usersCustomer.createNew');
     Route::get('/crearCuenta/clienteExistente', 'create_existing_customer')->name('usersCustomer.createExisting');

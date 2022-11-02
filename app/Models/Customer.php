@@ -23,6 +23,10 @@ class Customer extends Model
     {
         return Quotation::where('customer_id', $this->id)->where('valid', 1)->first() != null;
     }
+    public function getQuotation()
+    {
+        return Quotation::where('customer_id', $this->id)->where('valid', 1)->first();
+    }
     public function disableQuotation()
     {
         $quotation = Quotation::where('customer_id', $this->id)->where('valid', 1)->first();

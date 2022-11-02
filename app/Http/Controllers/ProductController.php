@@ -11,59 +11,69 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        $accesorios = Accessory::all();
-        $vehiculos = Vehicle::all();
-        
-        return view('products.buscar', compact('accesorios', 'vehiculos'));
+        $this->middleware('can:vehiculos.buscar')->only('indexVehiculos');
+        $this->middleware('can:accesorios.buscar')->only('indexAccesorios');
+        $this->middleware('can:productos.buscarVehiculos')->only('searchV');
+        $this->middleware('can:productos.buscarAccesorios')->only('searchA');
+        $this->middleware('can:vehiculos.editar')->only('ediVehicle');
+        $this->middleware('can:accesorios.editar')->only('editAccesory');
+        $this->middleware('can:vehiculos.actualizar')->only('updateVehicle');
+        $this->middleware('can:accesorios.actualizar')->only('updateAccesory');
+        $this->middleware('can:vehiculos.baja')->only('destroyVehicle');
+        $this->middleware('can:accesorios.baja')->only('destroyAccesory');
+        $this->middleware('can:productos.modelosPorMarca')->only('modelsBrand');
+        $this->middleware('can:productos.create')->only('create');
+        $this->middleware('can:productos.store')->only('store');
+        // $this->middleware('can:productos.destroy')->only('destroy_vehicle');
+
     }
 
-    public function searchV(Request $request){
-        $output="";
-        $vehiculos = DB::table('vehicles')->
-            select('vehicles.id', 'vehicles.chassis', 'brands.name as nombreMarca', 'vehicle_models.name as nombreModelo', 'vehicles.vehicle_model_id', 'vehicle_models.brand_id')->
-            join('vehicle_models', 'vehicle_models.id', '=','vehicles.vehicle_model_id')->
-            join('brands', 'brands.id', '=', 'vehicle_models.brand_id')->
-            where('brands.name', 'like', '%'.$request->searchV.'%')->
-            orWhere('vehicle_models.name', 'like', '%'.$request->searchV.'%')->
-            orWhere('vehicles.id', 'like', '%'.$request->searchV.'%')->
-            get();   
-        foreach($vehiculos as $vehiculos)
-        {
-            $output.= 
-            '<tr class="border-b border-gray-200 hover:bg-gray-100">
+    public function indexVehiculos()
+    {
+        $vehiculos = Vehicle::where('removed', '=', 'false')->get();
+        return view('products.buscarVehiculos', compact('vehiculos'));
+    }
+    public function indexAccesorios()
+    {
+        $accesorios = Accessory::where('removed', '=', 'false')->get();
+        return view('products.buscarAccesorios', compact('accesorios'));
+    }
+
+    public function searchV(Request $request)
+    {
+        $output = "";
+        $vehiculos = DB::table('vehicles')->select('vehicles.id', 'vehicles.chassis', 'brands.name as nombreMarca', 'vehicle_models.name as nombreModelo', 'vehicles.vehicle_model_id', 'vehicle_models.brand_id')->join('vehicle_models', 'vehicle_models.id', '=', 'vehicles.vehicle_model_id')->join('brands', 'brands.id', '=', 'vehicle_models.brand_id')->where('brands.name', 'like', '%' . $request->searchV . '%')->orWhere('removed', '=', 'false')->orWhere('vehicle_models.name', 'like', '%' . $request->searchV . '%')->orWhere('vehicles.id', 'like', '%' . $request->searchV . '%')->get();
+        foreach ($vehiculos as $vehiculos) {
+            $output .=
+                '<tr class="border-b border-gray-200 hover:bg-gray-100">
             <td class="py-3 px-3 text-center whitespace-nowrap">
                                             <div class="items-center">
                                                 <div class="mr-2">
-                                                    <span class="font-medium">'.$vehiculos->id.'</span>
+                                                    <span class="font-medium">' . $vehiculos->id . '</span>
                                             </div>
             </td>
             <td class="py-3 px-3 text-center whitespace-nowrap">
                                             <div class="items-center">
                                                 <div class="mr-2">
-                                                    <span class="font-medium">'.
-                                                    Brand::find($vehiculos->brand_id)->name
-                                                    .'</span>
+                                                    <span class="font-medium">' .
+                Brand::find($vehiculos->brand_id)->name
+                . '</span>
                                             </div>
             </td>
             <td class="py-3 px-3 text-center whitespace-nowrap">
                                             <div class="items-center">
                                                 <div class="mr-2">
-                                                    <span class="font-medium">'.
-                                                    VehicleModel::find($vehiculos->vehicle_model_id)->name
-                                                    .'</span>
+                                                    <span class="font-medium">' .
+                VehicleModel::find($vehiculos->vehicle_model_id)->name
+                . '</span>
                                             </div>
             </td>
             <td class="py-3 px-3 text-center whitespace-nowrap">
                                             <div class="items-center">
                                                 <div class="mr-2">
-                                                    <span class="font-medium">'.$vehiculos->chassis.'</span>
+                                                    <span class="font-medium">' . $vehiculos->chassis . '</span>
                                             </div>
             </td>
             <td class="py-3 px-3 text-center">
@@ -81,7 +91,7 @@ class ProductController extends Controller
                                                 <div class="overflow-x-auto">
                                                     <x-modal openBtn="Eliminar" title="Eliminar vehiculo" leftBtn="Eliminar"
                                                         rightBtn="Cancelar" ref="productos_vehiculos.destroy"
-                                                        value="'.$vehiculos->id.'">
+                                                        value="' . $vehiculos->id . '">
                                                         <p>¿Está seguro de eliminar este vehiculo?</p>
                                                     </x-modal>
                                                 </div>
@@ -91,32 +101,29 @@ class ProductController extends Controller
         return response($output);
     }
 
-    public function searchA(Request $request){
-        $output="";
-        $accesorios=Accessory::where('id','Like','%'.$request->searchA.'%')->
-        orWhere('stock','Like','%'.$request->searchA.'%')->
-        orWhere('name','Like','%'.$request->searchA.'%')->
-        get();
-        foreach($accesorios as $accesorios)
-        {
-            $output.= 
-            '<tr class="border-b border-gray-200 hover:bg-gray-100">
+    public function searchA(Request $request)
+    {
+        $output = "";
+        $accesorios = Accessory::where('id', 'Like', '%' . $request->searchA . '%')->orWhere('removed', '=', 'false')->orWhere('stock', 'Like', '%' . $request->searchA . '%')->orWhere('name', 'Like', '%' . $request->searchA . '%')->get();
+        foreach ($accesorios as $accesorios) {
+            $output .=
+                '<tr class="border-b border-gray-200 hover:bg-gray-100">
             <td class="py-3 px-3 text-center whitespace-nowrap">
                                             <div class="items-center">
                                                 <div class="mr-2">
-                                                    <span class="font-medium">'.$accesorios->id.'</span>
+                                                    <span class="font-medium">' . $accesorios->id . '</span>
                                             </div>
             </td>
             <td class="py-3 px-3 text-center whitespace-nowrap">
                                             <div class="items-center">
                                                 <div class="mr-2">
-                                                    <span class="font-medium">'.$accesorios->name.'</span>
+                                                    <span class="font-medium">' . $accesorios->name . '</span>
                                             </div>
             </td>
             <td class="py-3 px-3 text-center whitespace-nowrap">
                                             <div class="items-center">
                                                 <div class="mr-2">
-                                                    <span class="font-medium">'.$accesorios->stock.'</span>
+                                                    <span class="font-medium">' . $accesorios->stock . '</span>
                                             </div>
             </td>
             <td class="py-3 px-3 text-center">
@@ -134,7 +141,7 @@ class ProductController extends Controller
                                                 <div class="overflow-x-auto">
                                                     <x-modal openBtn="Eliminar" title="Eliminar vehiculo" leftBtn="Eliminar"
                                                         rightBtn="Cancelar" ref="productos_vehiculos.destroy"
-                                                        value="'.$accesorios->id.'">
+                                                        value="' . $accesorios->id . '">
                                                         <p>¿Está seguro de eliminar este vehiculo?</p>
                                                     </x-modal>
                                                 </div>
@@ -144,120 +151,138 @@ class ProductController extends Controller
         return response($output);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $modelos = VehicleModel::all();
         $marcas = Brand::all();
-        $vehiculos = Vehicle::whereNotNull('offer_id');
 
-        return view('products/create', compact('modelos', 'vehiculos', 'marcas'));
+        return view('products/create', compact('modelos', 'marcas'));
     }
-    public function modelsBrand(Request $request){
-        $output="";
-        $modelos = vehicleModel::where('brand_id','=',''.$request->selectMarca.'')->get();
-        foreach($modelos as $model){
-            $output.= 
-            '<option id="'.$model->id.'" value="'.$model->id.'">'.$model->name.'</option>';
+    public function modelsBrand(Request $request)
+    {
+        $output = "";
+        $modelos = vehicleModel::where('brand_id', '=', '' . $request->selectMarca . '')->get();
+        foreach ($modelos as $model) {
+            $output .=
+                '<option id="' . $model->id . '" value="' . $model->id . '">' . $model->name . '</option>';
         }
         return response($output);
     }
 
-    // public function allModelos(Request $request){
-    //     $output = "";
-    //     $modelos = vehicleModel::all();
-    //     foreach($modelos as $model){
-    //         $output.=
-    //         '<li>'.$model->name.'</li>';
-    //     }
-    // }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-
-        if($request->tProducto == 0){ // Producto tipo vehiculos
+        if ($request->tProducto == 0) { // Producto tipo vehiculos
             $vehiculo = new Vehicle;
-            $vehiculo->price = $request->precioP; 
-            $vehiculo->description = $request->descripcionProducto; 
+            $vehiculo->price = $request->precioP;
+            $vehiculo->description = $request->descripcionProducto;
             $vehiculo->enabled = $request->selectEstado;
             $vehiculo->vehicle_model_id = $request->modeloV;
             $vehiculo->year = $request->anioV;
             $vehiculo->chassis = $request->chasisV;
             $vehiculo->image = $request->imgVehiculo;
             $vehiculo->save();
-            return redirect()->route('productos.buscar');
-
-        }else { //Producto tipo Accesorio
-            $accesorio = new Accessory;
-            $accesorio->price = $request->precioP; 
-            $accesorio->description = $request->descripcionP; 
-            $accesorio->enabled = $request->selectEstado;
-            $accesorio->name = $request->nombreA;
-            $accesorio->stock = $request->stock;
+            return redirect()->route('vehiculos.buscar');
+        } else { //Producto tipo Accesorio
+            $accesorio = Accessory::create([
+                'description' => $request->descripcionProducto,
+                'enabled' => $request->selectEstado,
+                'name' => $request->nombreA,
+                'stock' => $request->stock,
+                'image' => "img",
+            ]);
             //Obtengo el precio de los modelos seleccionados
-            $precios[] = $request->input("modelo");
+            $preciosSeparados = explode('|', $request->modelos);
+            foreach ($preciosSeparados as $precioSep) {
+                if ($precioSep != "") {
+                    $modelo = explode('/', $precioSep);
+                    $m = $modelo[0]; //id del modelo
+                    $p = $modelo[1]; //precio del accesorio para ese modelo
+                    $accesorio->models()->attach($m, ['price' => $p]);
+                }
+            }
+            return redirect()->route('accesorios.buscar');
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function editVehicle(Vehicle $vehiculo)
     {
-        //
+        $marcas = Brand::all();
+        return view('products.editVehicle', compact('vehiculo', 'marcas'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function editAccesory(Accessory $accesorio)
     {
-        //
+        $modelos = VehicleModel::all();
+        return view('products.editAccesory', compact('accesorio', 'modelos'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function updateVehicle(Request $request, Vehicle $vehiculo)
     {
-        //
+        $vehiculo->chassis = $request->chassis;
+        $vehiculo->price = $request->precioP;
+        $vehiculo->description = $request->descripcionProducto;
+        $vehiculo->enabled = $request->selectEstado;
+        $vehiculo->vehicle_model_id = $request->modeloV;
+        $vehiculo->year = $request->anioV;
+        $vehiculo->image = $request->imgVehiculo;
+
+        $vehiculo->save();
+        return redirect()->view('vehiculos.buscar');
+
+        //     $file = $_FILES['file'][''.$vehiculo->image.''];
+
+        //     if ($file != '') {
+        //         move_uploaded_file($_FILES['file']['tmp_name'], '/image/' . $file);
+        //     } else {
+        //         $file = $oldfile;
+        //     }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy_vehicle($id)
+    public function updateAccesory(Request $request, Accessory $accesorio)
     {
-        //
+        $accesorio->description = $request->descripcionProducto;
+        $accesorio->enabled = $request->selectEstado;
+        $accesorio->name = $request->nombreA;
+        $accesorio->stock = $request->stock;
+        $preciosS = explode('|', $request->modelos);
+        $i = 0;
+        foreach ($preciosS as $precio) {
+            if ($precio != "") {
+                $modelo = explode('/', $precio);
+                $m = intval($modelo[0]); //id del modelo
+                $p = floatval($modelo[1]); //precio del accesorio para ese modelo
+                if (empty($accesorio->models[$i])) {
+                    $accesorio->models()->attach($m, ['price' => $p]);
+                } else {
+                    $accesorio->models()->updateExistingPivot($m, ['price' => $p]);
+                }
+                $i++;
+            }
+        }
+        $accesorio->save();
+
+        return redirect()->route('accesorios.buscar');
     }
-    public function destroy_accesory($id)
+
+    public function destroyVehicle(Vehicle $vehiculo)
     {
-        //
+        $vehiculo->update([
+            'removed' => true,
+        ]);
+        return redirect()->route('vehiculos.buscar');
     }
-    public function catalogo(){
+    public function destroyAccesory(Accessory $accesorio)
+    {
+        $accesorio->update([
+            'removed' => true,
+        ]);
+        return redirect()->route('accesorios.buscar');
+    }
+    public function catalogo()
+    {
+        //Elimino sessiones 
+        session()->forget(['vehiculo1', 'vehiculo2', 'accesorio1', 'accesoriosSelec', 'vehiculosSelec', 'quotation']);
+        ///
         $vehiculos = Vehicle::where('vehicleState', 'availabled')->get();
 
         return view('welcome', compact('vehiculos'));

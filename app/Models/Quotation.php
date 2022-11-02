@@ -29,6 +29,11 @@ class Quotation extends Model
         $this->dateTimeExpiration = ExpirationDate::getExpiration($current, 7);
         $this->save();
     }
+    public function setExpiration()
+    {
+        $this->dateTimeExpiration = ExpirationDate::getExpiration($this->dateTimeGenerated, 2);
+        // $this->save();
+    }
     public function actualizeAmount($reserveAmount)
     {
         $this->finalAmount -= $reserveAmount;
