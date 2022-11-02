@@ -75,9 +75,14 @@ Route::controller(QuotationController::class)->group(function () {
     Route::get('/cotizacion/{vehiculo}', 'simularCotizacion')->name('quotations.simularCotizacion');
     Route::post('/cotizacion', 'agregarOtroVehiculo')->name('quotations.cotizar');
     Route::get('/generarCotizacion', 'generarCotizacion')->name('quotations.generarCotizacion');
+    Route::get('/generarCotizacionVendedor', 'generarCotizacionVendedor')->name('quotations.generarCotizacionVendedor');
     Route::get('/miCotizacion', 'miCotizacion')->name('quotations.miCotizacion');
     Route::get('/buscarCotizacion', 'buscarCotizacion')->name('quotations.search');
+    Route::get('/seeQuotation/{quotation}/', 'mostrarQuotation')->name('quotations.seeQuotation');
 });
+Route::get('/searchQuotation', function() {
+    return view('quotations.searchQuotation');
+})->name('quotations.searchQuotation');
 // Reserve
 Route::controller(ReserveController::class)->group(function () {
     Route::get('/reserva', 'create')->name('reserves.create');

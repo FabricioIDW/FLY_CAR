@@ -19,7 +19,17 @@ class QuotationSearch extends Component
     }
     public function render()
     {
-        $quotations = Quotation::where('id', 'like','%'.$this->search.'%')->paginate();
+        $allQuotations = Quotation::where('id', 'LIKE','%'.$this->search.'%')
+        ->orWhere('dateTimeGenerated', 'LIKE', '%'.$this->search.'%')
+        ->orWhere('dateTimeExpiration', 'LIKE', '%'.$this->search.'%')
+        ->orWhere('finalAmount', 'LIKE', '%'.$this->search.'%')
+        ->get();
+        $quotations = [];
+        foreach ($allQuotations as $quotation) {
+            if ($quotation->valid) {
+                $quotations[] = $quotation;
+            }
+        }
         return view('livewire.quotation-search', compact('quotations'));
     }
     public function misCotizaciones(Customer $customer)

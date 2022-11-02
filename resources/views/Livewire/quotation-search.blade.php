@@ -16,7 +16,7 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                {{-- {{ $quotations }} --}}
                  @foreach ($quotations as $quotation)
                     <tr>
                         <td>{{$quotation->id}}</td>

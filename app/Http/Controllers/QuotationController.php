@@ -135,6 +135,35 @@ class QuotationController extends Controller
         return view('quotations.miCotizacion', compact('quotation', 'reserve', 'vehiculos', 'colecAccesorios'));
     }
 
+    public function generarCotizacionVendedor () {
+        $quotation = $this->createQuotation();
+        $quotation->customer_id = session('new_customer_id');
+        $quotation->save();
+        return $quotation;
+    }
+
+    private function createQuotation() {
+        $quotation = Quotation::create();
+        $precioFinal = 0;
+        if (session()->exists('vehiculosSelec')) {
+            foreach (session('vehiculosSelec') as $vehiculo) {
+                if (session()->exists('accesoriosSelec')) {
+                    $accesoriosSelec = session('accesoriosSelec');
+                    foreach ($accesoriosSelec[$vehiculo->id] as $accesorio) {
+                        $precioFinal += $accesorio->getPrice($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price));
+                        $accesorio->discountStock();
+                        $vehiculo->accessoriesQuotation()->attach($accesorio->id, ['quotation_id' => $quotation->id]);
+                    }
+                }
+                $vehiculo->setState('reserved');
+                $precioFinal += $vehiculo->getPrice();
+                $quotation->vehicles()->attach($vehiculo->id);
+            }
+        }
+        $quotation->finalAmount = $precioFinal;
+        return $quotation;
+    }
+
     // Buscar mi cotizacion
     public function miCotizacion()
     {

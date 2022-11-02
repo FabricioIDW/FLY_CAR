@@ -29,8 +29,8 @@
         // Seller
         [
             'name' => 'Buscar cotización',
-            'route' => route('quotations.search'),
-            'active' => request()->routeIs('quotations.search'),
+            'route' => route('quotations.searchQuotation'),
+            'active' => request()->routeIs('quotations.searchQuotation'),
             'can' => 'quotations.search',
         ],
     ];

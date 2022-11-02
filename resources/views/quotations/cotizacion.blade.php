@@ -69,26 +69,31 @@
     {{-- Generar cotización --}}
     <div class="capitalice col-span-3 lg:col-span-1 pt-4 pb-4 pr-0 flex justify-end">
         @if (Auth::user())
-            @if (Auth::user()->customer->hasValidQuotation())
-                @if (Auth::user()->customer->getQuotation()->reserve)
-                    <p class="paragraph-normal text-red-600">
-                        Usted tiene una cotización con una reserva válida. Para poder generar otra cotización debe finalizar
-                        el proceso de compra de manera presencial.
-                    </p>
-                @else
-                    <x-popup openBtn="Generar cotización" title="Usted tiene una cotización vigente"
-                        leftBtn="Continuar operación" rightBtn="Cancelar operación" ref="quotations.generarCotizacion"
-                        value="">
-                        <p>
-                            ¿Desea continuar con la operacion?
-                        </p>
-                    </x-popup>
-                @endif
+            @if (Auth::user()->seller)
+                @livewire('customer-data')
             @else
-                <a href="{{ route('quotations.generarCotizacion') }}">
-                    <x-button-normal openBtn="Generar cotización">
-                    </x-button-normal>
-                </a>
+                @if (Auth::user()->customer->hasValidQuotation())
+                    @if (Auth::user()->customer->getQuotation()->reserve)
+                        <p class="paragraph-normal text-red-600">
+                            Usted tiene una cotización con una reserva válida. Para poder generar otra cotización debe
+                            finalizar
+                            el proceso de compra de manera presencial.
+                        </p>
+                    @else
+                        <x-popup openBtn="Generar cotización" title="Usted tiene una cotización vigente"
+                            leftBtn="Continuar operación" rightBtn="Cancelar operación" ref="quotations.generarCotizacion"
+                            value="">
+                            <p>
+                                ¿Desea continuar con la operacion?
+                            </p>
+                        </x-popup>
+                    @endif
+                @else
+                    <a href="{{ route('quotations.generarCotizacion') }}">
+                        <x-button-normal openBtn="Generar cotización">
+                        </x-button-normal>
+                    </a>
+                @endif
             @endif
         @else
             <span class="float-right">
