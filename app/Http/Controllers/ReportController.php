@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brand;
-use App\Models\Quotation;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -40,8 +38,8 @@ class ReportController extends Controller
     public function vehiculosMasCotizados(Request $request)
     {
         $title = "Vehículos más cotizados";
-        $startDate = $request->startDate . ' 00:00:00';
-        $endDate = $request->endDate . ' 00:00:00';
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
         $sortBy = 'Cantidad';
         $queryBuilder = DB::table('quotation_vehicle AS q_v')
             ->join('quotations AS q', 'q_v.quotation_id', '=', 'q.id')
@@ -49,7 +47,7 @@ class ReportController extends Controller
             ->join('vehicle_models AS v_m', 'v_m.id', '=', 'v.vehicle_model_id')
             ->join('brands AS b', 'v_m.brand_id', '=', 'b.id')
             ->select(['b.name AS Marca', 'v_m.name AS Modelo', DB::raw('COUNT(v_m.id) AS Cantidad')])
-            ->whereBetween('q.dateTimeGenerated', [$startDate, $endDate])
+            ->whereBetween(DB::raw('DATE(q.dateTimeGenerated)'), [$startDate, $endDate])
             ->groupBy(['v_m.id', 'b.name', 'v_m.name'])
             ->orderBy('Cantidad', 'DESC')
             ->get();
@@ -57,8 +55,8 @@ class ReportController extends Controller
     }
     public function ventasNoConcretadas(Request $request)
     {
-        $startDate = $request->startDate . ' 00:00:00';
-        $endDate = $request->endDate . ' 00:00:00';
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
         $sales = Sale::where('concretized', 0)->get();
         $reporte = [];
         // $quotation->vehicles[0]->accessoriesQuotation[0]->models[0]->pivot->price; //Precio del accesorio para un modelo
@@ -93,14 +91,14 @@ class ReportController extends Controller
     public function accesoriosMasSolicitados(Request $request)
     {
         $title = "Accesorios más solicitados";
-        $startDate = $request->startDate . ' 00:00:00';
-        $endDate = $request->endDate . ' 00:00:00';
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
         $sortBy = 'Cantidad';
         $queryBuilder = DB::table('accessory_quotation_vehicle AS a_q_v')
             ->join('quotations AS q', 'a_q_v.quotation_id', '=', 'q.id')
             ->join('accessories AS a', 'a_q_v.accessory_id', '=', 'a.id')
             ->select(['a.name AS Accesorio', DB::raw('COUNT(a.id) AS Cantidad')])
-            ->whereBetween('q.dateTimeGenerated', [$startDate, $endDate])
+            ->whereBetween(DB::raw('DATE(q.dateTimeGenerated)'), [$startDate, $endDate])
             ->groupBy(['a.name'])
             ->orderBy('Cantidad', 'DESC')
             ->get();
@@ -109,12 +107,12 @@ class ReportController extends Controller
     public function comisionesMensuales(Request $request)
     {
         $title = "Comisiones mensuales";
-        $startDate = $request->startDate . ' 00:00:00';
-        $endDate = $request->endDate . ' 00:00:00';
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
         $queryBuilder = DB::table('sales AS s')
             ->join('sellers AS sl', 's.seller_id', '=', 'sl.id')
             ->select([DB::raw("CONCAT(sl.name, ' ', sl.lastName) AS Vendedor"), 'sl.dni', DB::raw('SUM(s.comission) AS Comision'), DB::raw('COUNT(*) AS Ventas')])
-            ->whereBetween('s.dateTimeGenerated', [$startDate, $endDate])
+            ->whereBetween(DB::raw('DATE(s.dateTimeGenerated)'), [$startDate, $endDate])
             ->where('s.concretized', '=', '1')
             ->groupBy(['sl.id', 'Vendedor', 'sl.dni'])
             ->orderBy('Comision', 'DESC')
@@ -124,8 +122,8 @@ class ReportController extends Controller
     public function modelosMasVendidos(Request $request)
     {
         $title = "Modelos más vendidos";
-        $startDate = $request->startDate . ' 00:00:00';
-        $endDate = $request->endDate . ' 00:00:00';
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
         $sortBy = 'Cantidad';
         $queryBuilder = DB::table('sales AS s')
             ->join('quotation_vehicle AS q_v', 'q_v.quotation_id', '=', 's.quotation_id')
@@ -133,7 +131,7 @@ class ReportController extends Controller
             ->join('vehicle_models AS v_m', 'v_m.id', '=', 'v.vehicle_model_id')
             ->join('brands AS b', 'v_m.brand_id', '=', 'b.id')
             ->select(['b.name AS Marca', 'v_m.name AS Modelo', DB::raw('COUNT(v_m.id) AS Cantidad')])
-            ->whereBetween('s.dateTimeGenerated', [$startDate, $endDate])
+            ->whereBetween(DB::raw('DATE(s.dateTimeGenerated)'), [$startDate, $endDate])
             ->groupBy(['v_m.id', 'b.name', 'v_m.name'])
             ->orderBy('Cantidad', 'DESC')
             ->get();
