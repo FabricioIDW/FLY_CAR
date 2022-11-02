@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Auth;
 
 class QuotationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:quotations.generarCotizacion')->only('generarCotizacion');
+        $this->middleware('can:quotations.miCotizacion')->only('miCotizacion');
+        $this->middleware('can:quotations.search')->only('buscarCotizacion');
+    }
     public function show(Quotation $quotation)
     {
         // ******Solo de prueba******

@@ -11,6 +11,15 @@ use Barryvdh\DomPDF\PDF;
 
 class ReportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:reportes.vehiculosMasCotizados')->only('vehiculosMasCotizados');
+        $this->middleware('can:reportes.ventasNoConcretadas')->only('ventasNoConcretadas');
+        $this->middleware('can:reportes.accesoriosMasSolicitados')->only('accesoriosMasSolicitados');
+        $this->middleware('can:reportes.comisionesMensuales')->only('comisionesMensuales');
+        $this->middleware('can:reportes.modelosMasVendidos')->only('modelosMasVendidos');
+        $this->middleware('can:reportes.reporte')->only('reporte');
+    }
     public function reporte()
     {
         $startDate = '2022-10-21 00:00:00';

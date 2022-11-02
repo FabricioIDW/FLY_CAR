@@ -11,11 +11,25 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('can:vehiculos.buscar')->only('indexVehiculos');
+        $this->middleware('can:accesorios.buscar')->only('indexAccesorios');
+        $this->middleware('can:productos.buscarVehiculos')->only('searchV');
+        $this->middleware('can:productos.buscarAccesorios')->only('searchA');
+        $this->middleware('can:vehiculos.editar')->only('ediVehicle');
+        $this->middleware('can:accesorios.editar')->only('editAccesory');
+        $this->middleware('can:vehiculos.actualizar')->only('updateVehicle');
+        $this->middleware('can:accesorios.actualizar')->only('updateAccesory');
+        $this->middleware('can:vehiculos.baja')->only('destroyVehicle');
+        $this->middleware('can:accesorios.baja')->only('destroyAccesory');
+        $this->middleware('can:productos.modelosPorMarca')->only('modelsBrand');
+        $this->middleware('can:productos.create')->only('create');
+        $this->middleware('can:productos.store')->only('store');
+        // $this->middleware('can:productos.destroy')->only('destroy_vehicle');
+
+    }
+
     public function indexVehiculos()
     {
         $vehiculos = Vehicle::where('removed', '=', 'false')->get();
@@ -137,11 +151,6 @@ class ProductController extends Controller
         return response($output);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $modelos = VehicleModel::all();
@@ -160,13 +169,6 @@ class ProductController extends Controller
         return response($output);
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         if ($request->tProducto == 0) { // Producto tipo vehiculos
@@ -262,12 +264,6 @@ class ProductController extends Controller
         return redirect()->route('accesorios.buscar');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroyVehicle(Vehicle $vehiculo)
     {
         $vehiculo->update([

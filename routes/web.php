@@ -22,20 +22,17 @@ use App\Http\Controllers\PDFController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// DE PRUEBA
-Route::resource('vehicles', VehicleController::class);
-
-// PROYECTO
+// Home y redirección
 Route::get('/dashboard', function () {
     return redirect()->route('productos.catalogo');
 });
 Route::get('/', function () {
     return redirect()->route('productos.catalogo');
 })->name('home');
-
+// Products
 Route::controller(ProductController::class)->group(function () {
     Route::get('catalogo', 'catalogo')->name('productos.catalogo');
-    Route::get('products/searchVehicles', 'indexVehiculos')->name('vehiculos.buscar');
+    Route::get('productos/buscarVehiculos', 'indexVehiculos')->name('vehiculos.buscar');
     Route::get('products/searchAccesories', 'indexAccesorios')->name('accesorios.buscar');
 
     Route::get('busquedaV', 'searchV')->name('productos.buscarVehiculos');
@@ -59,7 +56,7 @@ Route::controller(ProductController::class)->group(function () {
 
     Route::get('products/search/products/{id}', 'destroy_vehicle')->name('productos.destroy');
 });
-
+// Vista admin
 Route::controller(UserController::class)->group(function () {
     Route::get('indexAdmin', 'indexAdmin')->name('admin.index');
 });
@@ -99,8 +96,8 @@ Route::controller(SaleController::class)->group(function () {
 Route::controller(UserController::class)->group(function () {
     Route::get('/cuenta', 'actualizarCuenta')->name('cuenta.actualizar');
     // Customer
-    Route::get('/users', 'userList')->middleware('can:admin.users.index')->name('admin.users.index'); //Probando middleware
-    Route::get('/users/{user}', 'userEdit')->middleware('can:admin.users.edit')->name('admin.users.edit'); //Probando middleware
+    // Route::get('/users', 'userList')->middleware('can:admin.users.index')->name('admin.users.index'); //Probando middleware
+    // Route::get('/users/{user}', 'userEdit')->middleware('can:admin.users.edit')->name('admin.users.edit'); //Probando middleware
     Route::get('/crearCuenta', 'index')->name('usersCustomer.index');
     Route::get('/crearCuenta/nuevoCliente', 'create_new_customer')->name('usersCustomer.createNew');
     Route::get('/crearCuenta/clienteExistente', 'create_existing_customer')->name('usersCustomer.createExisting');

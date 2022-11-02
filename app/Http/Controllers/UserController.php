@@ -17,7 +17,11 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('can:admin.index')->only('indexAdmin');
-        $this->middleware('can:usersSeller.create')->only(['create_seller', 'store_seller']);
+        $this->middleware('can:cuenta.actualizar')->only('actualizarCuenta');
+        $this->middleware('can:usersCustomer.update')->only('update_customer');
+        $this->middleware('can:usersSeller.create')->only('create_seller');
+        $this->middleware('can:usersSeller.store')->only('store_seller');
+        $this->middleware('can:usersSeller.update')->only('update_seller');
     }
 
     public function actualizarCuenta()
@@ -39,11 +43,6 @@ class UserController extends Controller
         return view('auth.register');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     // CUSTOMER
     public function create_existing_customer()
     {
@@ -55,12 +54,6 @@ class UserController extends Controller
         return view('auth.create-new-customer');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store_new_customer(StoreNewCustomer $request)
     {
         $user = $this->createUser($request->email, $request->password, 'Customer');
@@ -120,7 +113,7 @@ class UserController extends Controller
         Auth::user()->seller->update([
             'name' => $request->name,
             'lastName' => $request->lastName,
-        
+
         ]);
         Alert::success('La cuenta se actualizó correctamente.');
         return  view('profile.actualizar-cuenta');

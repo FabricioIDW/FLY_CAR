@@ -9,25 +9,10 @@ use Illuminate\Http\Request;
 
 class ReserveController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function index(Quotation $quotation)
-    // {
-    //     $reserve = new Reserve();
-    //     $reserve->amount = $reserve->calculateAmount($quotation->finalAmount);
-    //     session(['reserve' => $reserve]);
-    //     session(['quotation' => $quotation]);
-    //     return view('quotations.index', compact('quotation', 'reserve'));
-    // }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('can:reserves.create')->only('create');
+    }
     public function create()
     {
         // TO DO
@@ -43,61 +28,5 @@ class ReserveController extends Controller
         session()->forget(['payment', 'quotation', 'reserve']);
         $reserve->save();
         return $reserve;
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

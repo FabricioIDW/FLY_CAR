@@ -19,22 +19,13 @@ class OfferController extends Controller
         $this->middleware('can:offers.edit')->only(['edit', 'update']);
         $this->middleware('can:offers.destroy')->only('destroy');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $offers = Offer::orderBy('updated_at', 'desc')->paginate(10);
         return view('offers.index', compact('offers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $vehicles = Vehicle::where('enabled', 1)->where('offer_id', null)->where('removed', 0)->get();
@@ -42,12 +33,6 @@ class OfferController extends Controller
         return view('offers.create', compact('vehicles', 'accessories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreOffer $request)
     {
         $offer = Offer::create([
@@ -75,37 +60,17 @@ class OfferController extends Controller
         return redirect()->route('offers.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Offer $offer)
     {
         return view('offers.show', compact('offer'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Offer $offer)
     {
         $vehicles = Vehicle::where('enabled', 1)->where('offer_id', null)->where('removed', 0)->get();
         $accessories = Accessory::where('enabled', 1)->where('offer_id', null)->where('removed', 0)->get();
         return view('offers.edit', compact('offer', 'vehicles', 'accessories'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateOffer $request, Offer $offer)
     {
         $offer->update([
@@ -153,12 +118,6 @@ class OfferController extends Controller
         return redirect()->route('offers.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Offer $offer)
     {
         $offer->delete();
