@@ -124,7 +124,7 @@ class QuotationController extends Controller
         session(['quotation' => $quotation]);
         session()->forget('vehiculo1');
         session()->forget('vehiculo2');
-        session()->forget('colecAccesorios'); //Probando
+        // session()->forget('colecAccesorios'); //Probando
         return view('quotations.miCotizacion', compact('quotation', 'reserve', 'vehiculos', 'colecAccesorios'));
     }
 
@@ -140,7 +140,6 @@ class QuotationController extends Controller
                 session(['reserve' => $reserve]);
                 $colecAccesorios = [];
                 foreach ($quotation->vehicles as $vehicle) {
-                    
                 }
             }
         }
