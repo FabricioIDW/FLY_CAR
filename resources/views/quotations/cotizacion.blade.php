@@ -29,29 +29,35 @@
                     </p>
                     @php $precioFinal += $vehiculo->getPrice(); @endphp
                     @if (is_null($vehiculo->offer))
-                        <span class="text-green-700 ml-4 font-semibold"> 0 %</span>
+                        <p class="paragraph-normal text-red-600">
+                            Este vehículo no posee oferta
+                        </p>
                     @else
-                        <span class="text-red-600 ml-4 font-semibold">{{ $vehiculo->offer->discount }} %</span>
+                        <p class="paragraph-normal text-red-600">
+                            Actualmente posee una oferta del: {{ $vehiculo->offer->discount }}%
+                        </p>
                     @endif
                     </p>
-                    <h3 class="font-semibold text-xl leading-6 text-gray-700 my-2">
-                        Accesorios
-                    </h3>
-                    <p class="paragraph-normal text-gray-600">
-                        @php
-                            $precioFinalAccesorio = 0;
-                        @endphp
-                        @if (!empty($colecAccesorios[$vehiculo->id]))
-                            <ul>
-                                @foreach ($colecAccesorios[$vehiculo->id] as $accesorio)
-                                    <li class="text-sm my-1 font-bold text-left">
-                                        {{ $accesorio->name }} precio:
-                                        {{ round($accesorio->getPrice($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price)), 2) }}
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
-                    </p>
+                    @if ($vehiculo->accessories)
+                        <h3 class="font-semibold text-xl leading-6 text-gray-700 my-2">
+                            Accesorios
+                        </h3>
+                        <p class="paragraph-normal text-gray-600">
+                            @php
+                                $precioFinalAccesorio = 0;
+                            @endphp
+                            @if (!empty($colecAccesorios[$vehiculo->id]))
+                                <ul>
+                                    @foreach ($colecAccesorios[$vehiculo->id] as $accesorio)
+                                        <li class="text-sm my-1 font-bold text-left">
+                                            {{ $accesorio->name }} precio:
+                                            {{ round($accesorio->getPrice($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price)), 2) }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </p>
+                    @endif
                 </div>
             </div>
         @endforeach
@@ -64,13 +70,20 @@
     <div class="capitalice col-span-3 lg:col-span-1 pt-4 pb-4 pr-0 flex justify-end">
         @if (Auth::user())
             @if (Auth::user()->customer->hasValidQuotation())
-                <x-popup openBtn="Generar cotización" title="Usted tiene una cotización vigente"
-                    leftBtn="Continuar operación" rightBtn="Cancelar operación" ref="quotations.generarCotizacion"
-                    value="">
-                    <p>
-                        ¿Desea continuar con la operacion?
+                @if (Auth::user()->customer->getQuotation()->reserve)
+                    <p class="paragraph-normal text-red-600">
+                        Usted tiene una cotización con una reserva válida. Para poder generar otra cotización debe finalizar
+                        el proceso de compra de manera presencial.
                     </p>
-                </x-popup>
+                @else
+                    <x-popup openBtn="Generar cotización" title="Usted tiene una cotización vigente"
+                        leftBtn="Continuar operación" rightBtn="Cancelar operación" ref="quotations.generarCotizacion"
+                        value="">
+                        <p>
+                            ¿Desea continuar con la operacion?
+                        </p>
+                    </x-popup>
+                @endif
             @else
                 <a href="{{ route('quotations.generarCotizacion') }}">
                     <x-button-normal openBtn="Generar cotización">

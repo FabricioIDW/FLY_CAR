@@ -40,7 +40,6 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'accesorios.actualizar'])->syncRoles([$admin]);
         Permission::create(['name' => 'accesorios.baja'])->syncRoles([$admin]);
 
-
         // Admin view
         Permission::create(['name' => 'admin.index'])->syncRoles([$admin]);
 
@@ -54,7 +53,7 @@ class RoleSeeder extends Seeder
 
         // Payment
         Permission::create(['name' => 'payments.index'])->syncRoles([$seller, $admin, $customer]);
-        Permission::create(['name' => 'paymets.store'])->syncRoles([$seller, $admin, $customer]);
+        Permission::create(['name' => 'payments.store'])->syncRoles([$seller, $admin, $customer]);
 
         // Quotations
         // Permission::create(['name' => 'quotations.simularCotizacion'])->syncRoles([$seller, $customer]);
@@ -86,15 +85,5 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'reportes.comisionesMensuales'])->syncRoles([$admin]);
         Permission::create(['name' => 'reportes.modelosMasVendidos'])->syncRoles([$admin]);
         Permission::create(['name' => 'reportes.reporte'])->syncRoles([$admin]);
-
-        // // DE PRUEBA
-        // // Users
-        // Permission::create(['name' => 'admin.users.index'])->syncRoles([$admin]);
-        // Permission::create(['name' => 'admin.users.edit'])->syncRoles([$admin]);
-        // // Vehicles 
-        // Permission::create(['name' => 'vehicles.index'])->assignRole($admin, $customer);
-        // Permission::create(['name' => 'vehicles.create'])->assignRole($admin);
-        // Permission::create(['name' => 'vehicles.edit'])->assignRole($admin);
-        // Permission::create(['name' => 'vehicles.destroy'])->assignRole($admin);
     }
 }

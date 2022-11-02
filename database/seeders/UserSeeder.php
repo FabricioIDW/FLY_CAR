@@ -16,7 +16,6 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            // 'id' => 10003213123123133,
             'email' => 'fabri@gmail.com',
             'password' => bcrypt('laravel12'),
         ])->assignRole('Admin');
@@ -24,5 +23,9 @@ class UserSeeder extends Seeder
             'email' => 'yamil@gmail.com',
             'password' => bcrypt('laravel12'),
         ])->assignRole('Customer');
+        User::create([
+            'email' => 'lucca@gmail.com',
+            'password' => bcrypt('laravel12'),
+        ])->assignRole('Seller');
     }
 }

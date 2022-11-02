@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class QuotationController extends Controller
 {
@@ -130,7 +131,7 @@ class QuotationController extends Controller
         session(['quotation' => $quotation]);
         session()->forget('vehiculo1');
         session()->forget('vehiculo2');
-        // session()->forget('colecAccesorios'); //Probando
+        Alert::success('La cotización de genero correctamente.');
         return view('quotations.miCotizacion', compact('quotation', 'reserve', 'vehiculos', 'colecAccesorios'));
     }
 
@@ -144,9 +145,9 @@ class QuotationController extends Controller
                 $reserve->amount = $reserve->calculateAmount($quotation->finalAmount);
                 session(['quotation' => $quotation]);
                 session(['reserve' => $reserve]);
-                $colecAccesorios = [];
-                foreach ($quotation->vehicles as $vehicle) {
-                }
+                // $colecAccesorios = [];
+                // foreach ($quotation->vehicles as $vehicle) {
+                // }
             }
         }
         return view('quotations.miCotizacion');
