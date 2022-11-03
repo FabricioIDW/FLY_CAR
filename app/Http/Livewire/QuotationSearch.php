@@ -13,6 +13,8 @@ class QuotationSearch extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $search;
+    public $sort = "updated_at";
+    public $direction = "desc";
 
     public function updatingSearch(){
         return $this->resetPage();
@@ -36,5 +38,19 @@ class QuotationSearch extends Component
     {
         $quotations = Quotation::where('customer_id', $customer->id)->paginate();
         return view('livewire.quotation-search', compact('quotations'));
+    }
+    public function order($sort)
+    {
+        if ($this->sort == $sort) {
+            if ($this->direction == 'desc') {
+                $this->direction = 'asc';
+            } else {
+                $this->direction = 'desc';
+            }
+            
+        } else {
+            $this->direction = 'asc';
+            $this->sort = $sort;
+        }
     }
 }

@@ -78,9 +78,9 @@ Route::controller(QuotationController::class)->group(function () {
     Route::get('/generarCotizacionVendedor', 'generarCotizacionVendedor')->name('quotations.generarCotizacionVendedor');
     Route::get('/miCotizacion', 'miCotizacion')->name('quotations.miCotizacion');
     Route::get('/buscarCotizacion', 'buscarCotizacion')->name('quotations.search');
-    Route::get('/seeQuotation/{quotation}/', 'mostrarQuotation')->name('quotations.seeQuotation');
+    Route::get('/verCotizacion/{quotation}/', 'mostrarQuotation')->name('quotations.seeQuotation');
 });
-Route::get('/searchQuotation', function() {
+Route::get('/buscarCotizaciones', function() {
     return view('quotations.searchQuotation');
 })->name('quotations.searchQuotation');
 // Reserve
