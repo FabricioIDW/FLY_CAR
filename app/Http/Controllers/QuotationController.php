@@ -205,6 +205,7 @@ class QuotationController extends Controller
         $customer = $quotation->customer;
         $reserve = new Reserve();
         $reserve->amount = $reserve->calculateAmount($quotation->finalAmount);
+        session(['quotation' => $quotation]);
         return view('quotations.mostrarCotizacion', compact('quotation', 'vehiculos', 'colecAccesorios', 'customer', 'reserve'));
     }
 
