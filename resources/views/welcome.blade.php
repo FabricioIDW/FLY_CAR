@@ -143,10 +143,11 @@
                 <div class="-m-4 flex flex-wrap">
                     @foreach ($vehiculos as $veh)
                         <div class="w-full p-4 md:w-1/2 lg:w-1/4">
-                                <a href="{{ route('quotations.simularCotizacion', $veh->id) }}" class="relative block h-48 overflow-hidden rounded">
-                                    <img class="block h-full w-full object-cover object-center cursor-pointer"
-                                        src="{{ $veh->image }}" />
-                                </a>
+                            <a href="{{ route('quotations.simularCotizacion', $veh->id) }}"
+                                class="relative block h-48 overflow-hidden rounded">
+                                <img class="block h-full w-full object-cover object-center cursor-pointer"
+                                    src="{{ url($veh->image) }}" />
+                            </a>
                             <div class="mt-4">
                                 <h2 class="title-font text-lg font-medium text-gray-900">
                                     {{ $veh->vehicleModel->brand->name }}</h2>

@@ -7,7 +7,7 @@
 
         <div class="bg-blue-200 shadow-lg col-span-2 md:col-span-3 lg:col-span-3 row-span-2 flex-none relative rounded-lg">
             <img class="shadow-lg absolute inset-0 lg:w-full lg:h-full object-cover rounded-lg" src="{{ $vehiculo->image }}"
-                alt="chevlolet cruze">
+                alt="{{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}">
         </div>
         <div class="bg-black-400 col-span-1 lg:col-span-2 row-span-2 rounded-b-lg">
             <div class="pb-8 w-full flex-none mt-2 order-1 text-3xl font-bold text-blue-700">

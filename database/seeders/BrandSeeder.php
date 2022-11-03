@@ -22,7 +22,6 @@ class BrandSeeder extends Seeder
             [
                 'brand' => 'Alfa Romeo',
                 'models' => [
-                    '145',
                     'Giulia',
                     'Stelvio',
                     'Tonale',
@@ -54,6 +53,7 @@ class BrandSeeder extends Seeder
                     'Serie 3',
                     'Serie 4',
                     'X1',
+                    'X2',
                 ],
             ],
             [
@@ -242,6 +242,7 @@ class BrandSeeder extends Seeder
                     'Koleos',
                     'Sandero',
                     'Stepway',
+                    'Clio',
                 ],
             ],
             [
@@ -253,9 +254,9 @@ class BrandSeeder extends Seeder
                     'Corolla',
                     'Corolla Cross',
                     'Corolla Hybrid',
-                    'Etios Aibo',
+                    'Etios Liva',
                     'Etios Hatchback',
-                    'Etios Sedán',
+                    'Etios Sedan',
                     'Hilux',
                     'Hilux GR Sport',
                     'Land Cruiser',
@@ -283,6 +284,62 @@ class BrandSeeder extends Seeder
                 ],
             ],
         ];
+        // $brands = [
+        //         [
+        //         'brand' => 'Chevrolet',
+        //         'models' => [
+        //             'Onix',
+        //             'Cruze',
+        //             'Cruze 5',
+        //             'S10 Z71',
+        //             'S10 High Country',
+        //             'S10 Cabina simple',
+        //             'S10 Cabina doble',
+        //             'Camaro',
+        //             'Tracker',
+        //             'Equinox',
+        //             'TrailBlazer',
+        //             'Spin',
+        //             'Spin Activ',
+        //         ],
+        //     ],
+        //     [
+        //         'brand' => 'Citroen',
+        //         'models' => [
+        //             'C3',
+        //             'C4',
+        //             'C5 Aircross',
+        //             'Berlingo multispace',
+        //             'Berlingo Furgón',
+        //             'Jumper',
+        //         ],
+        //     ],
+        //     [
+        //         'brand' => 'Dacia',
+        //         'models' => [
+        //             'Duster',
+        //             'Jogger',
+        //             'Logan',
+        //             'Sandero',
+        //             'Spring',
+        //         ],
+        //     ],
+        //     [
+        //         'brand' => 'Fiat',
+        //         'models' => [
+        //             'Mobi',
+        //             'Cronos',
+        //             'Argo',
+        //             'Fiorino',
+        //             'Nueva Strada',
+        //             '500 Abarth',
+        //             'Ducato',
+        //             'Toro',
+        //             'Pulso',
+        //             'Strada',
+        //         ],
+        //     ],
+        // ];
         $accessoriesCount = Accessory::all()->count();
         for ($i = 0; $i < count($brands); $i++) {
             $brand = Brand::create([
