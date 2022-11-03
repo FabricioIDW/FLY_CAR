@@ -2,10 +2,12 @@
     {{-- Quotation table --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="px-6 py-4 flex item-center">
-            <x-jet-input class="flex-1 mr-4" type="text" wire:model="search" placeholder="Escriba lo que quiere buscar" />
+            <x-jet-input class="flex-1 mr-4" type="text" wire:model="search"
+                placeholder="Escriba lo que quiere buscar" />
         </div>
 
-        @if (count($quotations) > 0)
+        {{-- @if (count($quotations) > 0) --}}
+        @if ($quotations->count())
             <table class="min-w-max w-full table-auto">
                 <thead>
                     <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -105,7 +107,7 @@
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center">
                                     <a href="{{ route('quotations.seeQuotation', $quotation->id) }}">
-                                        <x-button-normal openBtn="Ver"/>
+                                        <x-button-normal openBtn="Ver" />
                                     </a>
                             </td>
                         </tr>
