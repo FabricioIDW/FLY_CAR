@@ -59,7 +59,7 @@ class QuotationController extends Controller
             }
 
             $vehiculos = Vehicle::where('vehicleState', 'availabled')->get();
-            return view('welcome', compact('vehiculos'));
+            return view('catalogo', compact('vehiculos'));
         }
 
         //SIMULAR COTIZACION

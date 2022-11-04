@@ -26,6 +26,7 @@ class RoleSeeder extends Seeder
         // Permission::create(['name' => 'productos.buscar'])->syncRoles([$admin]);
         Permission::create(['name' => 'productos.create'])->syncRoles([$admin]);
         Permission::create(['name' => 'productos.destroy'])->syncRoles([$admin]);
+        Permission::create(['name' => 'productos.store'])->syncRoles([$admin]);
         Permission::create(['name' => 'productos_vehiculos.destroy'])->syncRoles([$admin]);
         Permission::create(['name' => 'productos_accesorio.destroy'])->syncRoles([$admin]);
         Permission::create(['name' => 'productos.buscarVehiculos'])->syncRoles([$admin]);

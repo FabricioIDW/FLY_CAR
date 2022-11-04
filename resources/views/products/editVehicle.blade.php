@@ -88,7 +88,7 @@
 
                     <div class="py-1">Nro de Chasis:</div>
                     <div class="py-1">
-                        <input id="nroChasis" name="chasisV" type="text" maxlength="17"
+                        <input id="nroChasis" name="chassis" type="text" maxlength="17"
                             pattern="[A-HJ-NN-NP-PR-Z0-9]{17,17}" placeholder="Expresion de 17 digitos.."
                             value="{{ $vehiculo->chassis }}">
                     </div>
