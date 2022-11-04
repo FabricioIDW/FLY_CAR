@@ -139,7 +139,8 @@ class QuotationController extends Controller
         $quotation = $this->createQuotation();
         $quotation->customer_id = session('new_customer_id');
         $quotation->save();
-        return $quotation;
+        Alert::success('La cotización de genero correctamente.');
+        return view('quotations.mostrarCotizacion', compact('quotation'));
     }
 
     private function createQuotation() {
