@@ -34,13 +34,11 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('catalogo', 'catalogo')->name('productos.catalogo');
     // Vehicles
     Route::get('productos/buscarVehiculos', 'indexVehiculos')->name('vehiculos.buscar');
-    Route::get('busquedaV', 'searchV')->name('productos.buscarVehiculos');
     Route::get('editarVehiculo/{vehiculo}', 'editVehicle')->name('vehiculos.editar');
     Route::put('vehiculo/{vehiculo}', 'updateVehicle')->name('vehiculos.actualizar');
     Route::get('productos/eliminarVehiculo/{vehiculo}', 'destroyVehicle')->name('vehiculos.baja');
     // Accessories
     Route::get('productos/buscarAccesorios', 'indexAccesorios')->name('accesorios.buscar');
-    Route::get('busquedaA', 'searchA')->name('productos.buscarAccesorios');
     Route::get('editarAccesorio/{accesorio}', 'editAccesory')->name('accesorios.editar');
     Route::put('accesorio/{accesorio}', 'updateAccesory')->name('accesorios.actualizar');
     Route::get('productos/eliminarAccesorio/{accesorio}', 'destroyAccesory')->name('accesorios.baja');

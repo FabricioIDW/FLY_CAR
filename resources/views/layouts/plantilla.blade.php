@@ -13,7 +13,7 @@
             font-weight: bold;
         }
     </style>
-      @vite('resources/css/app.css')
+    @vite('resources/css/app.css')
 </head>
 
 <body>
@@ -34,7 +34,8 @@
             </div>
         </div>
     </x-app-layout>
-    @include('layouts.partials.footer')
+    {{-- @include('layouts.partials.footer') --}}
 </body>
 @include('sweetalert::alert')
+
 </html>
