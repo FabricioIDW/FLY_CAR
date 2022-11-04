@@ -1,46 +1,123 @@
 <div>
-    <div class="card-header">
-        <input wire:model="search" class="form-control lg:w-full rounded-lg h-8 bg-slate-300 text-lg" placeholder="Ingrese el nro o fecha de la cotizacion">
-    </div>
-    <div class="card content-center col-span-3 lg:col-span-5">
-        <div class="card-body col-span-3 lg:col-span-6">
-            <table class=" text-neutral-800 w-full border-collapse border-spacing-1 border-t-green-200">
-                <thead class="text-left">
-                    <tr>
-                        <th>Nro</th>
-                        <th>Fecha generada </th>
-                        <th>Vecimiento</th>
-                        <th>Importe</th>
-                        <th>Cliente</th>
-                        <th>Estado</th>
+    {{-- Quotation table --}}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="px-6 py-4 flex item-center">
+            <x-jet-input class="flex-1 mr-4" type="text" wire:model="search"
+                placeholder="Escriba lo que quiere buscar" />
+        </div>
+
+        {{-- @if (count($quotations) > 0) --}}
+        @if ($quotations->count())
+            <table class="min-w-max w-full table-auto">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                        {{-- Número de cotización --}}
+                        <th class="cursor-pointer py-3 px-6 text-left" wire:click="order('id')">Nro.</th>
+                        {{-- SORT ICON --}}
+                        @if ($sort == 'id')
+                            @if ($direction == 'asc')
+                                <i class="fas fa-sort-alpha-up-alt float-right mt-1"></i>
+                            @else
+                                <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
+                            @endif
+                        @else
+                            <i class="fas fa-sort float-right mt-1"></i>
+                        @endif
+                        {{-- Fecha generada --}}
+                        <th class="cursor-pointer py-3 px-6 text-left" wire:click="order('dateTimeGenerated')">Fecha
+                            generada
+                        </th>
+                        {{-- SORT ICON --}}
+                        @if ($sort == 'dateTimeGenerated')
+                            @if ($direction == 'asc')
+                                <i class="fas fa-sort-alpha-up-alt float-right mt-1"></i>
+                            @else
+                                <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
+                            @endif
+                        @else
+                            <i class="fas fa-sort float-right mt-1"></i>
+                        @endif
+                        {{-- Fecha de vencimiento --}}
+                        <th class="cursor-pointer py-3 px-6 text-left" wire:click="order('dateTimeExpiration')">Fecha de
+                            vencimiento</th>
+                        {{-- SORT ICON --}}
+                        @if ($sort == 'dateTimeExpiration')
+                            @if ($direction == 'asc')
+                                <i class="fas fa-sort-alpha-up-alt float-right mt-1"></i>
+                            @else
+                                <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
+                            @endif
+                        @else
+                            <i class="fas fa-sort float-right mt-1"></i>
+                        @endif
+                        {{-- Importe --}}
+                        <th class="cursor-pointer py-3 px-6 text-left" wire:click="order('finalAmount')">Importe</th>
+                        {{-- SORT ICON --}}
+                        @if ($sort == 'finalAmount')
+                            @if ($direction == 'asc')
+                                <i class="fas fa-sort-alpha-up-alt float-right mt-1"></i>
+                            @else
+                                <i class="fas fa-sort-alpha-down-alt float-right mt-1"></i>
+                            @endif
+                        @else
+                            <i class="fas fa-sort float-right mt-1"></i>
+                        @endif
+                        {{-- DNI del cliente --}}
+                        <th class="cursor-pointer py-3 px-6 text-left">DNI del cliente</th>
+                        <th class="cursor-pointer py-3 px-6 text-left">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                {{-- {{ $quotations }} --}}
-                 @foreach ($quotations as $quotation)
-                    <tr>
-                        <td>{{$quotation->id}}</td>
-                        <td>{{$quotation->dateTimeGenerated}}</td>
-                        <td>{{$quotation->dateTimeExpiration}}</td>
-                        <td class="text-green-500">{{$quotation->finalAmount}}</td>
-                        <td>{{$quotation->customer_id}}</td>
-                        @if ($quotation->valid === 1)
-                        <td class="text-green-500">Valida</td>    
-                        @else
-                        <td class="text-red-500">Vencida</td>    
-                        @endif
-                        
-                        <td> <button class="text-xs content-center lg:text-sm h-5 px-6 font-semibold hidden:bg-blue-400 rounded-full bg-blue-700 text-white hover:bg-opacity-40" onclick="parent.location = '{{route('quotations.seeQuotation', $quotation->id)}}'">
-                            <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-eye h-5 w-5" viewBox="0 0 16 16">
-                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-                                </svg> 
-                            </button></td>
-                            
-                    </tr> 
-                 @endforeach
+                <tbody class="text-gray-600 text-sm font-light">
+                    @foreach ($quotations as $quotation)
+                        <tr class="border-b border-gray-200 hover:bg-gray-100">
+                            {{-- Número de cotización --}}
+                            <td class="py-3 px-6 text-left">
+                                <div class="flex items-center">
+                                    <div class="mr-2">
+                                        <span class="font-medium">{{ $quotation->id }}</span>
+                                    </div>
+                            </td>
+                            {{-- Fecha generada --}}
+                            <td class="py-3 px-6 text-left">
+                                <div class="flex items-center">
+                                    <span>{{ $quotation->dateTimeGenerated }}</span>
+                                </div>
+                            </td>
+                            {{-- Fecha de vencimiento --}}
+                            <td class="py-3 px-6 text-left">
+                                <div class="flex items-center">
+                                    <span>{{ $quotation->dateTimeExpiration }}</span>
+                                </div>
+                            </td>
+                            {{-- Importe --}}
+                            <td class="py-3 px-6 text-left">
+                                <div class="flex items-center">
+                                    <span>{{ $quotation->finalAmount }}</span>
+                                </div>
+                            </td>
+                            {{-- DNI del cliente --}}
+                            <td class="py-3 px-6 text-left">
+                                <div class="flex items-center">
+                                    @if ($quotation->customer)
+                                        <span>{{ $quotation->customer->dni }}</span>
+                                    @endif
+                                </div>
+                            </td>
+                            {{-- {{route('quotations.seeQuotation', $quotation->id)}} --}}
+                            <td class="py-3 px-6 text-center">
+                                <div class="flex item-center justify-center">
+                                    <a href="{{ route('quotations.seeQuotation', $quotation->id) }}">
+                                        <x-button-normal openBtn="Ver" />
+                                    </a>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
-        </div>
+        @else
+            <div class="px-6 py-4">
+                No existen cotizaciones que coincidan.
+            </div>
+        @endif
     </div>
 </div>

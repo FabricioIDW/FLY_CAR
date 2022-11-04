@@ -45,6 +45,9 @@
             Livewire.on('alert', (message) => {
                 swal("¡Buen trabajo!", message, "success");
             })
+            Livewire.on('errorAlert', (message) => {
+                swal("Algo salió mal...", message, "error");
+            })
         </script>
     </body>
 </html>

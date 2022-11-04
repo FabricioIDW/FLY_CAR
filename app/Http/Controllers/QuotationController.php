@@ -21,6 +21,7 @@ class QuotationController extends Controller
         $this->middleware('can:quotations.generarCotizacion')->only('generarCotizacion');
         $this->middleware('can:quotations.miCotizacion')->only('miCotizacion');
         $this->middleware('can:quotations.search')->only('buscarCotizacion');
+        $this->middleware('can:quotations.seeQuotation')->only('mostrarQuotation');
     }
     public function show(Quotation $quotation)
     {
@@ -36,6 +37,9 @@ class QuotationController extends Controller
 
     public function simularCotizacion(Vehicle $vehiculo)
     {
+        if ($vehiculo->vehicleState == 'sold' || $vehiculo->vehicleState == 'reserved') {
+            return redirect()->action([ProductController::class, 'catalogo']);
+        }
         if (session()->exists('vehiculo1')) {
             $vehiSession1 = session('vehiculo1');
             if ($vehiSession1->id === $vehiculo->id) {
@@ -96,6 +100,7 @@ class QuotationController extends Controller
 
     public function generarCotizacion()
     {
+       if (!session()->exists('quotation')) {
         $quotation = Quotation::create();
         // $quotation = Quotation::find($quotation->id);
         $precioFinal = 0;
@@ -132,6 +137,12 @@ class QuotationController extends Controller
         session()->forget('vehiculo1');
         session()->forget('vehiculo2');
         Alert::success('La cotización de genero correctamente.');
+       } else {
+           $quotation = session('quotation');
+           $reserve = session('reserve');
+           $vehiculos = session('vehiculosSelec');
+           $colecAccesorios = session('accesoriosSelec');
+       }
         return view('quotations.miCotizacion', compact('quotation', 'reserve', 'vehiculos', 'colecAccesorios'));
     }
 
@@ -139,7 +150,8 @@ class QuotationController extends Controller
         $quotation = $this->createQuotation();
         $quotation->customer_id = session('new_customer_id');
         $quotation->save();
-        return $quotation;
+        Alert::success('La cotización de genero correctamente.');
+        return view('quotations.mostrarCotizacion', compact('quotation'));
     }
 
     private function createQuotation() {
@@ -205,6 +217,7 @@ class QuotationController extends Controller
         $customer = $quotation->customer;
         $reserve = new Reserve();
         $reserve->amount = $reserve->calculateAmount($quotation->finalAmount);
+        session(['quotation' => $quotation]);
         return view('quotations.mostrarCotizacion', compact('quotation', 'vehiculos', 'colecAccesorios', 'customer', 'reserve'));
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Customer;
 use App\Models\Offer;
 use Livewire\Component;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CustomerData extends Component
 {
@@ -36,9 +37,11 @@ class CustomerData extends Component
         $customer = Customer::where('dni', $this->dni)->first();
         if ($customer) {
             if ($customer->hasValidQuotation()) {
-                $this->hasQuotation = true;
-                $this->message = 'El cliente posee una cotización válida';
-                // $this->emitTo($this, 'render');
+                if ($customer->getQuotation()->reserve) {
+                    // $this->emit('alert', 'El cliente posee una cotización con una reserva activa.');
+                    // Alert::error('No se puede generar la cotización', 'El cliente ' . $customer->name . ' ' . $customer->lastName . ' posee una cotización con una reserva activa.');
+                    $this->emit('errorAlert', 'El cliente posee una cotización con una reserva activa.');
+                }
             }
             // $this->emit('alert', 'El cliente se encuentra registrado');
         } else {

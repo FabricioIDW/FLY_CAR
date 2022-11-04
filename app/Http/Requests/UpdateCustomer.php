@@ -28,9 +28,7 @@ class UpdateCustomer extends FormRequest
             'lastName' => ['required', 'string', 'regex:/^([A-Za-z])/'],
             'birthDate' => 'required|date',
             'address' => 'required|string',
-            'email' => ['required', 'unique:users,email,'.$this->input('email').',email', 'regex:/^.+@.+$/i'],
-            'password' => 'required',
-            'password_confirmation' => 'required',
+            // 'email' => ['required', 'unique:users,email,'.$this->input('email').',email', 'regex:/^.+@.+$/i'],
         ];
     }
     public function attribute()
@@ -40,8 +38,6 @@ class UpdateCustomer extends FormRequest
             'lastName' => 'apellido',
             'birthDate' => 'fecha de nacimiento',
             'address' => 'dirección',
-            'password' => 'contraseña',
-            'password_confirmation' => 'confirmar contraseña',
         ];
     }
     public function messages()
@@ -53,10 +49,8 @@ class UpdateCustomer extends FormRequest
             'lastName.regex' => 'El formato del apellido ingresado no es válido.',
             'birthDate.required' => 'La fecha de nacimiento es obligatoria.',
             'address.required' => 'La dirección es obligatoria.',
-            'email.required' => 'El email es obligatorio.',
-            'email.unique' => 'El email ya se encuentra registrado.',
-            'password.required' => 'La contraseña es obligatoria.',
-            'password_confirmation.required' => 'Confirme la contraseña.',
+            // 'email.required' => 'El email es obligatorio.',
+            // 'email.unique' => 'El email ya se encuentra registrado.',
         ];
     }
 }

@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreExistingCustomer;
 use App\Http\Requests\StoreNewCustomer;
 use App\Http\Requests\StoreSeller;
+use App\Http\Requests\UpdateCustomer;
+use App\Http\Requests\UpdateSeller;
 use App\Models\Customer;
 use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
@@ -41,6 +46,32 @@ class UserController extends Controller
     public function index()
     {
         return view('auth.register');
+    }
+
+// ADMIN
+    public function update_admin(Request $request)
+    {
+        // Validar contraseña actual del usuario con la contraseña actual ingresada en el formulario.
+        $result_current_password = Hash::check($request->current_password, Auth::user()->password);
+        $new_password_hash = Hash::make($request->new_password);
+        $result_new_password =  Hash::check($request->new_password_confirmation, $new_password_hash);
+        $validator = Validator::make($request->all(), [
+            'current_password' => [
+                'required',
+                function ($attribute, $value, $fail)
+                {
+                    if (Hash::check($value, Auth::user()->password)) {
+                        $fail('La contraseña actual ingresada no coincide.');
+                    }
+                },
+            ],
+        ]);
+        if ($validator->fails()) {
+            return redirect('cuenta')
+            ->withErrors($validator);
+        }
+        $validator->validate();
+        return $result_new_password;
     }
 
     // CUSTOMER
@@ -79,7 +110,7 @@ class UserController extends Controller
         return view('auth.login', ['newEmail' => $request->email]);
     }
     // update customer
-    public function update_customer(Request $request)
+    public function update_customer(UpdateCustomer $request)
     {
         Auth::user()->customer->update([
             'name' => $request->name,
@@ -108,7 +139,7 @@ class UserController extends Controller
         return view('auth.create-seller-account');
     }
 
-    public function update_seller(Request $request)
+    public function update_seller(UpdateSeller $request)
     {
         Auth::user()->seller->update([
             'name' => $request->name,

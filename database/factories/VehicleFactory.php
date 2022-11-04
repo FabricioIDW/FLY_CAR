@@ -18,14 +18,16 @@ class VehicleFactory extends Factory
      */
     public function definition()
     {
+        $model = VehicleModel::all()->random();
+        $imagePath = '/vehicles/'. $model->brand->name . ' ' . $model->name . '.jpg';
         return [
             'chassis' => $this->faker->unique()->numberBetween(11111111111111111, 99999999999999999),
             'price' => $this->faker->randomFloat(2, 500000, 14500500),
             'description' => $this->faker->text(100),
-            'year' => $this->faker->year(),
-            'image' => $this->faker->imageUrl(),
+            'year' => $this->faker->numberBetween(2014, 2022),
+            'image' => $imagePath,
             'offer_id' => Offer::all()->random()->id,
-            'vehicle_model_id' => VehicleModel::all()->random()->id,
+            'vehicle_model_id' => $model->id,
         ];
     }
 }

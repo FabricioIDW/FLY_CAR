@@ -17,7 +17,7 @@ class OfferFactory extends Factory
     public function definition()
     {
         return [
-            'discount' => $this->faker->randomFloat(5, 1, 50),
+            'discount' => $this->faker->randomFloat(5, 1, 25),
             'startDate' => $this->faker->date(),
             'endDate' => $this->faker->date(),
         ];
