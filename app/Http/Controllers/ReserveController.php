@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ExpirationDate;
-use App\Models\Quotation;
-use App\Models\Reserve;
-use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ReserveController extends Controller
@@ -29,6 +26,6 @@ class ReserveController extends Controller
         session()->forget(['payment', 'quotation', 'reserve']);
         $reserve->save();
         Alert::success('La reserva de la cotización realizó correctamente.');
-        return view('quotations.miCotizacion');
+        return redirect()->action([QuotationController::class, 'miCotizacion']);
     }
 }
