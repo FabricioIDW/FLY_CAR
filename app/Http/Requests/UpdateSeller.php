@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCustomer extends FormRequest
+class UpdateSeller extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +26,6 @@ class UpdateCustomer extends FormRequest
         return [
             'name' => ['required', 'string', 'regex:/^([A-Za-z])/'],
             'lastName' => ['required', 'string', 'regex:/^([A-Za-z])/'],
-            'birthDate' => 'required|date',
-            'address' => 'required|string',
-            // 'email' => ['required', 'unique:users,email,'.$this->input('email').',email', 'regex:/^.+@.+$/i'],
         ];
     }
     public function attribute()
@@ -36,8 +33,6 @@ class UpdateCustomer extends FormRequest
         return [
             'name' => 'nombre',
             'lastName' => 'apellido',
-            'birthDate' => 'fecha de nacimiento',
-            'address' => 'dirección',
         ];
     }
     public function messages()
@@ -47,10 +42,6 @@ class UpdateCustomer extends FormRequest
             'name.regex' => 'El formato del nombre ingresado no es válido.',
             'lastName.required' => 'El apellido es obligatorio.',
             'lastName.regex' => 'El formato del apellido ingresado no es válido.',
-            'birthDate.required' => 'La fecha de nacimiento es obligatoria.',
-            'address.required' => 'La dirección es obligatoria.',
-            // 'email.required' => 'El email es obligatorio.',
-            // 'email.unique' => 'El email ya se encuentra registrado.',
         ];
     }
 }

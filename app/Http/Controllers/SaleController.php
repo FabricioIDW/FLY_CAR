@@ -33,16 +33,7 @@ class SaleController extends Controller
         }
         session()->forget(['payment', 'quotation']);
 
-        /**
-         * TO DO 
-         * 
-         * REVISAR ESTO, SE DEBERÍA REDIRECCIONAR SIN TENER QUE HACER LO MISMO QUE EN ProductController catalogo()
-         */
-        
-        session()->forget(['vehiculo1', 'vehiculo2', 'accesorio1', 'accesoriosSelec', 'vehiculosSelec', 'quotation']);
-        $vehiculos = Vehicle::where('vehicleState', 'availabled')->get();
-
         Alert::success('Venta realizada! Número de venta: ' . $sale->id . '.');
-        return view('welcome', compact('vehiculos'));
+        return redirect()->action([ProductController::class, 'catalogo']);
     }
 }

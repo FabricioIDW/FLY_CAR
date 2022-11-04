@@ -54,6 +54,7 @@ Route::controller(ProductController::class)->group(function () {
 // Vista admin
 Route::controller(UserController::class)->group(function () {
     Route::get('administracion', 'indexAdmin')->name('admin.index');
+    Route::put('/perfil/actualizarAdmin', 'update_admin')->name('admin.changeData');
 });
 
 // Offers
@@ -77,12 +78,12 @@ Route::controller(QuotationController::class)->group(function () {
     Route::get('/generarCotizacion', 'generarCotizacion')->name('quotations.generarCotizacion');
     Route::get('/generarCotizacionVendedor', 'generarCotizacionVendedor')->name('quotations.generarCotizacionVendedor');
     Route::get('/miCotizacion', 'miCotizacion')->name('quotations.miCotizacion');
-    Route::get('/buscarCotizacion', 'buscarCotizacion')->name('quotations.search');
+    // Route::get('/buscarCotizacion', 'buscarCotizacion')->middleware('can:quotations.search')->name('quotations.search');
     Route::get('/verCotizacion/{quotation}/', 'mostrarQuotation')->name('quotations.seeQuotation');
 });
 Route::get('/buscarCotizaciones', function() {
     return view('quotations.searchQuotation');
-})->name('quotations.searchQuotation');
+})->middleware('can:quotations.searchQuotation')->name('quotations.searchQuotation');
 // Reserve
 Route::controller(ReserveController::class)->group(function () {
     Route::get('/reserva', 'create')->name('reserves.create');

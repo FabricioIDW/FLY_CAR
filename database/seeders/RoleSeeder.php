@@ -43,6 +43,7 @@ class RoleSeeder extends Seeder
 
         // Admin view
         Permission::create(['name' => 'admin.index'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.changeData'])->syncRoles([$admin]);
 
         // Offers
         Permission::create(['name' => 'offers.index'])->syncRoles([$admin]);
@@ -57,11 +58,12 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'payments.store'])->syncRoles([$seller, $admin, $customer]);
 
         // Quotations
-        // Permission::create(['name' => 'quotations.simularCotizacion'])->syncRoles([$seller, $customer]);
-        // Permission::create(['name' => 'quotations.cotizar'])->syncRoles([$seller, $customer]);
         Permission::create(['name' => 'quotations.generarCotizacion'])->syncRoles([$seller, $customer]);
+        Permission::create(['name' => 'quotations.generarCotizacionVendedor'])->syncRoles([$seller]);
         Permission::create(['name' => 'quotations.miCotizacion'])->syncRoles([$customer]);
         Permission::create(['name' => 'quotations.search'])->syncRoles([$seller]);
+        Permission::create(['name' => 'quotations.searchQuotation'])->syncRoles([$seller]);
+        Permission::create(['name' => 'quotations.seeQuotation'])->syncRoles([$seller]);
 
         // Reserve
         Permission::create(['name' => 'reserves.create'])->syncRoles([$customer, $seller]);
