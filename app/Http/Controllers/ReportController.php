@@ -55,6 +55,7 @@ class ReportController extends Controller
     }
     public function ventasNoConcretadas(Request $request)
     {
+        $title = "Ventas no concretadas";
         $startDate = $request->startDate;
         $endDate = $request->endDate;
         $sales = Sale::where('concretized', 0)->get();
@@ -63,30 +64,32 @@ class ReportController extends Controller
         foreach ($sales as $sale) {
             $vehicles = [];
             foreach ($sale->quotation->vehicles as $vehicle) {
-                $vehicles[] = [
-                    'ID' => $vehicle->id,
-                    'Marca' => $vehicle->vehicleModel->brand->name,
-                    'Modelo' => $vehicle->vehicleModel->name,
-                    'Chassis' => $vehicle->chassis,
-                    'Precio' => $vehicle->price,
-                ];
                 $accesories = [];
                 foreach ($vehicle->accessoriesQuotation as $accessorie) {
                     $accesories[] = [
                         'Nombre' => $accessorie->name,
                     ];
                 }
-                $vehicles['Accesorios'] = $accesories;
+                $vehicles[] = [
+                    'ID' => $vehicle->id,
+                    'Marca' => $vehicle->vehicleModel->brand->name,
+                    'Modelo' => $vehicle->vehicleModel->name,
+                    'Chassis' => $vehicle->chassis,
+                    'Precio' => $vehicle->price,
+                    'Accesorios' => $accesories,
+                ];
             }
             $reporte[] = [
                 'Venta' => $sale->id,
                 'Vendedor' => $sale->seller->name . ' ' . $sale->seller->lastName,
-                'Cotizacion' => $sale->quotation->id,
-                'Precio' => $sale->quotation->finalAmount,
+                'Comisión' => $sale->comission,
+                'Cotización' => $sale->quotation->id,
+                'Importe' => $sale->quotation->finalAmount,
                 'Vehiculos' => $vehicles,
             ];
         }
-        return $reporte;
+        // return $reporte;
+        return view('reports.ventas-no-concretadas', compact('reporte', 'title'));
     }
     public function accesoriosMasSolicitados(Request $request)
     {
