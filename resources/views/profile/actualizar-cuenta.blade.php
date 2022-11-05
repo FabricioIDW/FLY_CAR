@@ -64,43 +64,8 @@
                         </x-jet-button>
                     </div>
                 </form>
-            @else
-                <form action="{{ $route }}" method="POST">
-                    @csrf
-                    @method('put')
-                    <!-- Email -->
-                    <div class="col-span-6 sm:col-span-4">
-                        <x-jet-label for="email" value="{{ __('Email') }}" />
-                        <x-jet-input id="email" type="email" name="email" class="mt-1 block w-full"
-                            value="{{ Auth::user()->email }}" />
-                        <x-jet-input-error for="email" class="mt-2" />
-                    </div>
-                    {{-- Contraseña actual --}}
-                    <div class="col-span-6 sm:col-span-4">
-                        <x-jet-label for="current_password" value="{{ __('Contraseña actual') }}" />
-                        <x-jet-input id="current_password" name="current_password" type="password" class="mt-1 block w-full"  />
-                        <x-jet-input-error for="current_password" class="mt-2" />
-                    </div>
-                    {{-- Nueva contraseña --}}
-                    <div class="col-span-6 sm:col-span-4">
-                        <x-jet-label for="new_password" value="{{ __('Nueva contraseña') }}" />
-                        <x-jet-input id="new_password" name="new_password" type="password" class="mt-1 block w-full" />
-                        <x-jet-input-error for="new_password" class="mt-2" />
-                    </div>
-                    {{-- Confirmar nueva contraseña --}}
-                    <div class="col-span-6 sm:col-span-4">
-                        <x-jet-label for="new_password_confirmation" value="{{ __('Confirmar nueva contraseña') }}" />
-                        <x-jet-input id="new_password_confirmation" name="new_password_confirmation" type="password" class="mt-1 block w-full" />
-                        <x-jet-input-error for="new_password_confirmation" class="mt-2" />
-                    </div>
-                    <br>
-                    <div class="col-span-6 sm:col-span-4">
-                        <x-jet-button type="submit">
-                            {{ __('Guardar') }}
-                        </x-jet-button>
-                    </div>
-                </form>
             @endif
         </div>
+        @livewire('profile.update-password-form')
     </div>
 @endsection

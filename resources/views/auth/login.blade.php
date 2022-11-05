@@ -42,7 +42,7 @@
                         {{ __('¿Olvido su contraseña?') }}
                     </a>
                 @endif --}}
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('usersCustomer.createNew') }}">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('usersCustomer.index') }}">
                     {{ __('Crear cuenta') }}
                 </a>
                 <x-jet-button class="ml-4">
