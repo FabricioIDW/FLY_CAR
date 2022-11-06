@@ -67,6 +67,12 @@ class UserController extends Controller
     }
     public function store_existing_customer(StoreExistingCustomer $request)
     {
+        // TO DO se tiene que validar que el email no este registrado en un usuario
+        $request->validate([
+            'email' => 'unique:users'
+        ], [
+            'email.unique' => 'Este email ya se encuentra registrado',
+        ]);
         $user = $this->createUser($request->email, $request->password, 'Customer');
         $customer = Customer::where('dni', $request->dni)->first();
         $customer->user_id = $user->id;
