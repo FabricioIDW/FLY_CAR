@@ -54,6 +54,10 @@ Route::controller(UserController::class)->group(function () {
     Route::get('administracion', 'indexAdmin')->name('admin.index');
     Route::put('/perfil/actualizarAdmin', 'update_admin')->name('admin.changeData');
 });
+Route::controller(ReportController::class)->group(function()
+{
+    Route::get('/reportes', 'reports')->name('admin.reports');
+});
 
 // Offers
 Route::controller(OfferController::class)->group(function () {

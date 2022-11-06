@@ -8,6 +8,12 @@
             'can' => 'admin.index',
         ],
         [
+            'name' => 'Reportes',
+            'route' => route('admin.reports'),
+            'active' => request()->routeIs('admin.reports'),
+            'can' => 'admin.reports',
+        ],
+        [
             'name' => 'Crear cuenta vendedor',
             'route' => route('usersSeller.create'),
             'active' => request()->routeIs('usersSeller.create'),

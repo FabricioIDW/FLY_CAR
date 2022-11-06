@@ -11,6 +11,7 @@ class ReportController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('can:admin.reports')->only('reports');
         $this->middleware('can:reportes.vehiculosMasCotizados')->only('vehiculosMasCotizados');
         $this->middleware('can:reportes.ventasNoConcretadas')->only('ventasNoConcretadas');
         $this->middleware('can:reportes.accesoriosMasSolicitados')->only('accesoriosMasSolicitados');
@@ -18,6 +19,12 @@ class ReportController extends Controller
         $this->middleware('can:reportes.modelosMasVendidos')->only('modelosMasVendidos');
         $this->middleware('can:reportes.reporte')->only('reporte');
     }
+
+public function reports()
+{
+    return view('reports.reports');
+}
+
     public function reporte()
     {
         $startDate = '2022-10-21 00:00:00';

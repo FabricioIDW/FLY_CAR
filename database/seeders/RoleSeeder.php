@@ -44,6 +44,7 @@ class RoleSeeder extends Seeder
         // Admin view
         Permission::create(['name' => 'admin.index'])->syncRoles([$admin]);
         Permission::create(['name' => 'admin.changeData'])->syncRoles([$admin]);
+        Permission::create(['name' => 'admin.reports'])->syncRoles([$admin]);
 
         // Offers
         Permission::create(['name' => 'offers.index'])->syncRoles([$admin]);
