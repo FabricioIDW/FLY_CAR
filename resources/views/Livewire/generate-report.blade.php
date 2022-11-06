@@ -9,8 +9,8 @@
                 <option value="comisionesMensuales">Comisiones mensuales</option>
                 <option value="modelosMasVendidos">Modelos más vendidos</option>
                 <option value="accesoriosMasSolicitados">Accesorios más solicitados</option>
-                <option value="ventasNoConcretadas">Ventas no concretadas</option>
                 <option value="vehiculosMasCotizados">Vehículos más cotizados</option>
+                <option value="ventasNoConcretadas">Ventas no concretadas</option>
             </select>
         </div>
         <div class="flex space-x-4 mb-4">
@@ -23,51 +23,65 @@
                 <x-jet-input type="date" class="w-36" wire:model="endDate" />
             </div>
         </div>
+        {{-- @if ($enableBtns) --}}
+        <x-jet-button wire:click="generateReportExcel">Exportar a excel</x-jet-button>
+        <x-jet-button wire:click="generateReportPDF">Exportar a PDF</x-jet-button>
+        {{-- @else
+            <x-jet-button disabled>Exportar a excel</x-jet-button>
+            <x-jet-button disabled>Exportar a PDF</x-jet-button>
+        @endif --}}
 
-        <x-jet-button wire:click="generateReport">Generar reporte</x-jet-button>
-
-
-        @if ($report !== '' && $startDate !== '' && $endDate !== '')
-            @if (count($result) > 0)
-                <table class="min-w-max w-full table-auto">
-                    <thead>
-                        <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                            @php
-                                foreach ($result[0] as $key => $value) {
-                                    echo '<th class="py-3 px-6 text-left">' . $key . '</th>';
-                                }
-                            @endphp
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-600 text-sm font-light">
-                        @foreach ($result as $element)
-                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+        <div class="mt-4">
+            @if ($report !== '' && $startDate !== '' && $endDate !== '')
+                @if (count($result) > 0)
+                    <table class="min-w-max w-full table-auto">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 @php
-                                    foreach ($element as $key => $value) {
-                                        echo '<td class="py-3 px-6 text-left whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="mr-2">
-                                        <span class="font-medium">' .
-                                            $value .
-                                            '</span>
-                                    </div>
-                            </td>';
+                                    foreach ($result[0] as $key => $value) {
+                                        echo '<th class="py-3 px-6 text-left">' . $key . '</th>';
                                     }
                                 @endphp
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                {{-- Links --}}
-                <div class="mt-4">
-                    {{-- {{ $result->links() }} --}}
-                </div>
+                        </thead>
+                        <tbody class="text-gray-600 text-sm font-light">
+                            @foreach ($result as $element)
+                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                    @foreach ($element as $key => $value)
+                                        <td class="py-3 px-6 text-left whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="mr-2">
+                                                    <span class="font-medium">
+                                                        @if ($key !== 'Vehiculos')
+                                                            {{ $value }}
+                                                        @else
+                                                            <ul>
+                                                                @foreach ($value as $vehicle)
+                                                                    <li>
+                                                                        - {{ $vehicle['Marca'] }}
+                                                                        {{ $vehicle['Modelo'] }}
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
+                                                    </span>
+                                                </div>
+                                        </td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{-- Links --}}
+                    <div class="mt-4">
+                        {{-- {{ $result->links() }} --}}
+                    </div>
+                @else
+                    <p>No se encontraron resultados para este reporte con las fechas seleccionadas.</p>
+                @endif
             @else
-                <p>No se encontraron resultados para este reporte con las fechas seleccionadas.</p>
+                <p>Debe ingresar todos los datos.</p>
             @endif
-        @else
-            <p>Debe ingresar todos los datos.</p>
-        @endif
-
+        </div>
     </div>
 </div>

@@ -6,8 +6,6 @@
         $route = '';
         if (Auth::user()->customer || Auth::user()->seller) {
             $route = Auth::user()->customer ? route('usersCustomer.update') : route('usersSeller.update');
-        } else {
-            $route = route('admin.changeData');
         }
     @endphp
     <div>
@@ -50,13 +48,6 @@
                             <x-jet-input-error for="birthDate" class="mt-2" />
                         </div>
                     @endif
-                    <!-- Email -->
-                    <div class="col-span-6 sm:col-span-4">
-                        <x-jet-label for="email" value="{{ __('Email') }}" />
-                        <x-jet-input id="email" type="email" name="email" class="mt-1 block w-full"
-                            value="{{ Auth::user()->email }}" />
-                        <x-jet-input-error for="email" class="mt-2" />
-                    </div>
                     <br>
                     <div class="col-span-6 sm:col-span-4">
                         <x-jet-button type="submit">

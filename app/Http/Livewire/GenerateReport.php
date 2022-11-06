@@ -2,7 +2,8 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Report;
+use App\Actions\Report;
+use App\Exports\ReportExport;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -13,22 +14,38 @@ class GenerateReport extends Component
     public $report = '';
     public $startDate = '';
     public $endDate = '';
+    public $enableBtns = false;
+
+    public function generateReportExcel()
+    {
+        return (new ReportExport($this->report, $this->startDate, $this->endDate))->download();
+    }
+
+    public function generateReportPDF()
+    {
+        return (new ReportExport($this->report, $this->startDate, $this->endDate))->download($this->report . '_' . $this->startDate . '_' . $this->endDate . '.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
     public function render()
     {
         $result = [];
         if ($this->report != '' && $this->startDate != '' && $this->endDate != '') {
+            $this->enableBtns = true;
             switch ($this->report) {
                 case 'vehiculosMasCotizados':
-                    $result = $this->vehiculosMasCotizados();
+                    $result = Report::vehiculosMasCotizados($this->startDate, $this->endDate);
                     break;
                 case 'accesoriosMasSolicitados':
-                    $result = $this->accesoriosMasSolicitados();
+                    $result = Report::accesoriosMasSolicitados($this->startDate, $this->endDate);
                     break;
                 case 'comisionesMensuales':
-                    $result = $this->comisionesMensuales();
+                    $result = Report::comisionesMensuales($this->startDate, $this->endDate);
                     break;
                 case 'modelosMasVendidos':
-                    $result = $this->modelosMasVendidos();
+                    $result = Report::modelosMasVendidos($this->startDate, $this->endDate);
+                    break;
+                case 'ventasNoConcretadas':
+                    $result = Report::ventasNoConcretadas($this->startDate, $this->endDate);
                     break;
                 default:
                     $result = [];
@@ -36,57 +53,5 @@ class GenerateReport extends Component
             }
         }
         return view('livewire.generate-report', compact('result'));
-    }
-
-    public function vehiculosMasCotizados()
-    {
-        return DB::table('quotation_vehicle AS q_v')
-            ->join('quotations AS q', 'q_v.quotation_id', '=', 'q.id')
-            ->join('vehicles AS v', 'q_v.vehicle_id', '=', 'v.id')
-            ->join('vehicle_models AS v_m', 'v_m.id', '=', 'v.vehicle_model_id')
-            ->join('brands AS b', 'v_m.brand_id', '=', 'b.id')
-            ->select(['b.name AS Marca', 'v_m.name AS Modelo', DB::raw('COUNT(v_m.id) AS Cantidad')])
-            ->whereBetween(DB::raw('DATE(q.dateTimeGenerated)'), [$this->startDate, $this->endDate])
-            ->groupBy(['v_m.id', 'b.name', 'v_m.name'])
-            ->orderBy('Cantidad', 'DESC')
-            ->get();
-    }
-
-    public function accesoriosMasSolicitados()
-    {
-        return DB::table('accessory_quotation_vehicle AS a_q_v')
-            ->join('quotations AS q', 'a_q_v.quotation_id', '=', 'q.id')
-            ->join('accessories AS a', 'a_q_v.accessory_id', '=', 'a.id')
-            ->select(['a.name AS Accesorio', DB::raw('COUNT(a.id) AS Cantidad')])
-            ->whereBetween(DB::raw('DATE(q.dateTimeGenerated)'), [$this->startDate, $this->endDate])
-            ->groupBy(['a.name'])
-            ->orderBy('Cantidad', 'DESC')
-            ->get();
-    }
-
-    public function comisionesMensuales()
-    {
-        return DB::table('sales AS s')
-            ->join('sellers AS sl', 's.seller_id', '=', 'sl.id')
-            ->select([DB::raw("CONCAT(sl.name, ' ', sl.lastName) AS Vendedor"), 'sl.dni', DB::raw('SUM(s.comission) AS Comision'), DB::raw('COUNT(*) AS Ventas')])
-            ->whereBetween(DB::raw('DATE(s.dateTimeGenerated)'), [$this->startDate, $this->endDate])
-            ->where('s.concretized', '=', '1')
-            ->groupBy(['sl.id', 'Vendedor', 'sl.dni'])
-            ->orderBy('Comision', 'DESC')
-            ->get();
-    }
-
-    public function modelosMasVendidos()
-    {
-        return DB::table('sales AS s')
-            ->join('quotation_vehicle AS q_v', 'q_v.quotation_id', '=', 's.quotation_id')
-            ->join('vehicles AS v', 'q_v.vehicle_id', '=', 'v.id')
-            ->join('vehicle_models AS v_m', 'v_m.id', '=', 'v.vehicle_model_id')
-            ->join('brands AS b', 'v_m.brand_id', '=', 'b.id')
-            ->select(['b.name AS Marca', 'v_m.name AS Modelo', DB::raw('COUNT(v_m.id) AS Cantidad')])
-            ->whereBetween(DB::raw('DATE(s.dateTimeGenerated)'), [$this->startDate, $this->endDate])
-            ->groupBy(['v_m.id', 'b.name', 'v_m.name'])
-            ->orderBy('Cantidad', 'DESC')
-            ->get();
     }
 }
