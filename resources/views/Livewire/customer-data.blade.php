@@ -1,9 +1,9 @@
 <div>
     {{-- Do your work, then step back. --}}
 
-    <x-jet-danger-button wire:click="$set('open', true)">
+    <x-jet-button wire:click="$set('open', true)">
         Cargar datos del cliente
-    </x-jet-danger-button>
+    </x-jet-button>
 
     <x-jet-dialog-modal wire:model="open">
         <x-slot name="title">

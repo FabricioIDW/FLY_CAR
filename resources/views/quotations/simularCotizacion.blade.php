@@ -75,7 +75,8 @@
     </div>
     <br>
     {{-- Generar cotización --}}
-    <div class="capitalice col-span-3 lg:col-span-1 pt-4 pb-4 pr-0 flex justify-end">
+    {{-- capitalice col-span-3 lg:col-span-1 pt-4 pb-4 pr-0 flex justify-end --}}
+    <div class="col-span-6 sm:col-span-4 text-right ml-0">
         @if (Auth::user())
             @if (Auth::user()->customer || Auth::user()->seller)
                 @if (Auth::user()->seller)
