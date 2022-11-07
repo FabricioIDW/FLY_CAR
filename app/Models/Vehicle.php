@@ -9,6 +9,7 @@ class Vehicle extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $fillable = ['url'];
     // RELACIONES
     public function offer()
     {
@@ -38,15 +39,14 @@ class Vehicle extends Model
         $this->vehicleState = $state;
         $this->save();
     }
-    public static function getPriceEnd(Array $vehiculos)
+    public static function getPriceEnd(array $vehiculos)
     {
         $priceEnd = 0;
         foreach ($vehiculos as $vehiculo) {
-         
-                $priceEnd = $priceEnd + $vehiculo->getPrice();
 
-            }
-        
+            $priceEnd = $priceEnd + $vehiculo->getPrice();
+        }
+
         return $priceEnd;
     }
 }

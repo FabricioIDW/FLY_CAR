@@ -4,7 +4,9 @@
 
 @section('content')
     @livewire('show-vehicles')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <x-modal title="Eliminar Vehiculo" leftBtn="Eliminar" rightBtn="Cancelar" ref="vehiculos.baja" value="" id="idModal">
+        <p>¿Seguro que quiere dar de baja a este vehículo?</p>
+    </x-modal>
     <script>
         var openmodal = document.querySelectorAll('.modal-open')
         openmodal.forEach(element => {
@@ -16,7 +18,6 @@
                 modal.href = `eliminarVehiculo/${element.value}`;
             });
         });
-
         const overlay = document.querySelector('.modal-overlay')
         overlay.addEventListener('click', toggleModal)
 

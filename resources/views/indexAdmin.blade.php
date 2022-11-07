@@ -3,7 +3,7 @@
 @section('titleH1', 'Administrador')
 
 @section('content')
-    <div class="content">
+    <div class="content min-h-screen ">
 
         <div class="grid grid-cols-4">
             <div class="mx-auto grid grid-cols-1">

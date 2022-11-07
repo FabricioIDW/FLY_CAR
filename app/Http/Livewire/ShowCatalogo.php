@@ -18,6 +18,8 @@ class ShowCatalogo extends Component
             $query->where('vehicle_models.name', 'LIKE','%'.$this->search.'%')
             ->orWhere('brands.name', 'LIKE', '%' .$this->search. '%')
             ->orWhere('vehicles.year', 'LIKE', '%' .$this->search. '%');
+        })->where(function($query){
+            $query->where('vehicleState','=', 'availabled');
         })
         ->get();
         return view('livewire.show-catalogo', compact('vehiculos'));
