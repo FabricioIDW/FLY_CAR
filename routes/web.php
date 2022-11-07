@@ -80,6 +80,7 @@ Route::controller(QuotationController::class)->group(function () {
     Route::get('/miCotizacion', 'miCotizacion')->name('quotations.miCotizacion');
     // Route::get('/buscarCotizacion', 'buscarCotizacion')->middleware('can:quotations.search')->name('quotations.search');
     Route::get('/verCotizacion/{quotation}/', 'mostrarQuotation')->name('quotations.seeQuotation');
+    Route::post('/miCotizacion/{quotation}', 'generateQuotationPDF')->name('quotations.generatePDF');
 });
 Route::get('/buscarCotizaciones', function () {
     return view('quotations.searchQuotation');

@@ -42,6 +42,10 @@
                 </div>
             @endforeach
         </div>
+        <form action="{{ route('quotations.generatePDF', session('quotation')) }}" method="POST">
+            @csrf
+            <x-button-normal openBtn="Generar PDF" />
+        </form>
         <div
             class="grid justify-center md:grid-cols-{{ $cols }} lg:grid-cols-{{ $cols }} gap-2 lg:gap-2 my-1">
             <div>
