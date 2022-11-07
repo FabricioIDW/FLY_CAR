@@ -2,10 +2,22 @@
     $nav_links = [
         // Admin
         [
-            'name' => 'Administración',
+            'name' => 'Productos',
             'route' => route('admin.index'),
             'active' => request()->routeIs('admin.index'),
             'can' => 'admin.index',
+        ],
+        [
+            'name' => 'Ofertas',
+            'route' => route('offers.index'),
+            'active' => request()->routeIs('offers.*'),
+            'can' => 'offers.index',
+        ],
+        [
+            'name' => 'Reportes',
+            'route' => route('admin.reports'),
+            'active' => request()->routeIs('admin.reports'),
+            'can' => 'admin.reports',
         ],
         [
             'name' => 'Crear cuenta vendedor',

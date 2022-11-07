@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\QuotationExport;
 use App\Http\Livewire\QuotationSearch;
 use App\Models\Accessory;
 use App\Models\Customer;
@@ -50,13 +51,12 @@ class QuotationController extends Controller
         } else {
             session(['vehiculo1' => $vehiculo]);
         }
-        return view('quotations.simularCotizacion', compact('vehiculo'));
+        return view('quotations.vehiculoSeleccionado', compact('vehiculo'));
     }
 
     ///AGREGAR OTRO VEHICULO
     public function agregarOtroVehiculo(Request $request)
     {
-
         if ($request->input('btnAgregar') === 'Agregar otro Vehiculo') {
             if (session()->exists('vehiculo1')) {
                 session(['accesorio1' => $request->input('accesorios')]);
@@ -81,19 +81,18 @@ class QuotationController extends Controller
                     $colecAccesorios[$vehiculo->id] = $arr;
                 }
                 array_push($vehiculos, $vehiculo);
+                if (session()->exists('vehiculo2')) {
+                    $vehiculo2 = session('vehiculo2');
+                    $arr2 = $this->listarAccesorios($request->input('accesorios'));
+                    $colecAccesorios[$vehiculo2->id] = $arr2;
+                    //session(['accesorio2' =>  $request->input('accesorios')]);
+                    array_push($vehiculos, $vehiculo2);
+                }
             }
 
-
-            if (session()->exists('vehiculo2')) {
-                $vehiculo2 = session('vehiculo2');
-                $arr2 = $this->listarAccesorios($request->input('accesorios'));
-                $colecAccesorios[$vehiculo2->id] = $arr2;
-                //session(['accesorio2' =>  $request->input('accesorios')]);
-                array_push($vehiculos, $vehiculo2);
-            }
             session(['accesoriosSelec' =>  $colecAccesorios]);
             session(['vehiculosSelec' =>  $vehiculos]);
-            return view('quotations.cotizacion', compact('vehiculos', 'colecAccesorios'));
+            return view('quotations.simularCotizacion', compact('vehiculos', 'colecAccesorios'));
         }
     }
     //MI COTIZACION - GENERAR COTIZACION
@@ -143,19 +142,48 @@ class QuotationController extends Controller
             $vehiculos = session('vehiculosSelec');
             $colecAccesorios = session('accesoriosSelec');
         }
+
+        // $quotation->dateTimeExpiration = ExpirationDate::getExpiration((string)$quotation->dateTimeGenerated, 2); // TO DO arreglar esta línea
+        if (Auth::user()->customer->hasValidQuotation()) {
+            Auth::user()->customer->getQuotation()->setVehicles('availabled');
+            Auth::user()->customer->disableQuotation();
+        }
+        // $quotation = Quotation::find($quotation->id);
+        $quotation->finalAmount = $precioFinal;
+        $quotation->customer_id = Auth::user()->customer->id;
+        $quotation->save();
+        $reserve = new Reserve();
+        $reserve->amount = $reserve->calculateAmount($quotation->finalAmount);
+        $vehiculos = session('vehiculosSelec');
+        $colecAccesorios = session('accesoriosSelec');
+        session(['reserve' => $reserve]);
+        session(['quotation' => $quotation]);
+        // session()->forget('vehiculo1');
+        // session()->forget('vehiculo2');
+        session()->forget(['vehiculo1', 'vehiculo2', 'accesorio1', 'accesoriosSelec', 'vehiculosSelec']);
+        Alert::success('La cotización de genero correctamente.');
+       } else {
+           $quotation = session('quotation');
+           $reserve = session('reserve');
+           $vehiculos = session('vehiculosSelec');
+           $colecAccesorios = session('accesoriosSelec');
+       }
         return view('quotations.miCotizacion', compact('quotation', 'reserve', 'vehiculos', 'colecAccesorios'));
     }
 
-    public function generarCotizacionVendedor()
+    public function generarCotizacionVendedor() 
+
     {
         $quotation = $this->createQuotation();
-        $quotation->customer_id = session('new_customer_id');
+        $quotation->customer_id = session('customer_id');
         $quotation->save();
         Alert::success('La cotización de genero correctamente.');
         return view('quotations.mostrarCotizacion', compact('quotation'));
     }
 
-    private function createQuotation()
+
+    private function createQuotation() 
+
     {
         $quotation = Quotation::create();
         $precioFinal = 0;
@@ -235,5 +263,10 @@ class QuotationController extends Controller
             return $listaAccesorios;
         }
         return $listaAccesorios;
+    }
+    
+    public function generateQuotationPDF(Quotation $quotation)
+    {
+        return (new QuotationExport($quotation->id));
     }
 }

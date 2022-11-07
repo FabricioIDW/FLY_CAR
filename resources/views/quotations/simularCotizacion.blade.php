@@ -1,74 +1,116 @@
 @extends('layouts.plantilla')
-@section('title', 'Cotización')
+@section('title', 'Simular cotización')
 @section('titleH1', 'Simular cotización')
 
 @section('content')
-    <div class="py-8 ml-6 mr-6 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 shadow-lg">
-
-        <div class="bg-blue-200 shadow-lg col-span-2 md:col-span-3 lg:col-span-3 row-span-2 flex-none relative rounded-lg">
-            <img class="shadow-lg absolute inset-0 lg:w-full lg:h-full object-cover rounded-lg" src="{{ $vehiculo->image }}"
-                alt="{{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}">
-        </div>
-        <div class="bg-black-400 col-span-1 lg:col-span-2 row-span-2 rounded-b-lg">
-            <div class="pb-8 w-full flex-none mt-2 order-1 text-3xl font-bold text-blue-700">
-                {{ $vehiculo->vehicleModel->brand->name . ' ' . $vehiculo->vehicleModel->name }}
-            </div>
-            <p class="">
-                <span class="text-xl font-bold">Año: </span>{{ $vehiculo->year }} <br>
-                <span class="text-xl font-bold">Marca: </span>{{ $vehiculo->vehicleModel->brand->name }} <br>
-                <span class="text-xl font-bold">Modelo: </span>{{ $vehiculo->vehicleModel->name }} <br>
-                <span class="text-xl font-bold">Descripcion: </span>{{ $vehiculo->description }} <br>
-            </p>
-            <div class="w-full flex-none mt-2 order-1 text-2xl font-bold text-green-700">
-                Precio $ {{ round($vehiculo->getPrice(), 2) }}
-            </div>
-            <div class="w-full flex-none mt-2 order-1 text-sm font-bold text-red-600">
-                @if (is_null($vehiculo->offer))
-                    <span class="text-green-700">Actualmente no posee ninguna oferta</span>
-                @else
-                    Actualmente posee una oferta del {{ $vehiculo->offer->discount }} %
-                @endif
-
-            </div>
-        </div>
-        <form class="col-span-5 row-span-3  flex-auto p-6" action="{{ route('quotations.cotizar') }}" method="POST">
-            @csrf
-            <div class="col-span-3 row-span-3 pt-8 flex-auto p-6 rounded-b-lg hover:text-black">
-                <div class="flex flex-wrap">
-                    <h1 class="flex-auto font-medium text-slate-900">
-                        Accesorios disponibles para este vehículo:
-                    </h1>
-                </div>
-                <div class="flex items-baseline mt-2 mb-2  border-b border-slate-200 shadow-lg">
-                    <div class="space-x-2 flex text-sm font-bold">
-                        @foreach ($vehiculo->vehicleModel->accessories as $unAccesorio)
-                            <div class="text-blue-700 ">
-                                <input class="cursor-pointer" name="accesorios[]" type="checkbox"
-                                    value="{{ $unAccesorio->id }}" />
-                                <label id='{{ $unAccesorio->id }}' for="{{ $unAccesorio->id }}" class="mx-2 ">
-                                    {{ $unAccesorio->name }} Precio: <span class=" text-gray-500 ml-4 font-semibold">$
-                                        {{ round($unAccesorio->getPrice($unAccesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price)), 2) }}</span>
-                                </label>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-            <div class="col-span-5 row-span-3 flex justify-end mb-5 text-sm font-medium rounded-bl-lg ">
-                <div class="flex justify-end ">
-                    @if (session()->exists('vehiculo2'))
-                        <input class="cursor-pointer mr-8 h-10 px-6 font-semibold rounded-full bg-red-600 text-white"
-                            type="submit" name="btnAgregar" value="Agregar otro Vehiculo" disabled>
+    @php
+        $precioFinal = 0;
+        $cols = count($vehiculos);
+    @endphp
+    <div class="grid justify-center md:grid-cols-{{ $cols }} lg:grid-cols-{{ $cols }} gap-2 lg:gap-2 my-1">
+        @foreach ($vehiculos as $vehiculo)
+            <!-- Card 1 -->
+            <div class="bg-white rounded-lg border shadow-md max-w-xs md:max-w-none overflow-hidden">
+                <img class="h-56 lg:h-60 w-full object-contain " src="{{ $vehiculo->image }}"
+                    alt="{{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}" />
+                <div class="p-3">
+                    {{-- <span class="text-sm text-primary">November 19, 2022</span> --}}
+                    <h3 class="font-semibold text-xl leading-6 text-gray-700 my-2">
+                        {{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}
+                    </h3>
+                    <p class="paragraph-normal text-gray-600">
+                        Año: {{ $vehiculo->year }}
+                    </p>
+                    <p class="paragraph-normal text-gray-600">
+                        Número de chasis: {{ $vehiculo->chassis }}
+                    </p>
+                    <p class="paragraph-normal text-gray-600">
+                        Precio: ${{ round($vehiculo->price, 2) }}
+                    </p>
+                    @php $precioFinal += $vehiculo->getPrice(); @endphp
+                    @if (is_null($vehiculo->offer))
+                        <p class="paragraph-normal text-red-600">
+                            Este vehículo no posee oferta
+                        </p>
                     @else
-                        <input
-                            class="cursor-pointer mr-8 h-10 px-6 font-semibold rounded-full bg-blue-600 text-white hover:bg-opacity-40"
-                            type="submit" name="btnAgregar" value="Agregar otro Vehiculo">
+                        <p class="paragraph-normal text-red-600">
+                            Actualmente posee una oferta del: {{ $vehiculo->offer->discount }}%
+                        </p>
+                        <p class="paragraph-normal text-red-600">
+                            Precio del vehículo con oferta aplicada: ${{ round($vehiculo->getPrice(), 2) }}
+                        </p>
                     @endif
-                    <input
-                        class="cursor-pointer p-auto mr-4 h-10 px-6 font-semibold rounded-full bg-blue-600 text-white hover:bg-opacity-40"
-                        type="submit" name="btnSimular" value="Simular Cotizacion">
-        </form>
+                    </p>
+                    <h3 class="font-semibold text-xl leading-6 text-gray-700 my-2">
+                        Accesorios
+                    </h3>
+                    <p class="paragraph-normal text-gray-600">
+                        @php
+                            $precioFinalAccesorio = 0;
+                        @endphp
+                        @if (!empty($colecAccesorios[$vehiculo->id]))
+                            <ul>
+                                @foreach ($colecAccesorios[$vehiculo->id] as $accesorio)
+                                    <li class="text-sm my-1 font-bold text-left">
+                                        {{ $accesorio->name }}
+                                        {{-- TO DO esto esta mal, muestra otro precio --}}
+                                        ${{ round($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price), 2) }}
+                                    </li>
+                                    @php
+                                        $precioFinalAccesorio += $accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price);
+                                    @endphp
+                                @endforeach
+                            </ul>
+                        @endif
+                    </p>
+                    @php
+                        $precioFinal += $precioFinalAccesorio;
+                    @endphp
+                </div>
+            </div>
+        @endforeach
     </div>
+    <div class="pt-4 mx-4 col-span-4 font-extrabold text-2xl text-left text-green-700">
+        <span class="float-right">Importe total: ${{ round($precioFinal, 2) }} </span></p>
     </div>
+    <br>
+    {{-- Generar cotización --}}
+    <div class="capitalice col-span-3 lg:col-span-1 pt-4 pb-4 pr-0 flex justify-end">
+        @if (Auth::user())
+            @if (Auth::user()->customer || Auth::user()->seller)
+                @if (Auth::user()->seller)
+                    @livewire('customer-data')
+                @else
+                    @if (Auth::user()->customer->hasValidQuotation())
+                        @if (Auth::user()->customer->getQuotation()->reserve)
+                            <p class="paragraph-normal text-red-600">
+                                Usted tiene una cotización con una reserva válida. Para poder generar otra cotización debe
+                                finalizar
+                                el proceso de compra de manera presencial.
+                            </p>
+                        @else
+                            <x-popup openBtn="Generar cotización" title="Usted tiene una cotización vigente"
+                                leftBtn="Continuar operación" rightBtn="Cancelar operación"
+                                ref="quotations.generarCotizacion" value="">
+                                <p>
+                                    ¿Desea continuar con la operacion?
+                                </p>
+                            </x-popup>
+                        @endif
+                    @else
+                        <a href="{{ route('quotations.generarCotizacion') }}">
+                            <x-button-normal openBtn="Generar cotización">
+                            </x-button-normal>
+                        </a>
+                    @endif
+                @endif
+            @endif
+        @else
+            <span class="float-right">
+                <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">
+                    Para generar la cotización debe iniciar sesión
+                </a>
+            </span>
+        @endif
     </div>
 @endsection
