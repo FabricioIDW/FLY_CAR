@@ -28,12 +28,12 @@
                         <p class="paragraph-normal text-gray-600">
                             Precio: ${{ round($vehiculo->price, 2) }}
                         </p>
-                        @if (count($vehiculo->accessoriesQuotation) > 0)
+                        @if (count($vehiculo->getAccessoriesFromQuotation(session('quotation')->id)) > 0)
                             <p class="paragraph-normal text-gray-600">
                                 Accesorios:
                             <ul>
-                                @foreach ($vehiculo->accessoriesQuotation as $accessory)
-                                    <li>{{ $accessory->name }}</li>
+                                @foreach ($vehiculo->getAccessoriesFromQuotation(session('quotation')->id) as $accessory)
+                                    <li>{{ $accessory['name'] }} Precio: {{ $accessory['price'] }}</li>
                                 @endforeach
                             </ul>
                         @endif

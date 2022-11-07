@@ -51,13 +51,12 @@ class QuotationController extends Controller
         } else {
             session(['vehiculo1' => $vehiculo]);
         }
-        return view('quotations.simularCotizacion', compact('vehiculo'));
+        return view('quotations.vehiculoSeleccionado', compact('vehiculo'));
     }
 
     ///AGREGAR OTRO VEHICULO
     public function agregarOtroVehiculo(Request $request)
     {
-
         if ($request->input('btnAgregar') === 'Agregar otro Vehiculo') {
             if (session()->exists('vehiculo1')) {
                 session(['accesorio1' => $request->input('accesorios')]);
@@ -94,7 +93,7 @@ class QuotationController extends Controller
             }
             session(['accesoriosSelec' =>  $colecAccesorios]);
             session(['vehiculosSelec' =>  $vehiculos]);
-            return view('quotations.cotizacion', compact('vehiculos', 'colecAccesorios'));
+            return view('quotations.simularCotizacion', compact('vehiculos', 'colecAccesorios'));
         }
     }
     //MI COTIZACION - GENERAR COTIZACION
@@ -135,8 +134,9 @@ class QuotationController extends Controller
             $colecAccesorios = session('accesoriosSelec');
             session(['reserve' => $reserve]);
             session(['quotation' => $quotation]);
-            session()->forget('vehiculo1');
-            session()->forget('vehiculo2');
+            // session()->forget('vehiculo1');
+            // session()->forget('vehiculo2');
+            session()->forget(['vehiculo1', 'vehiculo2', 'accesorio1', 'accesoriosSelec', 'vehiculosSelec']);
             Alert::success('La cotización de genero correctamente.');
         } else {
             $quotation = session('quotation');
