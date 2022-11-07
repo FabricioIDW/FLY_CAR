@@ -13,7 +13,8 @@ class StoreVehicle extends FormRequest
      */
     public function authorize()
     {
-        return true; //TO DO Cambiar por falso cuando esten hechas las autorizaciones
+        return true;
+        //TO DO Cambiar por falso cuando esten hechas las autorizaciones
     }
 
     /**
@@ -26,29 +27,29 @@ class StoreVehicle extends FormRequest
         return [
             'chassis' => 'required|min:17|max:17|unique',
             'price' => 'required',
-            'description' => 'required',
-            'year' => 'required',
+            'descripcionProducto' => 'required',
+            'anioV' => 'required',
         ];
     }
     public function attributes()
     {
         return [
-            'chassis' => 'número de chasis',
-            'price' => 'precio',
-            'description' => 'descripción',
-            'year' => 'año',
+            "descripcionProducto" => "required",
+            "price" => "required",
+            "anioV" => "required",
+            "chassis" => "required|unique:vehicles,chassis," . $this->input('chassis'),
         ];
     }
     public function messages()
     {
         return [
             'chassis.required' => 'El número de chasis del vehículo es obligatorio',
-            'chassis.min' => 'El número de chasis de ser de 17 caracteres',
-            'chassis.max' => 'El número de chasis de ser de 17 caracteres',
-            'description' => 'descripción',
+            // 'chassis.min' => 'El número de chasis de ser de 17 caracteres',
+            // 'chassis.max' => 'El número de chasis de ser de 17 caracteres',
+            'chassis.unique' => 'El numero de chassis ya se encuentra en el sistema',
             'price.required' => 'El precio del vehículo es obligatorio',
-            'description.required' => 'La descripción del vehículo es obligatoria',
-            'year.required' => 'El año del vehículo es obligatorio',
+            'descripcionProducto.required' => 'La descripción del vehículo es obligatoria',
+            'anioV.required' => 'El año del vehículo es obligatorio',
         ];
     }
 }

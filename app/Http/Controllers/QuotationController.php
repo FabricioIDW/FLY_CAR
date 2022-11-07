@@ -99,25 +99,50 @@ class QuotationController extends Controller
 
     public function generarCotizacion()
     {
-       if (!session()->exists('quotation')) {
-        $quotation = Quotation::create();
-        // $quotation = Quotation::find($quotation->id);
-        $precioFinal = 0;
-        if (session()->exists('vehiculosSelec')) {
-            foreach (session('vehiculosSelec') as $vehiculo) {
-                if (session()->exists('accesoriosSelec')) {
-                    $accesoriosSelec = session('accesoriosSelec');
-                    foreach ($accesoriosSelec[$vehiculo->id] as $accesorio) {
-                        $precioFinal += $accesorio->getPrice($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price));
-                        $accesorio->discountStock();
-                        $vehiculo->accessoriesQuotation()->attach($accesorio->id, ['quotation_id' => $quotation->id]);
+        if (!session()->exists('quotation')) {
+            $quotation = Quotation::create();
+            // $quotation = Quotation::find($quotation->id);
+            $precioFinal = 0;
+            if (session()->exists('vehiculosSelec')) {
+                foreach (session('vehiculosSelec') as $vehiculo) {
+                    if (session()->exists('accesoriosSelec')) {
+                        $accesoriosSelec = session('accesoriosSelec');
+                        foreach ($accesoriosSelec[$vehiculo->id] as $accesorio) {
+                            $precioFinal += $accesorio->getPrice($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price));
+                            $accesorio->discountStock();
+                            $vehiculo->accessoriesQuotation()->attach($accesorio->id, ['quotation_id' => $quotation->id]);
+                        }
                     }
+                    $vehiculo->setState('reserved');
+                    $precioFinal += $vehiculo->getPrice();
+                    $quotation->vehicles()->attach($vehiculo->id);
                 }
-                $vehiculo->setState('reserved');
-                $precioFinal += $vehiculo->getPrice();
-                $quotation->vehicles()->attach($vehiculo->id);
             }
+            // $quotation->dateTimeExpiration = ExpirationDate::getExpiration((string)$quotation->dateTimeGenerated, 2); // TO DO arreglar esta línea
+            if (Auth::user()->customer->hasValidQuotation()) {
+                Auth::user()->customer->getQuotation()->setVehicles('availabled');
+                Auth::user()->customer->disableQuotation();
+            }
+            // $quotation = Quotation::find($quotation->id);
+            $quotation->finalAmount = $precioFinal;
+            $quotation->customer_id = Auth::user()->customer->id;
+            $quotation->save();
+            $reserve = new Reserve();
+            $reserve->amount = $reserve->calculateAmount($quotation->finalAmount);
+            $vehiculos = session('vehiculosSelec');
+            $colecAccesorios = session('accesoriosSelec');
+            session(['reserve' => $reserve]);
+            session(['quotation' => $quotation]);
+            session()->forget('vehiculo1');
+            session()->forget('vehiculo2');
+            Alert::success('La cotización se generó correctamente.');
+        } else {
+            $quotation = session('quotation');
+            $reserve = session('reserve');
+            $vehiculos = session('vehiculosSelec');
+            $colecAccesorios = session('accesoriosSelec');
         }
+
         // $quotation->dateTimeExpiration = ExpirationDate::getExpiration((string)$quotation->dateTimeGenerated, 2); // TO DO arreglar esta línea
         if (Auth::user()->customer->hasValidQuotation()) {
             Auth::user()->customer->getQuotation()->setVehicles('availabled');
@@ -147,6 +172,7 @@ class QuotationController extends Controller
     }
 
     public function generarCotizacionVendedor() 
+
     {
         $quotation = $this->createQuotation();
         $quotation->customer_id = session('customer_id');
@@ -155,7 +181,9 @@ class QuotationController extends Controller
         return view('quotations.mostrarCotizacion', compact('quotation'));
     }
 
+
     private function createQuotation() 
+
     {
         $quotation = Quotation::create();
         $precioFinal = 0;

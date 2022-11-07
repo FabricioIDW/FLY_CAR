@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAccessory;
+use App\Http\Requests\StoreVehicle;
 use App\Models\Accessory;
 use App\Models\Brand;
 use App\Models\Vehicle;
@@ -25,7 +27,11 @@ class ProductController extends Controller
         $this->middleware('can:accesorios.baja')->only('destroyAccesory');
         $this->middleware('can:productos.modelosPorMarca')->only('modelsBrand');
         $this->middleware('can:productos.create')->only('create');
-        $this->middleware('can:productos.store')->only('store');
+        // $this->middleware('can:accesorios.store')->only('storeAccesory');
+        // $this->middleware('can:vehiculos.store')->only('storeVehicle');
+        $this->middleware('can:vehiculos.store')->only('storeVehicle');
+        $this->middleware('can:accesorios.store')->only('storeAccessory');
+
         // $this->middleware('can:productos.destroy')->only('destroy_vehicle');
 
     }
@@ -59,46 +65,59 @@ class ProductController extends Controller
         return response($output);
     }
 
-    public function store(Request $request)
+    public function storeAccessory(Request $request)
     {
-        if ($request->tProducto == 0) { // Producto tipo vehiculos
+        $request->validate([
+            "descripcionProducto" => "required",
+            "stock" => "required|min:1",
+            "name" => "required",
+        ]);
 
-            return Storage::put('vehiculos', $request->file('file'));
-            
-            if($request->file('file')){
-                $url = Storage::put('vehiculos', $request->file('file'));
-
+        $accesorio = Accessory::create([
+            'description' => $request->descripcionProducto,
+            'enabled' => $request->selectEstado,
+            'name' => $request->nombreA,
+            'stock' => $request->stock,
+        ]);
+        //Obtengo el precio de los modelos seleccionados
+        $preciosSeparados = explode('|', $request->modelos);
+        foreach ($preciosSeparados as $precioSep) {
+            if ($precioSep != "") {
+                $modelo = explode('/', $precioSep);
+                $m = $modelo[0]; //id del modelo
+                $p = $modelo[1]; //precio del accesorio para ese modelo
+                $accesorio->models()->attach($m, ['price' => $p]);
             }
-            // $vehiculo = new Vehicle;
-            // $vehiculo->price = $request->precioP;
-            // $vehiculo->description = $request->descripcionProducto;
-            // $vehiculo->enabled = $request->selectEstado;
-            // $vehiculo->vehicle_model_id = $request->modeloV;
-            // $vehiculo->year = $request->anioV;
-            // $vehiculo->chassis = $request->chasisV;
-            // $vehiculo->image = $request->file;
-            // $vehiculo->save();
-            // return redirect()->route('vehiculos.buscar');
-        } else { //Producto tipo Accesorio
-            $accesorio = Accessory::create([
-                'description' => $request->descripcionProducto,
-                'enabled' => $request->selectEstado,
-                'name' => $request->nombreA,
-                'stock' => $request->stock,
-                'image' => "img",
-            ]);
-            //Obtengo el precio de los modelos seleccionados
-            $preciosSeparados = explode('|', $request->modelos);
-            foreach ($preciosSeparados as $precioSep) {
-                if ($precioSep != "") {
-                    $modelo = explode('/', $precioSep);
-                    $m = $modelo[0]; //id del modelo
-                    $p = $modelo[1]; //precio del accesorio para ese modelo
-                    $accesorio->models()->attach($m, ['price' => $p]);
-                }
-            }
-            return redirect()->route('accesorios.buscar');
         }
+        return redirect()->route('accesorios.buscar');
+    }
+
+    public function storeVehicle(Request $request)
+    {
+        $request->validate([
+            "descripcionProducto" => "required",
+            "price" => "required",
+            "anioV" => "required",
+            "chassis" => "required|unique:vehicles|min:17|max:17",
+            "file" => "image",
+            "marcasVehiculos" => "required|not_in:0"
+        ]);
+        if ($request->file('file')) {
+            $imagen = $request->file('file')->store('public/imgVehiculos');
+            $url = Storage::url($imagen);
+        } else {
+            $url = "https://elceo.com/wp-content/uploads/2019/02/coches.jpg";
+        }
+        $vehiculo = new Vehicle;
+        $vehiculo->price = $request->price;
+        $vehiculo->description = $request->descripcionProducto;
+        $vehiculo->enabled = $request->selectEstado;
+        $vehiculo->vehicle_model_id = $request->modeloV;
+        $vehiculo->year = $request->anioV;
+        $vehiculo->chassis = $request->chassis;
+        $vehiculo->image = $url;
+        $vehiculo->save();
+        return redirect()->route('vehiculos.buscar');
     }
 
     public function editVehicle(Vehicle $vehiculo)
@@ -115,14 +134,15 @@ class ProductController extends Controller
 
     public function updateVehicle(Request $request, Vehicle $vehiculo)
     {
-        $img = $vehiculo->image;
-        if ($request->imgVehiculo) {
-            $vehiculo->image = $request->imgVehiculo;
-        }else{
-            $vehiculo->image = $img;
+        if ($request->file('file')) {
+            $imagen = $request->file('file')->store('public/imgVehiculos');
+            $url = Storage::url($imagen);
+        } else {
+            $url = $vehiculo->image;
         }
+        $vehiculo->image = $url;
         $vehiculo->chassis = $request->chassis;
-        $vehiculo->price = $request->precioP;
+        $vehiculo->price = $request->price;
         $vehiculo->description = $request->descripcionProducto;
         $vehiculo->enabled = $request->selectEstado;
         $vehiculo->vehicle_model_id = $request->modeloV;
@@ -130,14 +150,6 @@ class ProductController extends Controller
 
         $vehiculo->save();
         return redirect()->route('vehiculos.buscar');
-
-        //     $file = $_FILES['file'][''.$vehiculo->image.''];
-
-        //     if ($file != '') {
-        //         move_uploaded_file($_FILES['file']['tmp_name'], '/image/' . $file);
-        //     } else {
-        //         $file = $oldfile;
-        //     }
     }
 
     public function updateAccesory(Request $request, Accessory $accesorio)
@@ -166,18 +178,17 @@ class ProductController extends Controller
         return redirect()->view('products.editAccesory');
     }
 
-    public function destroyVehicle(Vehicle $vehiculo)
+    public function destroyVehicle(Vehicle $vehicle)
     {
-        $vehiculo->update([
-            'removed' => true,
-        ]);
+
+        $vehicle->removed = true;
+        $vehicle->save();
         return redirect()->route('vehiculos.buscar');
     }
     public function destroyAccesory(Accessory $accesorio)
     {
-        $accesorio->update([
-            'removed' => true,
-        ]);
+        $accesorio->removed = true;
+        $accesorio->save();
         return redirect()->route('accesorios.buscar');
     }
     public function catalogo()

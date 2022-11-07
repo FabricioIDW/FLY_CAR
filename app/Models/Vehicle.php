@@ -10,6 +10,7 @@ class Vehicle extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $fillable = ['url'];
     // RELACIONES
     public function offer()
     {

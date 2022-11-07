@@ -3,7 +3,7 @@
     <section class="min-h-screen body-font text-gray-600 ">
         <div class="px-6 py-4 flex item-center">
             <x-jet-input class="flex-1 mr-4" type="text" wire:model="search"
-                placeholder="Busque un vehiculo por marca, modelo o año." />
+                placeholder="Busque un vehículo por marca, modelo o año." />
             {{-- BUSCADOR --}}
         </div>
         <div class="scroll-container grid sm:grid-cols-1 md:grid-cols-3">

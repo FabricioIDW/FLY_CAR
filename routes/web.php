@@ -36,17 +36,19 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('productos/buscarVehiculos', 'indexVehiculos')->name('vehiculos.buscar');
     Route::get('editarVehiculo/{vehiculo}', 'editVehicle')->name('vehiculos.editar');
     Route::put('vehiculo/{vehiculo}', 'updateVehicle')->name('vehiculos.actualizar');
-    Route::get('productos/eliminarVehiculo/{vehiculo}', 'destroyVehicle')->name('vehiculos.baja');
+    Route::get('productos/eliminarVehiculo/{vehicle}', 'destroyVehicle')->name('vehiculos.baja');
+    Route::post('vehiculos/store', 'storeVehicle')->name('vehiculos.store');
     // Accessories
     Route::get('productos/buscarAccesorios', 'indexAccesorios')->name('accesorios.buscar');
     Route::get('editarAccesorio/{accesorio}', 'editAccesory')->name('accesorios.editar');
     Route::put('accesorio/{accesorio}', 'updateAccesory')->name('accesorios.actualizar');
     Route::get('productos/eliminarAccesorio/{accesorio}', 'destroyAccesory')->name('accesorios.baja');
+    Route::post('accesorios/store', 'storeAccessory')->name('accesorios.store');
     // Models
     Route::get('modelsByBrand', 'modelsBrand')->name('productos.modelosPorMarca');
     // Products
     Route::get('productos/crear', 'create')->name('productos.create');
-    Route::post('productos', 'store')->name('productos.store');
+    // Route::post('productos', 'store')->name('productos.store');
     Route::get('productos/buscar/productos/{id}', 'destroy_vehicle')->name('productos.destroy');
 });
 // Vista admin

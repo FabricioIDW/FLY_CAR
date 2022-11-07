@@ -10,6 +10,7 @@ class ShowCatalogo extends Component
     public $search;
     public function render()
     {
+
         $vehiculos = Vehicle::select(
             'vehicles.id',
             'vehicles.chassis',
@@ -29,6 +30,7 @@ class ShowCatalogo extends Component
                     ->orWhere('vehicles.year', 'LIKE', '%' . $this->search . '%');
             })
             ->get();
+
         return view('livewire.show-catalogo', compact('vehiculos'));
     }
 }

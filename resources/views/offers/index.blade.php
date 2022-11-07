@@ -5,14 +5,14 @@
     <!-- component -->
     @livewire('show-offers', ['title' => 'Título de prueba'])
     <div
-    class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
-    <div class="w-full lg:w-5/6">
-            </div>
-            <x-modal  title="Eliminar oferta" leftBtn="Eliminar" rightBtn="Cancelar" ref="offers.destroy"
-                value="" id="idModal">
-                <p>¿Está seguro de eliminar esta oferta?</p>
-            </x-modal>
+        class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
+        <div class="w-full lg:w-5/6">
         </div>
+        <x-modal title="Eliminar oferta" leftBtn="Eliminar" rightBtn="Cancelar" ref="offers.destroy" value=""
+            id="idModal">
+            <p>¿Está seguro de eliminar esta oferta?</p>
+        </x-modal>
+    </div>
     </div>
     </div>
     <script>

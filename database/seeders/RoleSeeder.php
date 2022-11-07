@@ -26,7 +26,6 @@ class RoleSeeder extends Seeder
         // Permission::create(['name' => 'productos.buscar'])->syncRoles([$admin]);
         Permission::create(['name' => 'productos.create'])->syncRoles([$admin]);
         Permission::create(['name' => 'productos.destroy'])->syncRoles([$admin]);
-        Permission::create(['name' => 'productos.store'])->syncRoles([$admin]); // Agregar
         Permission::create(['name' => 'productos_vehiculos.destroy'])->syncRoles([$admin]);
         Permission::create(['name' => 'productos_accesorio.destroy'])->syncRoles([$admin]);
         Permission::create(['name' => 'productos.buscarVehiculos'])->syncRoles([$admin]);
@@ -36,10 +35,14 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'vehiculos.editar'])->syncRoles([$admin]);
         Permission::create(['name' => 'vehiculos.actualizar'])->syncRoles([$admin]);
         Permission::create(['name' => 'vehiculos.baja'])->syncRoles([$admin]);
+        // Permission::create(['name' => 'vehiculos.store'])->syncRoles([$admin]); // Agregar
         Permission::create(['name' => 'accesorios.buscar'])->syncRoles([$admin]);
         Permission::create(['name' => 'accesorios.editar'])->syncRoles([$admin]);
         Permission::create(['name' => 'accesorios.actualizar'])->syncRoles([$admin]);
         Permission::create(['name' => 'accesorios.baja'])->syncRoles([$admin]);
+        // Permission::create(['name' => 'accesorios.store'])->syncRoles([$admin]); // Agregar
+        Permission::create(['name' => 'vehiculos.store'])->syncRoles([$admin]);
+        Permission::create(['name' => 'accesorios.store'])->syncRoles([$admin]);
 
         // Admin view
         Permission::create(['name' => 'admin.index'])->syncRoles([$admin]);
