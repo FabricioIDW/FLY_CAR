@@ -34,17 +34,23 @@ class CustomerData extends Component
     public function save()
     {
         $this->validate();
-        $customer = Customer::where('dni', $this->dni)->first();
+        $customer = Customer::where('dni', $this->dni)->where('email', $this->email)->first();
         if ($customer) {
             if ($customer->hasValidQuotation()) {
                 if ($customer->getQuotation()->reserve) {
-                    // $this->emit('alert', 'El cliente posee una cotización con una reserva activa.');
-                    // Alert::error('No se puede generar la cotización', 'El cliente ' . $customer->name . ' ' . $customer->lastName . ' posee una cotización con una reserva activa.');
                     $this->emit('errorAlert', 'El cliente posee una cotización con una reserva activa.');
                 }
+                // TO DO Probar
+                $customer->getQuotation()->setVehicles('availabled');
+                $customer->disableQuotation();
+                session(['customer_id' => $customer->id]);
+                redirect()->to('generarCotizacionVendedor');
             }
-            // $this->emit('alert', 'El cliente se encuentra registrado');
         } else {
+            $this->validate([
+                'dni' => 'unique:customers',
+                'email' => 'unique:customers',
+            ]);
             $customer = Customer::create([
                 'dni' => $this->dni,
                 'name' => $this->name,
@@ -53,12 +59,9 @@ class CustomerData extends Component
                 'address' => $this->address,
                 'email' => $this->email,
             ]);
-            session(['new_customer_id' => $customer->id]);
+            session(['customer_id' => $customer->id]);
             redirect()->to('generarCotizacionVendedor');
         }
         $this->reset(['open', 'dni', 'name', 'lastName', 'birthDate', 'address', 'email']);
-        // $this->emit('render'); //Emite a todos los componentes que oyen el evento render
-        // $this->emitTo('show-post', 'render');
-        // $this->emit('alert', 'El cliente se encuentra registrado');
     }
 }

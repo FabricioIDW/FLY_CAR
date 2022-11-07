@@ -52,7 +52,9 @@ Route::controller(ProductController::class)->group(function () {
 // Vista admin
 Route::controller(UserController::class)->group(function () {
     Route::get('administracion', 'indexAdmin')->name('admin.index');
-    Route::put('/perfil/actualizarAdmin', 'update_admin')->name('admin.changeData');
+});
+Route::controller(ReportController::class)->group(function () {
+    Route::get('/reportes', 'reports')->name('admin.reports');
 });
 
 // Offers
@@ -78,8 +80,9 @@ Route::controller(QuotationController::class)->group(function () {
     Route::get('/miCotizacion', 'miCotizacion')->name('quotations.miCotizacion');
     // Route::get('/buscarCotizacion', 'buscarCotizacion')->middleware('can:quotations.search')->name('quotations.search');
     Route::get('/verCotizacion/{quotation}/', 'mostrarQuotation')->name('quotations.seeQuotation');
+    Route::post('/miCotizacion/{quotation}', 'generateQuotationPDF')->name('quotations.generatePDF');
 });
-Route::get('/buscarCotizaciones', function() {
+Route::get('/buscarCotizaciones', function () {
     return view('quotations.searchQuotation');
 })->middleware('can:quotations.searchQuotation')->name('quotations.searchQuotation');
 // Reserve
@@ -105,27 +108,3 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/crearCuenta/vendedor', 'store_seller')->name('usersSeller.store');
     Route::put('/perfil/actualizarVendedor', 'update_seller')->name('usersSeller.update');
 });
-
-// Reports
-Route::controller(ReportController::class)->group(function () {
-    Route::post('/reportes/vehiculosMasCotizados', 'vehiculosMasCotizados')->name('reportes.vehiculosMasCotizados');
-    Route::post('/reportes/ventasNoConcretadas', 'ventasNoConcretadas')->name('reportes.ventasNoConcretadas');
-    Route::post('/reportes/accesoriosMasSolicitados', 'accesoriosMasSolicitados')->name('reportes.accesoriosMasSolicitados');
-    Route::post('/estadisticas/comisionesMensuales', 'comisionesMensuales')->name('estadisticas.comisionesMensuales');
-    Route::post('/estadisticas/modelosMasVendidos', 'modelosMasVendidos')->name('estadisticas.modelosMasVendidos');
-    Route::post('/reporte', 'reporte')->name('reportes.reporte');
-});
-
-Route::controller(PDFController::class)->group(function () {
-    Route::get('/generate-pdf', 'generatePDF')->name('reportes.generarPDF');
-});
-
-// Route::middleware([
-//     'auth:sanctum',
-//     config('jetstream.auth_session'),
-//     'verified'
-// ])->group(function () {
-//     Route::get('/', function () {
-//         return redirect()->route('productos.catalogo');
-//     })->name('home');
-// });

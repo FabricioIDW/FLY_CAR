@@ -34,44 +34,9 @@ class UserController extends Controller
         return view('profile.actualizar-cuenta');
     }
 
-    public function userList()
-    {
-        $users = User::all();
-        return view('admin.users.index', compact('users'));
-    }
-    public function userEdit(User $user)
-    {
-        return $user;
-    }
     public function index()
     {
         return view('auth.register');
-    }
-
-// ADMIN
-    public function update_admin(Request $request)
-    {
-        // Validar contraseña actual del usuario con la contraseña actual ingresada en el formulario.
-        $result_current_password = Hash::check($request->current_password, Auth::user()->password);
-        $new_password_hash = Hash::make($request->new_password);
-        $result_new_password =  Hash::check($request->new_password_confirmation, $new_password_hash);
-        $validator = Validator::make($request->all(), [
-            'current_password' => [
-                'required',
-                function ($attribute, $value, $fail)
-                {
-                    if (Hash::check($value, Auth::user()->password)) {
-                        $fail('La contraseña actual ingresada no coincide.');
-                    }
-                },
-            ],
-        ]);
-        if ($validator->fails()) {
-            return redirect('cuenta')
-            ->withErrors($validator);
-        }
-        $validator->validate();
-        return $result_new_password;
     }
 
     // CUSTOMER
@@ -102,6 +67,12 @@ class UserController extends Controller
     }
     public function store_existing_customer(StoreExistingCustomer $request)
     {
+        // TO DO se tiene que validar que el email no este registrado en un usuario
+        $request->validate([
+            'email' => 'unique:users'
+        ], [
+            'email.unique' => 'Este email ya se encuentra registrado',
+        ]);
         $user = $this->createUser($request->email, $request->password, 'Customer');
         $customer = Customer::where('dni', $request->dni)->first();
         $customer->user_id = $user->id;

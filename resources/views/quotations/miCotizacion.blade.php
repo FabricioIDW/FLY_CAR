@@ -28,12 +28,12 @@
                         <p class="paragraph-normal text-gray-600">
                             Precio: ${{ round($vehiculo->price, 2) }}
                         </p>
-                        @if (count($vehiculo->accessoriesQuotation) > 0)
+                        @if (count($vehiculo->getAccessoriesFromQuotation(session('quotation')->id)) > 0)
                             <p class="paragraph-normal text-gray-600">
                                 Accesorios:
                             <ul>
-                                @foreach ($vehiculo->accessoriesQuotation as $accessory)
-                                    <li>{{ $accessory->name }}</li>
+                                @foreach ($vehiculo->getAccessoriesFromQuotation(session('quotation')->id) as $accessory)
+                                    <li>{{ $accessory['name'] }} Precio: {{ $accessory['price'] }}</li>
                                 @endforeach
                             </ul>
                         @endif
@@ -42,6 +42,10 @@
                 </div>
             @endforeach
         </div>
+        <form action="{{ route('quotations.generatePDF', session('quotation')) }}" method="POST">
+            @csrf
+            <x-button-normal openBtn="Generar PDF" />
+        </form>
         <div
             class="grid justify-center md:grid-cols-{{ $cols }} lg:grid-cols-{{ $cols }} gap-2 lg:gap-2 my-1">
             <div>

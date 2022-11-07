@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('name')->default('');
             $table->integer('stock');
             $table->text('description')->default('');
-            $table->text('image');
             $table->boolean('enabled')->default(true);
             $table->boolean('removed')->default(false);
             $table->timestamps();
