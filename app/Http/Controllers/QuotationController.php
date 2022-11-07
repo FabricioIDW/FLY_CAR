@@ -81,16 +81,15 @@ class QuotationController extends Controller
                     $colecAccesorios[$vehiculo->id] = $arr;
                 }
                 array_push($vehiculos, $vehiculo);
+                if (session()->exists('vehiculo2')) {
+                    $vehiculo2 = session('vehiculo2');
+                    $arr2 = $this->listarAccesorios($request->input('accesorios'));
+                    $colecAccesorios[$vehiculo2->id] = $arr2;
+                    //session(['accesorio2' =>  $request->input('accesorios')]);
+                    array_push($vehiculos, $vehiculo2);
+                }
             }
 
-
-            if (session()->exists('vehiculo2')) {
-                $vehiculo2 = session('vehiculo2');
-                $arr2 = $this->listarAccesorios($request->input('accesorios'));
-                $colecAccesorios[$vehiculo2->id] = $arr2;
-                //session(['accesorio2' =>  $request->input('accesorios')]);
-                array_push($vehiculos, $vehiculo2);
-            }
             session(['accesoriosSelec' =>  $colecAccesorios]);
             session(['vehiculosSelec' =>  $vehiculos]);
             return view('quotations.simularCotizacion', compact('vehiculos', 'colecAccesorios'));

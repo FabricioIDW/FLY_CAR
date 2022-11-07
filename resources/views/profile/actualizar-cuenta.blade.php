@@ -49,7 +49,7 @@
                         </div>
                     @endif
                     <br>
-                    <div class="col-span-6 sm:col-span-4">
+                    <div class="col-span-6 sm:col-span-4 text-right">
                         <x-jet-button type="submit">
                             {{ __('Guardar') }}
                         </x-jet-button>
