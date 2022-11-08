@@ -1,6 +1,6 @@
 @extends('layouts.plantilla')
-@section('title', 'Buscar accesorios')
-@section('titleH1', 'Buscar accesorios')
+@section('title', 'Accesorios')
+@section('titleH1', 'Accesorios')
 
 @section('content')
     @livewire('show-accesories')

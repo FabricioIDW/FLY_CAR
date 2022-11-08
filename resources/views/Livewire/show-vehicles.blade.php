@@ -4,10 +4,13 @@
     <div class="content">
         {{-- Scroll Vehiculos  --}}
         <div class="w-11/12 mx-auto place-items-center max-h-full">
-            <div class="text-2xl font-semibold text-center">Vehiculos</div>
             <div class="px-6 py-4 flex item-center">
                 <x-jet-input class="flex-1 mr-4" type="text" wire:model="search"
                     placeholder="Busque por id, modelo o marca." />{{-- BUSCADOR --}}
+                <a href="{{ route('productos.create') }}">
+                    {{-- <x-button-normal openBtn="Crear vehículo"></x-button-normal> --}}
+                    <x-jet-button>Crear vehículo</x-jet-button>
+                </a>
             </div>
             <div class="scroll-containerChico mx-auto">
                 @if ($vehiculos->count())

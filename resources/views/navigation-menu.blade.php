@@ -2,10 +2,16 @@
     $nav_links = [
         // Admin
         [
-            'name' => 'Productos',
-            'route' => route('admin.index'),
-            'active' => request()->routeIs('admin.index'),
-            'can' => 'admin.index',
+            'name' => 'Vehículos',
+            'route' => route('vehiculos.buscar'),
+            'active' => request()->routeIs('vehiculos.*'),
+            'can' => 'vehiculos.buscar',
+        ],
+        [
+            'name' => 'Accesorios',
+            'route' => route('accesorios.buscar'),
+            'active' => request()->routeIs('accesorios.*'),
+            'can' => 'accesorios.buscar',
         ],
         [
             'name' => 'Ofertas',

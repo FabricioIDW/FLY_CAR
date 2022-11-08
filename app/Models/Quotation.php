@@ -32,7 +32,7 @@ class Quotation extends Model
     public function setExpiration()
     {
         $this->dateTimeExpiration = ExpirationDate::getExpiration($this->dateTimeGenerated, 2);
-        // $this->save();
+        $this->save();
     }
     public function actualizeAmount($reserveAmount)
     {
@@ -51,7 +51,7 @@ class Quotation extends Model
         $this->valid = $valor;
         $this->save();
     }
-    public function checkVehiclesState() 
+    public function checkVehiclesState()
     {
         foreach ($this->vehicles as $vehicle) {
             if (!$vehicle->enabled) {

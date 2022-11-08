@@ -5,6 +5,10 @@
             <div class="px-6 py-4 flex item-center">
                 <x-jet-input class="flex-1 mr-4" type="text" wire:model="search"
                     placeholder="Busque por id, stock o nombre del accesorio." />{{-- BUSCADOR --}}
+                <a href="{{ route('productos.create') }}">
+                    {{-- <x-button-normal openBtn="Crear accesorio"></x-button-normal> --}}
+                    <x-jet-button>Crear accesorio</x-jet-button>
+                </a>
             </div>
             <div class="scroll-containerChico mx-auto">
                 <table class="min-w-max w-full table-auto">
