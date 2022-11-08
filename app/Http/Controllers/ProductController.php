@@ -70,7 +70,7 @@ class ProductController extends Controller
         $request->validate([
             "descripcionProducto" => "required",
             "stock" => "required|min:1",
-            "name" => "required",
+            "nombreA" => "required",
         ]);
 
         $accesorio = Accessory::create([
