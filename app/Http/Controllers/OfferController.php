@@ -96,7 +96,8 @@ class OfferController extends Controller
         if ($request->addVehicles) {
             foreach ($request->addVehicles as $vehicle_id) {
                 $vehicle = Vehicle::find($vehicle_id);
-                $vehicle->offer_id = $offer->id;
+
+                $vehicle-> offer_id = $offer->id;
                 $vehicle->save();
             }
         }
