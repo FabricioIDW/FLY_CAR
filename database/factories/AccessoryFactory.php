@@ -18,10 +18,7 @@ class AccessoryFactory extends Factory
     public function definition()
     {
         return [
-            // 'name' => $this->faker->unique()->word(),
             'stock' => $this->faker->numberBetween(1, 50),
-            // 'description' => $this->faker->text(100),
-            'image' => $this->faker->imageUrl(),
             'offer_id' => Offer::all()->random()->id,
         ];
     }
