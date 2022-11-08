@@ -210,8 +210,7 @@
                 </div>
             </div>
             <div class="text-right">
-                <button type="button" id="botonCrear"
-                    class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Crear</button>
+                <x-jet-button type="button" id="botonCrear">Crear</x-jet-button>
             </div>
     </form>
 
@@ -277,7 +276,6 @@
             $("input[type=checkbox]:checked").each(function() {
                 valoresCheck.push(this.value);
             });
-            console.log(valoresCheck);
             $('#inputPrecios').empty();
             $.each(valoresCheck, function(i, value) {
                 $('#inputPrecios').append('Precio del modelo' + value + '<input type="number" id="modelo' +
@@ -297,7 +295,6 @@
 
             $('#modelosSelec').val(precios);
             let marca = document.getElementById('marcaVehiculo').value;
-            alert(marca);
             let select = document.getElementById('selectTipo');
             let tipo = select.options[select.selectedIndex].text;
             if (tipo = 'Accesorio') {
