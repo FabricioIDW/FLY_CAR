@@ -1,11 +1,11 @@
 @extends('layouts.plantilla')
-@section('title', 'Buscar vehículos')
-@section('titleH1', 'Buscar vehículos')
+@section('title', 'Vehículos')
+@section('titleH1', 'Vehículos')
 
 @section('content')
     @livewire('show-vehicles')
-    <x-modal title="Eliminar Vehiculo" leftBtn="Eliminar" rightBtn="Cancelar" ref="vehiculos.baja" value="" id="idModal">
-        <p>¿Seguro que quiere dar de baja a este vehículo?</p>
+    <x-modal title="Eliminar Vehículo" leftBtn="Eliminar" rightBtn="Cancelar" ref="vehiculos.baja" value="" id="idModal">
+        <p>¿Seguro que quiere eliminar a este vehículo?</p>
     </x-modal>
     <script>
         var openmodal = document.querySelectorAll('.modal-open')

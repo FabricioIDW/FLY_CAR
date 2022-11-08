@@ -1,6 +1,6 @@
 @extends('layouts.plantilla')
 @section('title', 'Ofertas')
-@section('titleH1', 'Listado de ofertas')
+@section('titleH1', 'Ofertas')
 @section('content')
     <!-- component -->
     @livewire('show-offers', ['title' => 'Título de prueba'])
