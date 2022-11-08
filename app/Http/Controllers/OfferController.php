@@ -43,17 +43,15 @@ class OfferController extends Controller
         if ($request->vehicles) {
             foreach ($request->vehicles as $vehicle_id) {
                 $vehicle = Vehicle::find($vehicle_id);
-                $vehicle->update([
-                    'offer_id' => $offer->id,
-                ]);
+                $vehicle->offer_id = $offer->id;
+                $vehicle->save();
             }
         }
         if ($request->accessories) {
             foreach ($request->accessories as $accessory_id) {
                 $accessory = Accessory::find($accessory_id);
-                $accessory->update([
-                    'offer_id' => $offer->id,
-                ]);
+                $accessory->offer_id = $offer->id;
+                $accessory->save();
             }
         }
         Alert::success('La oferta se creó correctamente.');
@@ -82,36 +80,32 @@ class OfferController extends Controller
         if ($request->supVehicles) {
             foreach ($request->supVehicles as $vehicle_id) {
                 $vehicle = Vehicle::find($vehicle_id);
-                $vehicle->update([
-                    'offer_id' => null,
-                ]);
+                $vehicle->offer_id = null;
+                $vehicle->save();
             }
         }
         // Se quita esta oferta a los accesorios seleccionados
         if ($request->supAccessories) {
             foreach ($request->supAccessories as $accessory_id) {
                 $accessory = Accessory::find($accessory_id);
-                $accessory->update([
-                    'offer_id' => null,
-                ]);
+                $accessory->offer_id = null;
+                $accessory->save();
             }
         }
         // Se asocia esta oferta a los vehiculos seleccionados
         if ($request->addVehicles) {
             foreach ($request->addVehicles as $vehicle_id) {
                 $vehicle = Vehicle::find($vehicle_id);
-                $vehicle->update([
-                    'offer_id' => $offer->id,
-                ]);
+                $vehicle->offer_id = $offer->id;
+                $vehicle->save();
             }
         }
         // Se asocia esta oferta a los accesorios seleccionados
         if ($request->addAccessories) {
             foreach ($request->addAccessories as $accessory_id) {
                 $accessory = Accessory::find($accessory_id);
-                $accessory->update([
-                    'offer_id' => $offer->id,
-                ]);
+                $accessory->offer_id = $offer->id;
+                $accessory->save();
             }
         }
         Alert::success('La oferta se actualizó correctamente.');
