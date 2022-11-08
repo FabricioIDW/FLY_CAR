@@ -120,9 +120,10 @@ class QuotationController extends Controller
                     $quotation->vehicles()->attach($vehiculo->id);
                 }
             }
-            $quotation->dateTimeExpiration = ExpirationDate::getExpiration($quotation->dateTimeGenerated, 2); // TO DO arreglar esta línea
+            $quotation->dateTimeExpiration = ExpirationDate::getExpiration($quotation->dateTimeGenerated, 2);
             if (Auth::user()->customer->hasValidQuotation()) {
                 Auth::user()->customer->getQuotation()->setVehicles('availabled');
+                // TO DO Aumentar el stock del accesorio
                 Auth::user()->customer->disableQuotation();
             }
             $quotation->finalAmount = $precioFinal;
@@ -175,6 +176,7 @@ class QuotationController extends Controller
             }
         }
         $quotation->finalAmount = $precioFinal;
+        $quotation->dateTimeExpiration = ExpirationDate::getExpiration($quotation->dateTimeGenerated, 2); 
         return $quotation;
     }
 
