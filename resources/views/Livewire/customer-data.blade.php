@@ -1,4 +1,4 @@
-<div>
+<div class="text-left">
     {{-- Do your work, then step back. --}}
 
     <x-jet-button wire:click="$set('open', true)">

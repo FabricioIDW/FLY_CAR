@@ -18,7 +18,7 @@
                             relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                                 aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label"
                                 name="tProducto" id="selectTipo">
-                                <option value="{{ route('vehiculos.store') }}">Vehiculo</option>
+                                <option value="{{ route('vehiculos.store') }}">Vehículo</option>
                                 <option value="{{ route('accesorios.store') }}">Accesorio</option>
                             </select>
 
@@ -57,7 +57,7 @@
 
                                     <div class="col-span-6 sm:col-span-4">
                                         <label for="marcaVehiculo" class="block text-sm font-medium text-gray-700">
-                                            Marca del vehiculo:
+                                            Marca del vehículo:
                                             <select name="marcasVehiculos" id="marcaVehiculo"
                                                 class="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                                                 <option value="0">Seleccione una marca</option>
@@ -73,7 +73,7 @@
 
                                     <div class="col-span-6 sm:col-span-4">
                                         <label for="contenidoModelo" class="block text-sm font-medium text-gray-700">
-                                            Modelo del vehiculo
+                                            Modelo del vehículo
                                             <select id="contenidoModelo" name="modeloV"
                                                 class="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                                             </select>
@@ -82,7 +82,7 @@
 
                                     <div class="col-span-6 sm:col-span-4">
                                         <label for="anioVehiculo" class="block text-sm font-medium text-gray-700">
-                                            Año del vehiculo:</label>
+                                            Año del vehículo:</label>
                                         <input id="AnioVehiculo" name="anioV" type="number" min=1960 max=2022
                                             placeholder="Año entre 1960 y 2023..."
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
@@ -95,13 +95,13 @@
 
                                     <div class="col-span-6 sm:col-span-3">
                                         <label for="nroChasis" class="block text-sm font-medium text-gray-700">
-                                            Número de chassis:</label>
+                                            Número de chasis:</label>
                                         <input id="nroChasis" name="chassis" type="text" maxlength="17"
                                             placeholder="Expresion de 17 digitos.." min="17"
                                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                         @error('chassis')
-                                            <div class="text-xs text-red-800">El numero de chassis es incorrecto, debe ser
-                                                unico y tener 17
+                                            <div class="text-xs text-red-800">El número de chasis es incorrecto, debe ser
+                                                único y tener 17
                                                 caracteres.</div>
                                         @enderror
                                     </div>
@@ -111,13 +111,13 @@
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="file" class="block text-sm font-medium text-gray-700">
-                                        Imagen del vehiculo:</label>
+                                        Imágen del vehículo:</label>
                                     <img id="picture" src="https://elceo.com/wp-content/uploads/2019/02/coches.jpg"
                                         alt="Imagen predefinida">
                                     <input id="file" name="file" type="file" accept="image/*"
                                         class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-white dark:border-black dark:placeholder-gray-400">
                                     @error('file')
-                                        <div class="text-xs text-red-800">El archivo debe ser una imagen(JPEG, PNG,
+                                        <div class="text-xs text-red-800">El archivo debe ser una imágen(JPEG, PNG,
                                             etc.).</div>
                                     @enderror
                                 </div>

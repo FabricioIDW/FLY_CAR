@@ -22,6 +22,9 @@
                         Año: {{ $vehiculo->year }}
                     </p>
                     <p class="paragraph-normal text-gray-600">
+                        Descripción: {{ $vehiculo->description }}
+                    </p>
+                    <p class="paragraph-normal text-gray-600">
                         Número de chasis: {{ $vehiculo->chassis }}
                     </p>
                     <p class="paragraph-normal text-gray-600">
@@ -41,27 +44,27 @@
                         </p>
                     @endif
                     </p>
-                    <h3 class="font-semibold text-xl leading-6 text-gray-700 my-1 text-center">
-                        Accesorios
-                    </h3>
-                    <p class="paragraph-normal text-gray-600">
-                        @php
-                            $precioFinalAccesorio = 0;
-                        @endphp
-                        @if (!empty($colecAccesorios[$vehiculo->id]))
-                            <ul>
-                                @foreach ($colecAccesorios[$vehiculo->id] as $accesorio)
-                                    <li class="text-sm font-semibold text-left">
-                                        {{ $accesorio->name }}
-                                        {{-- TO DO esto esta mal, muestra otro precio --}}
-                                        ${{ round($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price), 2) }}
-                                    </li>
-                                    @php
-                                        $precioFinalAccesorio += $accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price);
-                                    @endphp
-                                @endforeach
-                            </ul>
-                        @endif
+                    @php
+                        $precioFinalAccesorio = 0;
+                    @endphp
+                    @if (!empty($colecAccesorios[$vehiculo->id]))
+                        <h3 class="font-semibold text-xl leading-6 text-gray-700 my-1 text-center">
+                            Accesorios
+                        </h3>
+                        <p class="paragraph-normal text-gray-600">
+                        <ul>
+                            @foreach ($colecAccesorios[$vehiculo->id] as $accesorio)
+                                <li class="text-sm font-semibold text-left">
+                                    {{ $accesorio->name }}
+                                    {{-- TO DO esto esta mal, muestra otro precio --}}
+                                    ${{ round($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price), 2) }}
+                                </li>
+                                @php
+                                    $precioFinalAccesorio += $accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price);
+                                @endphp
+                            @endforeach
+                        </ul>
+                    @endif
                     </p>
                     @php
                         $precioFinal += $precioFinalAccesorio;

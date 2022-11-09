@@ -109,6 +109,15 @@
                                     <a href="{{ route('quotations.seeQuotation', $quotation->id) }}">
                                         <x-button-normal openBtn="Ver" />
                                     </a>
+                                    @if ($quotation->reserve)
+                                        @if (!($quotation->reserve->reserveState == 'enabled' && $quotation->checkVehiclesState()))
+                                            <a href="{{ route('quotations.seeQuotation', $quotation->id) }}">
+                                                {{-- TO DO cambiar el ícono para cancelar reserva --}}
+                                                <x-button-normal openBtn="Cancelar reserva" />
+                                            </a>
+                                        @endif
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @endforeach

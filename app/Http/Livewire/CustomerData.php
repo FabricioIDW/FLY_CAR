@@ -39,12 +39,13 @@ class CustomerData extends Component
             if ($customer->hasValidQuotation()) {
                 if ($customer->getQuotation()->reserve) {
                     $this->emit('errorAlert', 'El cliente posee una cotización con una reserva activa.');
+                } else {
+                    // TO DO Probar
+                    $customer->getQuotation()->setVehicles('availabled');
+                    $customer->disableQuotation();
+                    session(['customer_id' => $customer->id]);
+                    redirect()->to('generarCotizacionVendedor');
                 }
-                // TO DO Probar
-                $customer->getQuotation()->setVehicles('availabled');
-                $customer->disableQuotation();
-                session(['customer_id' => $customer->id]);
-                redirect()->to('generarCotizacionVendedor');
             }
         } else {
             $this->validate([

@@ -71,11 +71,12 @@
                         </x-jet-button>
                     @else
                         <x-jet-button type="submit" name="btnAgregar" value="Agregar otro Vehiculo">Agregar otro
-                            Vehiculo
+                            Vehículo
                         </x-jet-button>
                     @endif
+                    <span class="ml-3"></span>
                     <x-jet-button type="submit" name="btnSimular" value="Simular Cotizacion">Simular
-                        Cotizacion
+                        Cotización
                     </x-jet-button>
         </form>
     </div>

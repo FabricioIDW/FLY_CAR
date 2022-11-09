@@ -90,10 +90,11 @@
                 $values = ['action' => 'cancelateReserve', 'amount' => $quotation->reserve->amount];
             @endphp
             <p>Alguno de los vehículos de la cotización sufrio un sinientro. Se debe cancelar la reserva.</p>
-            <x-modal-quotation openBtn="Cancelar reserva" title="Cancelar reserva" leftBtn="Realizar pago"
-                rightBtn="Cancelar" ref="payments.index" :value=$values>
-                <p>Cancelar la reserva.</p>
-            </x-modal-quotation>
+            <x-popup openBtn="Cancelar reserva" title="Cancelar reserva" leftBtn="Realizar pago" rightBtn="Cancelar"
+            ref="payments.index" :value=$values>
+            <p>Monto a pagar: ${{ $values['amount'] }}</p>
+        </x-popup>
+
         @else
             @if (!$quotation->checkVehiclesState())
                 <p>No se puede realizar la venta ya que alguno de los vehículos de la cotización sufrio un sinientro.</p>

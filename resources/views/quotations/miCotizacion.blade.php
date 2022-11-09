@@ -59,6 +59,14 @@
                     @php
                         $values = ['action' => 'reserve', 'amount' => session('reserve')->amount];
                     @endphp
+                    <div class="sm:text-end text-center">
+                        <x-popup class="float-right" openBtn="Reservar" title="Reserva" leftBtn="Realizar pago" rightBtn="Cancelar"
+                            ref="payments.index" :value=$values>
+                            <p>Importe de la cotización: ${{ session('quotation')->finalAmount }}</p>
+                            <p>Importe de la seña a pagar: ${{ session('reserve')->amount }}</p>
+                            <p>(5% del importe de la cotización)</p>
+                        </x-popup>
+                    </div>
                 @endif
             </div>
             <div class="sm:text-start text-center sm:pl-44 pl-0">
@@ -68,14 +76,7 @@
                     </x-jet-button>
                 </form>
             </div>
-            <div class="sm:text-end text-center">
-                <x-popup class="float-right" openBtn="Reservar" title="Reserva" leftBtn="Realizar pago" rightBtn="Cancelar"
-                    ref="payments.index" :value=$values>
-                    <p>Importe de la cotización: ${{ session('quotation')->finalAmount }}</p>
-                    <p>Importe de la seña a pagar: ${{ session('reserve')->amount }}</p>
-                    <p>(5% del importe de la cotización)</p>
-                </x-popup>
-            </div>
+            
         </div>
     @else
         <p>Usted no tiene una cotización vigente</p>
