@@ -3,14 +3,14 @@
 @section('titleH1', 'Vehículo seleccionado')
 
 @section('content')
-    <div class="py-8 ml-6 mr-6 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 shadow-lg">
+    <div class="ml-6 mr-6 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 shadow-lg">
 
         <div class="bg-white shadow-lg col-span-2 md:col-span-3 lg:col-span-3 row-span-2 flex-none relative rounded-lg">
             <img class="shadow-lg absolute inset-0 lg:w-full lg:h-full object-contain rounded-lg" src="{{ $vehiculo->image }}"
                 alt="{{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}">
         </div>
         <div class="bg-black-400 col-span-1 lg:col-span-2 row-span-2 rounded-b-lg">
-            <div class="pb-8 w-full flex-none mt-2 order-1 text-3xl font-bold text-blue-700">
+            <div class="w-full flex-none mt-2 order-1 text-3xl font-bold text-blue-700">
                 {{ $vehiculo->vehicleModel->brand->name . ' ' . $vehiculo->vehicleModel->name }}
             </div>
             <p class="">
@@ -20,24 +20,24 @@
                 <span class="text-xl font-bold">Descripción: </span>{{ $vehiculo->description }} <br>
                 <span class="text-xl font-bold">Precio: </span>${{ $vehiculo->price }} <br>
             </p>
-            <div class="w-full flex-none mt-2 order-1 text-sm font-bold text-red-600">
+            <div class="w-full flex-none mt-1 order-1 text-sm font-semibold text-red-600">
                 @if (is_null($vehiculo->offer))
                     <span class="text-green-700">Actualmente no posee ninguna oferta</span>
-                    <div class="w-full flex-none mt-2 order-1 text-2xl font-bold text-green-700">
+                    <div class="w-full flex-none mt-2 order-1 text-2xl font-semibold text-green-700">
                         Precio ${{ round($vehiculo->price, 2) }}
                     </div>
                 @else
                     <p class="paragraph-normal text-red-600">
                         Actualmente posee una oferta del: {{ $vehiculo->offer->discount }}%
                     </p>
-                    <div class="w-full flex-none mt-2 order-1 text-2xl font-bold text-green-700">
+                    <div class="w-full flex-none mt-1 order-1 text-3xl font-semibold text-black">
                         Precio final: ${{ round($vehiculo->getPrice(), 2) }}
                     </div>
                 @endif
 
             </div>
         </div>
-        <form class="col-span-5 row-span-3  flex-auto p-6" action="{{ route('quotations.cotizar') }}" method="POST">
+        <form class="col-span-5 row-span-3  flex-auto p-1" action="{{ route('quotations.cotizar') }}" method="POST">
             @csrf
             <div class="col-span-3 row-span-3 pt-8 flex-auto p-6 rounded-b-lg hover:text-black">
                 <div class="flex flex-wrap">
@@ -49,7 +49,7 @@
                     <div class="space-x-2 flex text-sm font-bold">
                         @foreach ($vehiculo->vehicleModel->accessories as $unAccesorio)
                             @if ($unAccesorio->enabled && !$unAccesorio->removed)
-                                <div class="text-blue-700 ">
+                                <div class="text-blue-700">
                                     <input class="cursor-pointer" name="accesorios[]" type="checkbox"
                                         value="{{ $unAccesorio->id }}" />
                                     <label id='{{ $unAccesorio->id }}' for="{{ $unAccesorio->id }}" class="mx-2 ">
@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div class="col-span-5 row-span-3 flex justify-end mb-5 text-sm font-medium rounded-bl-lg ">
-                <div class="flex justify-end ">
+                <div class="flex justify-end">
                     @if (session()->exists('vehiculo2'))
                         <x-jet-button type="submit" name="btnAgregar" value="Agregar otro Vehiculo" disabled>Agregar otro
                             Vehiculo
@@ -78,7 +78,5 @@
                         Cotizacion
                     </x-jet-button>
         </form>
-    </div>
-    </div>
     </div>
 @endsection

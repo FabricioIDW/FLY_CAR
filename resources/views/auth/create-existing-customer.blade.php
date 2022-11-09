@@ -13,9 +13,9 @@
                 <x-jet-label for="dni" value="{{ __('DNI') }}" />
                 <x-jet-input id="dni" class="block mt-1 w-full" type="text" name="dni" :value="old('dni')"
                     required autofocus autocomplete="dni" />
-                    @error('dni')
+                @error('dni')
                     <p class="mt-2 text-sm text-red-500">*{{ $message }}</p>
-                    @enderror
+                @enderror
             </div>
 
             <fieldset name="userData">
@@ -23,27 +23,27 @@
                     <x-jet-label for="email" value="{{ __('Email') }}" />
                     <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email"
                         :value="old('email')" required />
-                        @error('email')
+                    @error('email')
                         <p class="mt-2 text-sm text-red-500">*{{ $message }}</p>
-                        @enderror
+                    @enderror
                 </div>
 
                 <div class="mt-4">
                     <x-jet-label for="password" value="{{ __('Contraseña') }}" />
                     <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required
                         autocomplete="new-password" />
-                        @error('password')
+                    @error('password')
                         <p class="mt-2 text-sm text-red-500">*{{ $message }}</p>
-                        @enderror
+                    @enderror
                 </div>
 
                 <div class="mt-4">
                     <x-jet-label for="password_confirmation" value="{{ __('Confirmar contraseña') }}" />
                     <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password"
                         name="password_confirmation" required autocomplete="new-password" />
-                        @error('password_confirmation')
+                    @error('password_confirmation')
                         <p class="mt-2 text-sm text-red-500">*{{ $message }}</p>
-                        @enderror
+                    @enderror
                 </div>
             </fieldset>
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())

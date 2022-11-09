@@ -15,7 +15,7 @@
                     alt="{{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}" />
                 <div class="p-3">
                     {{-- <span class="text-sm text-primary">November 19, 2022</span> --}}
-                    <h3 class="font-semibold text-xl leading-6 text-gray-700 my-2">
+                    <h3 class="font-semibold text-xl leading-6 text-gray-700">
                         {{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}
                     </h3>
                     <p class="paragraph-normal text-gray-600">
@@ -41,7 +41,7 @@
                         </p>
                     @endif
                     </p>
-                    <h3 class="font-semibold text-xl leading-6 text-gray-700 my-2">
+                    <h3 class="font-semibold text-xl leading-6 text-gray-700 my-1 text-center">
                         Accesorios
                     </h3>
                     <p class="paragraph-normal text-gray-600">
@@ -51,7 +51,7 @@
                         @if (!empty($colecAccesorios[$vehiculo->id]))
                             <ul>
                                 @foreach ($colecAccesorios[$vehiculo->id] as $accesorio)
-                                    <li class="text-sm my-1 font-bold text-left">
+                                    <li class="text-sm font-semibold text-left">
                                         {{ $accesorio->name }}
                                         {{-- TO DO esto esta mal, muestra otro precio --}}
                                         ${{ round($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price), 2) }}
@@ -70,10 +70,9 @@
             </div>
         @endforeach
     </div>
-    <div class="pt-4 mx-4 col-span-4 font-extrabold text-2xl text-left text-green-700">
-        <span class="float-right">Importe total: ${{ round($precioFinal, 2) }} </span></p>
+    <div class="pt-1 mx-4 col-span-4 font-extrabold text-2xl text-left">
+        <span class="float-left">Importe total: ${{ round($precioFinal, 2) }} </span></p>
     </div>
-    <br>
     {{-- Generar cotización --}}
     {{-- capitalice col-span-3 lg:col-span-1 pt-4 pb-4 pr-0 flex justify-end --}}
     <div class="col-span-6 sm:col-span-4 text-right ml-0">
@@ -100,8 +99,9 @@
                         @endif
                     @else
                         <a href="{{ route('quotations.generarCotizacion') }}">
-                            <x-button-normal openBtn="Generar cotización">
-                            </x-button-normal>
+                            {{-- QUE ONDA ESTO?? --}}
+                            <x-jet-button openBtn="Generar cotización">Generar cotización
+                            </x-jet-button>
                         </a>
                     @endif
                 @endif
