@@ -57,7 +57,6 @@
                             @foreach ($colecAccesorios[$vehiculo->id] as $accesorio)
                                 <li class="text-sm font-semibold grid grid-cols-2">
                                     <p class="text-left col-span-1">{{ $accesorio->name }}</p>
-                                    {{-- TO DO esto esta mal, muestra otro precio --}}
                                     <p class="text-rigth">
                                         ${{ round($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price), 2) }}
                                     </p>

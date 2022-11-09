@@ -70,8 +70,10 @@
                     <div class="sm:text-end text-center">
                         <x-popup class="float-right" openBtn="Reservar" title="Reserva" leftBtn="Realizar pago"
                             rightBtn="Cancelar" ref="payments.index" :value=$values>
-                            <p>Importe de la cotización: ${{ session('quotation')->finalAmount }}</p>
-                            <p>Importe de la seña a pagar: ${{ session('reserve')->amount }}</p>
+                            <p>Importe de la cotización:
+                                ${{ number_format(session('quotation')->finalAmount, 2, ',', '.') }}</p>
+                            <p>Importe de la seña a pagar: ${{ number_format(session('reserve')->amount, 2, ',', '.') }}
+                            </p>
                             <p>(5% del importe de la cotización)</p>
                         </x-popup>
                     </div>
