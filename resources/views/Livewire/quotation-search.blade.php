@@ -92,7 +92,7 @@
                             {{-- Importe --}}
                             <td class="py-3 px-6 text-left">
                                 <div class="flex items-center">
-                                    <span>{{ $quotation->finalAmount }}</span>
+                                    <span>${{ number_format($quotation->finalAmount, 2, ',', '.') }}</span>
                                 </div>
                             </td>
                             {{-- DNI del cliente --}}

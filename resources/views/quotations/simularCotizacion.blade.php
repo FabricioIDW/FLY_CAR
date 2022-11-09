@@ -15,7 +15,7 @@
                     alt="{{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}" />
                 <div class="p-3">
                     {{-- <span class="text-sm text-primary">November 19, 2022</span> --}}
-                    <h3 class="font-semibold text-xl leading-6 text-gray-700">
+                    <h3 class="font-bold text-xl leading-6 text-gray-700">
                         {{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}
                     </h3>
                     <p class="paragraph-normal text-gray-600">
@@ -28,7 +28,7 @@
                         Número de chasis: {{ $vehiculo->chassis }}
                     </p>
                     <p class="paragraph-normal text-gray-600">
-                        Precio: ${{ round($vehiculo->price, 2) }}
+                        Precio: ${{ number_format($vehiculo->price, 2, ',', '.') }}
                     </p>
                     @php $precioFinal += $vehiculo->getPrice(); @endphp
                     @if (is_null($vehiculo->offer))
@@ -40,7 +40,8 @@
                             Actualmente posee una oferta del: {{ $vehiculo->offer->discount }}%
                         </p>
                         <p class="paragraph-normal text-red-600">
-                            Precio del vehículo con oferta aplicada: ${{ round($vehiculo->getPrice(), 2) }}
+                            Precio del vehículo con oferta aplicada:
+                            ${{ number_format($vehiculo->getPrice(), 2, ',', '.') }}
                         </p>
                     @endif
                     </p>
@@ -48,16 +49,18 @@
                         $precioFinalAccesorio = 0;
                     @endphp
                     @if (!empty($colecAccesorios[$vehiculo->id]))
-                        <h3 class="font-semibold text-xl leading-6 text-gray-700 my-1 text-center">
+                        <h3 class="font-bold text-xl leading-6 text-gray-700 my-1 text-left">
                             Accesorios
                         </h3>
                         <p class="paragraph-normal text-gray-600">
                         <ul>
                             @foreach ($colecAccesorios[$vehiculo->id] as $accesorio)
-                                <li class="text-sm font-semibold text-left">
-                                    {{ $accesorio->name }}
+                                <li class="text-sm font-semibold grid grid-cols-2">
+                                    <p class="text-left col-span-1">{{ $accesorio->name }}</p>
                                     {{-- TO DO esto esta mal, muestra otro precio --}}
-                                    ${{ round($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price), 2) }}
+                                    <p class="text-rigth">
+                                        ${{ round($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price), 2) }}
+                                    </p>
                                 </li>
                                 @php
                                     $precioFinalAccesorio += $accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price);
@@ -74,7 +77,7 @@
         @endforeach
     </div>
     <div class="pt-1 mx-4 col-span-4 font-extrabold text-2xl text-left">
-        <span class="float-left">Importe total: ${{ round($precioFinal, 2) }} </span></p>
+        <span class="float-left">Importe total: ${{ number_format($precioFinal, 2, ',', '.') }} </span></p>
     </div>
     {{-- Generar cotización --}}
     {{-- capitalice col-span-3 lg:col-span-1 pt-4 pb-4 pr-0 flex justify-end --}}
@@ -102,7 +105,6 @@
                         @endif
                     @else
                         <a href="{{ route('quotations.generarCotizacion') }}">
-                            {{-- QUE ONDA ESTO?? --}}
                             <x-jet-button openBtn="Generar cotización">Generar cotización
                             </x-jet-button>
                         </a>

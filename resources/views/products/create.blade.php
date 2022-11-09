@@ -40,7 +40,7 @@
                                     Estado del producto:
                                     <div>
                                         <select id="estadoProducto" name="selectEstado"
-                                            class="tipoProducto 
+                                            class=" 
                                         relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                                             <option value="0">No disponible</option>
                                             <option value="1">Disponible</option>
@@ -237,7 +237,7 @@
             $value = $('#selectTipo option:selected').text();
             $ruta = $('#selectTipo').val();
             $('#formuProducto').attr('action', $ruta);
-            if ($value == 'Vehiculo') {
+            if ($value == 'Vehículo') {
                 $('#tipoVehiculo').show();
                 $('#tipoAccesorio').hide();
                 $('#idPrecioProd').show();
@@ -278,7 +278,7 @@
             });
             $('#inputPrecios').empty();
             $.each(valoresCheck, function(i, value) {
-                $('#inputPrecios').append('Precio del modelo' + value + '<input type="number" id="modelo' +
+                $('#inputPrecios').append('Precio del modelo ' + value + '<input type="number" id="modelo' +
                     value +
                     '" step="0.01" class="h-7 w-20" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">'
                 );

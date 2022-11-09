@@ -24,7 +24,7 @@
                                 <th class="py-3 px-6 text-center">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="alldataV" class="text-gray-600 text-sm font-light bg-gray-200">
+                        <tbody id="alldataV" class="text-gray-600 text-sm font-light bg-white">
                             @foreach ($vehiculos as $vehiculo)
                                 <tr class="border-b border-gray-200 hover:bg-gray-100">
                                     <td class="py-3 px-3 text-center whitespace-nowrap">

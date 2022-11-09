@@ -8,12 +8,12 @@
             $cols = count(session('quotation')->vehicles);
         @endphp
         <div
-            class="bg-white shadow-lg grid justify-center md:grid-cols-2 sm:grid-cols-1 gap-2 lg:gap-2 my-1 flex-none relative rounded-lg">
+            class="bg-white shadow-lg grid justify-center md:grid-cols-2 sm:grid-cols-1 gap-2 lg:gap-2 my-1 sm:px-36 px-0 flex-none relative rounded-lg">
             {{-- bg-white shadow-lg col-span-2 md:col-span-3 lg:col-span-3 row-span-2 flex-none relative rounded-lg --}}
             @foreach (session('quotation')->vehicles as $vehiculo)
                 <!-- Card 1 -->
-                <div class="bg-white rounded-lg border shadow-md max-w-xs h-60 ">
-                    <img class="h-56 lg:h-60 shadow-lg relative object-contain rounded-lg md:h-40 "
+                <div class="bg-white rounded-lg border shadow-md max-w-xs h-60 relative w-full">
+                    <img class="h-56 lg:h-60 shadow-lg relative object-contain rounded-lg md:h-40"
                         src="{{ $vehiculo->image }}"
                         alt="{{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}" />
                 </div>
@@ -28,10 +28,10 @@
                             Número de chasis: {{ $vehiculo->chassis }}
                         </p>
                         <p class="paragraph-normal text-gray-600">
-                            Precio: ${{ round($vehiculo->price, 2) }}
+                            Precio: ${{ number_format($vehiculo->price, 2, ',', '.') }}
                         </p>
                         @if (count($vehiculo->getAccessoriesFromQuotation(session('quotation')->id)) > 0)
-                            <p class="paragraph-normal text-gray-600">
+                            <p class="font-semibold text-gray-600">
                                 Accesorios:
                             <ul>
                                 @foreach ($vehiculo->getAccessoriesFromQuotation(session('quotation')->id) as $accessory)
@@ -44,14 +44,22 @@
             @endforeach
         </div>
         <div class="grid justify-center md:grid-cols-2 lg:grid-cols-2  sm:grid-cols-1 gap-2 lg:gap-2 my-1 sm:col-span-1">
-            <div>
-                <p class="text-red-600 pr-8">Esta cotización vence el día {{ session('quotation')->dateTimeExpiration }}hs.
+            <div class="h-fit">
+                <p class="text-red-600">Esta cotización vence el día {{ session('quotation')->dateTimeExpiration }}hs.
                 </p>
-                <p class="text-xs">Fecha de creación de la cotización {{ session('quotation')->dateTimeGenerated }} </p>
+                <p class="text-xs py-0">Fecha de creación de la cotización {{ session('quotation')->dateTimeGenerated }}
+                </p>
+                <span class="sm:text-start text-center">
+                    <form action="{{ route('quotations.generatePDF', session('quotation')) }}" method="POST">
+                        @csrf
+                        <x-jet-button type="submit" name="btnGenerar">Generar PDF
+                        </x-jet-button>
+                    </form>
+                </span>
             </div>
             <div class="sm:text-end text-center">
                 <p class="text-2xl">Importe total: <span>$
-                        {{ round(session('quotation')->finalAmount, 2) }}</span> </p>
+                        {{ number_format(session('quotation')->finalAmount, 2, ',', '.') }}</span> </p>
                 @if (session('quotation')->reserve)
                     <p>Usted realizó la reserva de esta cotización.</p>
                     <p>La reserva es válida hasta {{ session('quotation')->reserve->dateTimeExpiration }}</p>
@@ -60,8 +68,8 @@
                         $values = ['action' => 'reserve', 'amount' => session('reserve')->amount];
                     @endphp
                     <div class="sm:text-end text-center">
-                        <x-popup class="float-right" openBtn="Reservar" title="Reserva" leftBtn="Realizar pago" rightBtn="Cancelar"
-                            ref="payments.index" :value=$values>
+                        <x-popup class="float-right" openBtn="Reservar" title="Reserva" leftBtn="Realizar pago"
+                            rightBtn="Cancelar" ref="payments.index" :value=$values>
                             <p>Importe de la cotización: ${{ session('quotation')->finalAmount }}</p>
                             <p>Importe de la seña a pagar: ${{ session('reserve')->amount }}</p>
                             <p>(5% del importe de la cotización)</p>
@@ -69,14 +77,14 @@
                     </div>
                 @endif
             </div>
-            <div class="sm:text-start text-center sm:pl-44 pl-0">
+            {{-- <div class="sm:text-left text-center sm:pl-0 pl-44">
                 <form action="{{ route('quotations.generatePDF', session('quotation')) }}" method="POST">
                     @csrf
                     <x-jet-button type="submit" name="btnGenerar">Generar PDF
                     </x-jet-button>
                 </form>
-            </div>
-            
+            </div> --}}
+
         </div>
     @else
         <p>Usted no tiene una cotización vigente</p>

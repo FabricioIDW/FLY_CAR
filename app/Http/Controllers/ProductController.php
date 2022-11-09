@@ -10,6 +10,7 @@ use App\Models\Vehicle;
 use App\Models\VehicleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
@@ -89,6 +90,7 @@ class ProductController extends Controller
                 $accesorio->models()->attach($m, ['price' => $p]);
             }
         }
+        Alert::success('El accesorio se guardo correctamente.');
         return redirect()->route('accesorios.buscar');
     }
 
@@ -117,6 +119,7 @@ class ProductController extends Controller
         $vehiculo->chassis = $request->chassis;
         $vehiculo->image = $url;
         $vehiculo->save();
+        Alert::success('El vehiculo se guardo correctamente.');
         return redirect()->route('vehiculos.buscar');
     }
 
@@ -149,6 +152,7 @@ class ProductController extends Controller
         $vehiculo->year = $request->anioV;
 
         $vehiculo->save();
+        Alert::success('El vehiculo se actualizo correctamente.');
         return redirect()->route('vehiculos.buscar');
     }
 
@@ -174,8 +178,8 @@ class ProductController extends Controller
             }
         }
         $accesorio->save();
-
-        return redirect()->view('products.editAccesory');
+        Alert::success('El accesorio se actualizo correctamente.');
+        return redirect()->route('accesorios.buscar');
     }
 
     public function destroyVehicle(Vehicle $vehicle)
@@ -183,12 +187,14 @@ class ProductController extends Controller
 
         $vehicle->removed = true;
         $vehicle->save();
+        Alert::success('El vehiculo se elimino correctamente.');
         return redirect()->route('vehiculos.buscar');
     }
     public function destroyAccesory(Accessory $accesorio)
     {
         $accesorio->removed = true;
         $accesorio->save();
+        Alert::success('El accesorio se elimino correctamente.');
         return redirect()->route('accesorios.buscar');
     }
     public function catalogo()
