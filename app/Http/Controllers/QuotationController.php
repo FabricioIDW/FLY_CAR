@@ -238,6 +238,8 @@ class QuotationController extends Controller
 
     public function generateQuotationPDF(Quotation $quotation)
     {
-        return (new QuotationExport($quotation->id));
+        // return  $quotation->customer;
+        $collection = Quotation::where('id', $quotation->id)->get();
+        return (new QuotationExport($collection))->download('mi_cotizacion.pdf', \Maatwebsite\Excel\Excel::DOMPDF);;
     }
 }
