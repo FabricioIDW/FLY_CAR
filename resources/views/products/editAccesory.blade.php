@@ -133,8 +133,7 @@
                     </div>
                 </div>
                 <div class="text-right">
-                    <x-jet-button id="botonActualizar" type="button"
-                        >Editar</x-jet-button>
+                    <x-jet-button id="botonActualizar" type="button">Editar</x-jet-button>
                 </div>
     </form>
     <script>
@@ -147,7 +146,7 @@
             console.log(valoresCheck);
             $('#inputPrecios').empty();
             $.each(valoresCheck, function(i, value) {
-                $('#inputPrecios').append('Precio del modelo' + value + '<input type="number" id="modelo' +
+                $('#inputPrecios').append('Precio del modelo ' + value + '<input type="number" id="modelo' +
                     value + '" step="0.01" class="h-7 w-20">');
             });
         });

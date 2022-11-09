@@ -31,7 +31,7 @@
                         Actualmente posee una oferta del: {{ $vehiculo->offer->discount }}%
                     </p>
                     <div class="w-full flex-none mt-1 order-1 text-3xl font-semibold text-black">
-                        Precio final: ${{ round($vehiculo->getPrice(), 2) }}
+                        Precio final: ${{ number_format($vehiculo->getPrice(), 2, ',', '.') }}
                     </div>
                 @endif
 
