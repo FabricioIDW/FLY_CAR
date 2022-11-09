@@ -5,8 +5,8 @@
 @section('content')
     <div class="py-8 ml-6 mr-6 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 shadow-lg">
 
-        <div class="bg-blue-200 shadow-lg col-span-2 md:col-span-3 lg:col-span-3 row-span-2 flex-none relative rounded-lg">
-            <img class="shadow-lg absolute inset-0 lg:w-full lg:h-full object-cover rounded-lg" src="{{ $vehiculo->image }}"
+        <div class="bg-white shadow-lg col-span-2 md:col-span-3 lg:col-span-3 row-span-2 flex-none relative rounded-lg">
+            <img class="shadow-lg absolute inset-0 lg:w-full lg:h-full object-contain rounded-lg" src="{{ $vehiculo->image }}"
                 alt="{{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}">
         </div>
         <div class="bg-black-400 col-span-1 lg:col-span-2 row-span-2 rounded-b-lg">
@@ -64,16 +64,17 @@
             <div class="col-span-5 row-span-3 flex justify-end mb-5 text-sm font-medium rounded-bl-lg ">
                 <div class="flex justify-end ">
                     @if (session()->exists('vehiculo2'))
-                        <input class="cursor-pointer mr-8 h-10 px-6 font-semibold rounded-full bg-red-600 text-white"
-                            type="submit" name="btnAgregar" value="Agregar otro Vehiculo" disabled>
+                        <x-jet-button type="submit" name="btnAgregar" value="Agregar otro Vehiculo" disabled>Agregar otro
+                            Vehiculo
+                        </x-jet-button>
                     @else
-                        <input
-                            class="cursor-pointer mr-8 h-10 px-6 font-semibold rounded-full bg-blue-600 text-white hover:bg-opacity-40"
-                            type="submit" name="btnAgregar" value="Agregar otro Vehiculo">
+                        <x-jet-button type="submit" name="btnAgregar" value="Agregar otro Vehiculo">Agregar otro
+                            Vehiculo
+                        </x-jet-button>
                     @endif
-                    <input
-                        class="cursor-pointer p-auto mr-4 h-10 px-6 font-semibold rounded-full bg-blue-600 text-white hover:bg-opacity-40"
-                        type="submit" name="btnSimular" value="Simular Cotizacion">
+                    <x-jet-button type="submit" name="btnSimular" value="Simular Cotizacion">Simular
+                        Cotizacion
+                    </x-jet-button>
         </form>
     </div>
     </div>
