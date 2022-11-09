@@ -13,7 +13,7 @@
         @foreach ($quotation->vehicles as $vehiculo)
             <!-- Card 1 -->
             <div class="bg-white rounded-lg border shadow-md max-w-xs md:max-w-none overflow-hidden">
-                <img class="h-56 lg:h-60 w-full object-cover" src="{{ $vehiculo->image }}"
+                <img class="h-56 lg:h-60 w-full object-contain" src="{{ $vehiculo->image }}"
                     alt="{{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}" />
                 <div class="p-3">
                     {{-- <span class="text-sm text-primary">November 19, 2022</span> --}}
