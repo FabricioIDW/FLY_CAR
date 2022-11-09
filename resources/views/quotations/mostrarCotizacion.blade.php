@@ -13,55 +13,56 @@
         @foreach ($quotation->vehicles as $vehiculo)
             <!-- Card 1 -->
             <div class="bg-white rounded-lg border shadow-md max-w-xs md:max-w-none overflow-hidden">
-                <img class="h-56 lg:h-60 w-full object-contain" src="{{ $vehiculo->image }}"
+                <img class="h-56 lg:h-60 object-contain" src="{{ $vehiculo->image }}"
                     alt="{{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}" />
-                <div class="p-3">
-                    {{-- <span class="text-sm text-primary">November 19, 2022</span> --}}
-                    <h3 class="font-semibold text-xl leading-6 text-gray-700 my-2">
-                        {{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}
-                    </h3>
-                    <p class="paragraph-normal text-gray-600">
-                        Descripción: {{ $vehiculo->description }}
-                    </p>
-                    <p class="paragraph-normal text-gray-600">
-                        Año: {{ $vehiculo->year }}
-                    </p>
-                    <p class="paragraph-normal text-gray-600">
-                        Número de chasis: {{ $vehiculo->chassis }}
-                    </p>
-                    <p class="paragraph-normal text-gray-600">
-                        Precio: ${{ round($vehiculo->price, 2) }}
-                    </p>
-                    @if (count($vehiculo->accessoriesQuotation) > 0)
-                        <p class="paragraph-normal text-gray-600">
-                            Accesorios:
-                        <ul>
-                            @foreach ($vehiculo->accessoriesQuotation as $accessory)
-                                <li>{{ $accessory->name }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
-                    </p>
-                </div>
             </div>
-        @endforeach
-        <div class="bg-white rounded-lg border shadow-md max-w-xs md:max-w-none overflow-hidden">
-            <h3 class="font-semibold text-xl leading-6 text-gray-700 my-2">
-                Datos del cliente:
-            </h3>
-            <p class="paragraph-normal text-gray-600">
-                Nombre y Apellido: {{ $quotation->customer->name }} {{ $quotation->customer->lastName }}
-            </p>
-            <p class="paragraph-normal text-gray-600">
-                DNI: {{ $quotation->customer->dni }}
-            </p>
-            <p class="paragraph-normal text-gray-600">
-                Dirección: {{ $quotation->customer->address }}
-            </p>
-            <p class="paragraph-normal text-gray-600">
-                Email: {{ $quotation->customer->email }}
-            </p>
-        </div>
+            <div class="p-3">
+                {{-- <span class="text-sm text-primary">November 19, 2022</span> --}}
+                <h3 class="font-semibold text-xl leading-6 text-gray-700 my-2">
+                    {{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}
+                </h3>
+                <p class="paragraph-normal text-gray-600">
+                    Descripción: {{ $vehiculo->description }}
+                </p>
+                <p class="paragraph-normal text-gray-600">
+                    Año: {{ $vehiculo->year }}
+                </p>
+                <p class="paragraph-normal text-gray-600">
+                    Número de chasis: {{ $vehiculo->chassis }}
+                </p>
+                <p class="paragraph-normal text-gray-600">
+                    Precio: ${{ round($vehiculo->price, 2) }}
+                </p>
+                @if (count($vehiculo->accessoriesQuotation) > 0)
+                    <p class="paragraph-normal text-gray-600">
+                        Accesorios:
+                    <ul>
+                        @foreach ($vehiculo->accessoriesQuotation as $accessory)
+                            <li>{{ $accessory->name }}</li>
+                        @endforeach
+                    </ul>
+                @endif
+                </p>
+            </div>
+    </div>
+    @endforeach
+    <div class="bg-white rounded-lg border shadow-md max-w-xs md:max-w-none overflow-hidden">
+        <h3 class="font-semibold text-xl leading-6 text-gray-700 my-2">
+            Datos del cliente:
+        </h3>
+        <p class="paragraph-normal text-gray-600">
+            Nombre y Apellido: {{ $quotation->customer->name }} {{ $quotation->customer->lastName }}
+        </p>
+        <p class="paragraph-normal text-gray-600">
+            DNI: {{ $quotation->customer->dni }}
+        </p>
+        <p class="paragraph-normal text-gray-600">
+            Dirección: {{ $quotation->customer->address }}
+        </p>
+        <p class="paragraph-normal text-gray-600">
+            Email: {{ $quotation->customer->email }}
+        </p>
+    </div>
     </div>
     <div class="grid justify-center md:grid-cols-1 lg:grid-cols-1 gap-2 lg:gap-2 my-1">
         <p class="paragraph-normal text-gray-600">
