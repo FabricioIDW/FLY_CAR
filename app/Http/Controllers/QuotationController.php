@@ -11,6 +11,8 @@ use App\Models\Quotation;
 use App\Models\Reserve;
 use App\Models\User;
 use App\Models\Vehicle;
+use DateInterval;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -118,24 +120,22 @@ class QuotationController extends Controller
                     $quotation->vehicles()->attach($vehiculo->id);
                 }
             }
-            // $quotation->dateTimeExpiration = ExpirationDate::getExpiration((string)$quotation->dateTimeGenerated, 2); // TO DO arreglar esta línea
+            $quotation->dateTimeExpiration = ExpirationDate::getExpiration($quotation->dateTimeGenerated, 2);
             if (Auth::user()->customer->hasValidQuotation()) {
                 Auth::user()->customer->getQuotation()->setVehicles('availabled');
+                // TO DO Aumentar el stock del accesorio
                 Auth::user()->customer->disableQuotation();
             }
-            // $quotation = Quotation::find($quotation->id);
             $quotation->finalAmount = $precioFinal;
             $quotation->customer_id = Auth::user()->customer->id;
             $quotation->save();
-            $quotation->setExpiration();
+            $quotation = Quotation::find($quotation->id);
             $reserve = new Reserve();
             $reserve->amount = $reserve->calculateAmount($quotation->finalAmount);
             $vehiculos = session('vehiculosSelec');
             $colecAccesorios = session('accesoriosSelec');
             session(['reserve' => $reserve]);
             session(['quotation' => $quotation]);
-            // session()->forget('vehiculo1');
-            // session()->forget('vehiculo2');
             session()->forget(['vehiculo1', 'vehiculo2', 'accesorio1', 'accesoriosSelec', 'vehiculosSelec']);
             Alert::success('La cotización de genero correctamente.');
         } else {
@@ -176,6 +176,7 @@ class QuotationController extends Controller
             }
         }
         $quotation->finalAmount = $precioFinal;
+        $quotation->dateTimeExpiration = ExpirationDate::getExpiration($quotation->dateTimeGenerated, 2); 
         return $quotation;
     }
 
@@ -189,9 +190,6 @@ class QuotationController extends Controller
                 $reserve->amount = $reserve->calculateAmount($quotation->finalAmount);
                 session(['quotation' => $quotation]);
                 session(['reserve' => $reserve]);
-                // $colecAccesorios = [];
-                // foreach ($quotation->vehicles as $vehicle) {
-                // }
             }
         }
         return view('quotations.miCotizacion');

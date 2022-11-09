@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC', //America/Argentina/ComodRivadavia //UTC
+    'timezone' => 'America/Argentina/ComodRivadavia', //America/Argentina/ComodRivadavia //UTC 
 
     /*
     |--------------------------------------------------------------------------

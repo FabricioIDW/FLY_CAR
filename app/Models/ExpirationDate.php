@@ -14,6 +14,6 @@ class ExpirationDate extends Model
     {
         $expires = new DateTime($generated);
         $expires->add(new DateInterval('P' . $days . 'D'));
-        return $expires;
+        return $expires->format( 'Y-m-d H:i:s' );
     }
 }

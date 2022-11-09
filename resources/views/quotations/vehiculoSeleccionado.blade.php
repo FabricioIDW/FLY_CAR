@@ -48,15 +48,17 @@
                 <div class="flex items-baseline mt-2 mb-2  border-b border-slate-200 shadow-lg">
                     <div class="space-x-2 flex text-sm font-bold">
                         @foreach ($vehiculo->vehicleModel->accessories as $unAccesorio)
-                            <div class="text-blue-700 ">
-                                <input class="cursor-pointer" name="accesorios[]" type="checkbox"
-                                    value="{{ $unAccesorio->id }}" />
-                                <label id='{{ $unAccesorio->id }}' for="{{ $unAccesorio->id }}" class="mx-2 ">
-                                    {{ $unAccesorio->name }}<br />
-                                    <span class=" text-gray-500 ml-4 font-semibold">Precio: $
-                                        {{ round($unAccesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price), 2) }}</span>
-                                </label>
-                            </div>
+                            @if ($unAccesorio->enabled && !$unAccesorio->removed)
+                                <div class="text-blue-700 ">
+                                    <input class="cursor-pointer" name="accesorios[]" type="checkbox"
+                                        value="{{ $unAccesorio->id }}" />
+                                    <label id='{{ $unAccesorio->id }}' for="{{ $unAccesorio->id }}" class="mx-2 ">
+                                        {{ $unAccesorio->name }}<br />
+                                        <span class=" text-gray-500 ml-4 font-semibold">Precio: $
+                                            {{ round($unAccesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price), 2) }}</span>
+                                    </label>
+                                </div>
+                            @endif
                         @endforeach
                     </div>
                 </div>
