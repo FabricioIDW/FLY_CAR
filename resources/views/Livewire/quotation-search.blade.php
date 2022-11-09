@@ -64,7 +64,7 @@
                         @endif
                         {{-- DNI del cliente --}}
                         <th class="cursor-pointer py-3 px-6 text-left">DNI del cliente</th>
-                        <th class="cursor-pointer py-3 px-6 text-left">Acciones</th>
+                        <th class="cursor-pointer py-3 px-6 text-center col-span-2">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 text-sm font-light">
@@ -106,15 +106,19 @@
                             {{-- {{route('quotations.seeQuotation', $quotation->id)}} --}}
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center">
-                                    <a href="{{ route('quotations.seeQuotation', $quotation->id) }}">
-                                        <x-button-normal openBtn="Ver" />
-                                    </a>
+                                    <div>
+                                        <a href="{{ route('quotations.seeQuotation', $quotation->id) }}">
+                                            <x-button-normal openBtn="Ver" />
+                                        </a>
+                                    </div>
                                     @if ($quotation->reserve)
                                         @if (!($quotation->reserve->reserveState == 'enabled' && $quotation->checkVehiclesState()))
-                                            <a href="{{ route('quotations.seeQuotation', $quotation->id) }}">
-                                                {{-- TO DO cambiar el ícono para cancelar reserva --}}
-                                                <x-button-normal openBtn="Cancelar reserva" />
-                                            </a>
+                                            <div>
+                                                <a href="{{ route('quotations.seeQuotation', $quotation->id) }}">
+                                                    {{-- TO DO cambiar el ícono para cancelar reserva --}}
+                                                    <x-button-normal openBtn="Cancelar reserva" />
+                                                </a>
+                                            </div>
                                         @endif
                                     @endif
                                 </div>

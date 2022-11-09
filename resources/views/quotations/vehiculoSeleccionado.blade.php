@@ -18,13 +18,13 @@
                 <span class="text-xl font-bold">Marca: </span>{{ $vehiculo->vehicleModel->brand->name }} <br>
                 <span class="text-xl font-bold">Modelo: </span>{{ $vehiculo->vehicleModel->name }} <br>
                 <span class="text-xl font-bold">Descripción: </span>{{ $vehiculo->description }} <br>
-                <span class="text-xl font-bold">Precio: </span>${{ $vehiculo->price }} <br>
+                <span class="text-xl font-bold">Precio: </span>${{ number_format($vehiculo->price, 2, ',', '.') }} <br>
             </p>
             <div class="w-full flex-none mt-1 order-1 text-sm font-semibold text-red-600">
                 @if (is_null($vehiculo->offer))
                     <span class="text-green-700">Actualmente no posee ninguna oferta</span>
                     <div class="w-full flex-none mt-2 order-1 text-2xl font-semibold text-green-700">
-                        Precio ${{ round($vehiculo->price, 2) }}
+                        Precio ${{ number_format($vehiculo->price, 2, ',', '.') }}
                     </div>
                 @else
                     <p class="paragraph-normal text-red-600">
