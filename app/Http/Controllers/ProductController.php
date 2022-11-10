@@ -225,7 +225,8 @@ class ProductController extends Controller
 }
 
 public function verificarCotizaciones(){
-    $listaCotizaciones = Quotation::where('dateTimeExpiration', '<=', Carbon::now())->get();
+    $listaCotizaciones = Quotation::where('dateTimeExpiration', '<=', Carbon::now())
+    ->where('valid','=','1')->get();
     foreach ($listaCotizaciones as $unaCotiacion) {
     $this->quotationExpiration($unaCotiacion);
     $unaCotiacion->valid= '0';
