@@ -15,6 +15,8 @@ class SaleController extends Controller
     public function __construct()
     {
         $this->middleware('can:sales.create')->only('create');
+        $this->middleware('can:sales.show')->only('showSale');
+        $this->middleware('can:sales.report')->only('saleReport');
     }
     public function create($concretized)
     {

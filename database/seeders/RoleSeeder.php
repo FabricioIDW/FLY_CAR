@@ -35,12 +35,10 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'vehiculos.editar'])->syncRoles([$admin]);
         Permission::create(['name' => 'vehiculos.actualizar'])->syncRoles([$admin]);
         Permission::create(['name' => 'vehiculos.baja'])->syncRoles([$admin]);
-        // Permission::create(['name' => 'vehiculos.store'])->syncRoles([$admin]); // Agregar
         Permission::create(['name' => 'accesorios.buscar'])->syncRoles([$admin]);
         Permission::create(['name' => 'accesorios.editar'])->syncRoles([$admin]);
         Permission::create(['name' => 'accesorios.actualizar'])->syncRoles([$admin]);
         Permission::create(['name' => 'accesorios.baja'])->syncRoles([$admin]);
-        // Permission::create(['name' => 'accesorios.store'])->syncRoles([$admin]); // Agregar
         Permission::create(['name' => 'vehiculos.store'])->syncRoles([$admin]);
         Permission::create(['name' => 'accesorios.store'])->syncRoles([$admin]);
 
@@ -73,6 +71,8 @@ class RoleSeeder extends Seeder
 
         // Sale
         Permission::create(['name' => 'sales.create'])->syncRoles([$seller]);
+        Permission::create(['name' => 'sales.show'])->syncRoles([$seller]);
+        Permission::create(['name' => 'sales.report'])->syncRoles([$seller]);
 
         // Users
         Permission::create(['name' => 'cuenta.actualizar'])->syncRoles([$admin, $seller, $customer]);
@@ -80,6 +80,8 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'usersCustomer.update'])->syncRoles([$customer]);
         // Seller
         Permission::create(['name' => 'usersSeller.update'])->syncRoles([$seller]);
+        Permission::create(['name' => 'usersSeller.update'])->syncRoles([$seller]);
+
         // Create seller account
         Permission::create(['name' => 'usersSeller.create'])->syncRoles([$admin]);
         Permission::create(['name' => 'usersSeller.store'])->syncRoles([$admin]);

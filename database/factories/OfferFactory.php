@@ -18,8 +18,8 @@ class OfferFactory extends Factory
     {
         return [
             'discount' => $this->faker->randomFloat(5, 1, 25),
-            'startDate' => $this->faker->date(),
-            'endDate' => $this->faker->date(),
+            'startDate' => $this->faker->dateTimeInInterval(now(), '+0 days'),
+            'endDate' => $this->faker->dateTimeInInterval(now(), '+7 days'),
         ];
     }
 }
