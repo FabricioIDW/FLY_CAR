@@ -9,6 +9,7 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
     <!-- <link rel="stylesheet" href="./assets/styles/styles.css" /> -->
     <script defer src="https://unpkg.com/alpinejs@3.2.2/dist/cdn.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .form-select {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
@@ -179,7 +180,7 @@
             </footer>
         </div>
     </div>
-  
+
     <script>
         document.addEventListener("alpine:init", () => {
             Alpine.data("creditCard", () => ({
@@ -209,11 +210,19 @@
                 },
                 onSubmit() {
                     if (Math.floor(Math.random() * (10 - 1) + 1) >= 3) {
-                        alert(`${this.cardholder} su pago fue aceptado.`);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Buen trabajo!',
+                            text: 'Su pago fue aceptado',
+                        })
                         this.$refs.accepted.value = true;
                         this.$refs.paymentForm.submit();
                     } else {
-                        alert(`${this.cardholder} su pago fue rechazado.`);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Cuidado!',
+                            text: 'Su pago fue rechazado',
+                        })
                     }
                 },
                 cardholder: '',
@@ -227,7 +236,7 @@
             }));
         });
     </script>
-    
+
 </body>
 
 </html>

@@ -35,6 +35,7 @@ class PaymentController extends Controller
                 return redirect()->route('sales.create', ['concretized' => 1]);
             }
             if (session('action') == 'cancelateReserve') {
+                session(['newSale' => true]);
                 return redirect()->route('sales.create', ['concretized' => 0]);
             }
         }

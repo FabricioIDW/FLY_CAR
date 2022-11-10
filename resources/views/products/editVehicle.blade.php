@@ -85,7 +85,8 @@
                                     <div class="col-span-6 sm:col-span-4">
                                         <label for="contenidoModelo" class="block text-sm font-medium text-gray-700">
                                             Modelo del vehículo:<br>
-                                            (Modelo actual cargado: {{ $vehiculo->vehicleModel->name }})
+                                            <p id="modeloActual" hidden>
+                                                {{ $vehiculo->vehicleModel->name }}</p>
                                             <select id="contenidoModelo" name="modeloV"
                                                 class="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                                             </select>
@@ -139,109 +140,29 @@
                 </div>
             </div>
             <div class="text-right">
-                <x-jet-button type="submit" id="actualizarVehiculo"
-                    >Editar</x-jet-button>
+                <x-jet-button type="submit" id="actualizarVehiculo">Editar</x-jet-button>
             </div>
     </form>
+    <script>
+        $(document).ready(function() {
+            $value = $('#marcaVehiculo').val();
+            $modelo = $('#modeloActual').text();
 
+            $.ajax({
+                type: 'get',
+                url: '{{ URL::to('modelsByBrand') }}',
+                data: {
+                    'marca': $value,
+                    'modelo': $modelo
+                },
 
-    {{-- <div class="grid grid-cols-1 md:grid-cols-2">
-                <div class="grid grid-cols-2">
-
-
-                    <div class="py-1">
-                        Producto de tipo:
-                    </div>
-                    <div class="py-1">
-                        <select class="tipoProducto" name="tProducto" id="selectTipo">
-                            <option value="0">Vehiculo</option>
-                        </select>
-                    </div>
-
-                    <div class="py-1">
-                        Precio del Vehiculo:
-                    </div>
-                    <div class="py-1">
-                        <input type="number" id="idPrecioProd" min="1" name="precioP" step="0.01"
-                            value="{{ $vehiculo->price }}">
-                    </div>
-
-                    <div class="py-1">
-                        Descripcion del vehiculo:
-                    </div>
-                    <div class="py-1">
-                        <textarea name="descripcionProducto" id="idDescProd" cols="20" rows="5" value="">{{ $vehiculo->description }}</textarea>
-                    </div>
-
-                    <div class="py-1">
-                        Estado del vehiculo:
-                    </div>
-                    <div>
-                        <select id="estadoProducto" name="selectEstado">
-                            @if ($vehiculo->enabled == 1)
-                                <option value="0">No disponible</option>
-                                <option value="1" selected>Disponible</option>
-                            @else
-                                <option value="0" selected>No disponible</option>
-                                <option value="1">Disponible</option>
-                            @endif
-                        </select>
-                    </div>
-
-
-                </div>
-
-                <div id="tipoVehiculo" class="grid grid-cols-2">
-
-                    <div class="py-1">Marca del vehiculo:</div>
-                    <div class="py-1">
-                        <select name="marcasVehiculos" id="marcaVehiculo">
-                            <option value="0">Seleccione una marca</option>
-                            @foreach ($marcas as $marca)
-                                @if ($vehiculo->VehicleModel->brand_id == $marca->id)
-                                    <option value="{{ $marca->id }}" selected>{{ $marca->name }}</option>
-                                @else
-                                    <option value="{{ $marca->id }}">{{ $marca->name }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="py-1">Modelo del vehiculo</div>
-                    <div class="py-1">
-                        <select id="contenidoModelo" name="modeloV">
-                        </select>
-                    </div>
-
-                    <div class="py-1">
-                        Año del vehiculo:
-                    </div>
-                    <div class="py-1">
-                        <input id="AnioVehiculo" name="anioV" type="number" min="1980" max="2023"
-                            placeholder="Año entre 1980 y 2023..." value="{{ $vehiculo->year }}">
-                    </div>
-
-                    <div class="py-1">Nro de Chasis:</div>
-                    <div class="py-1">
-                        <input id="nroChasis" name="chassis" type="text" maxlength="17"
-                            pattern="[A-HJ-NN-NP-PR-Z0-9]{17,17}" placeholder="Expresion de 17 digitos.."
-                            value="{{ $vehiculo->chassis }}">
-                    </div>
-
-                    <div class="py-1">
-                        Imagen del vehiculo:
-                    </div>
-                    <img id="picture" src="{{ $vehiculo->image }}" alt="Imagen predefinida">
-                    <div class="py-1">
-                        <input id="file" name="file" type="file" accept="image/*">
-                    </div>
-                </div>
-            </div>
-            <div class="place-items-center grid grid-cols-1">
-                <button id="botonActualizar" type="submit"
-                    class="rounded-xl bg-gray-600 font-semibold text-2xl py-6">Actualizar vehiculo</button>
-            </div>
-        </form> --}}
+                success: function(data) {
+                    console.log(data);
+                    $('#contenidoModelo').html(data);
+                }
+            });
+        });
+    </script>
 
     <script type="text/javascript">
         document.getElementById("file").addEventListener('change', cambiarImagen);
@@ -263,7 +184,7 @@
                 type: 'get',
                 url: '{{ URL::to('modelsByBrand') }}',
                 data: {
-                    'selectMarca': $value
+                    'marca': $value,
                 },
 
                 success: function(data) {
