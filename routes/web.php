@@ -38,6 +38,7 @@ Route::controller(ProductController::class)->group(function () {
     Route::put('vehiculo/{vehiculo}', 'updateVehicle')->name('vehiculos.actualizar');
     Route::get('productos/eliminarVehiculo/{vehicle}', 'destroyVehicle')->name('vehiculos.baja');
     Route::post('vehiculos/store', 'storeVehicle')->name('vehiculos.store');
+    Route::get('modelsByBrand', 'modelsBrand')->name('productos.modelosPorMarca');
     // Accessories
     Route::get('productos/buscarAccesorios', 'indexAccesorios')->name('accesorios.buscar');
     Route::get('editarAccesorio/{accesorio}', 'editAccesory')->name('accesorios.editar');

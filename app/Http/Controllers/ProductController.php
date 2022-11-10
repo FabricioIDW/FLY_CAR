@@ -52,22 +52,25 @@ class ProductController extends Controller
         return view('products.buscarAccesorios', compact('accesorios'));
     }
 
+    public function modelsBrand(Request $request)
+    {
+        $output = "";
+        $modelos = vehicleModel::where('brand_id', '=', '' . $request->marca . '')->get();
+        foreach ($modelos as $model) {
+            if ($request->modelo == $model->name) {
+                $output .= '<option id="' . $model->id . '" value="' . $model->id . '" selected>' . $model->name . '</option>';
+            } else {
+                $output .= '<option id="' . $model->id . '" value="' . $model->id . '">' . $model->name . '</option>';
+            }
+        }
+        return response($output);
+    }
     public function create()
     {
         $modelos = VehicleModel::all();
         $marcas = Brand::all();
 
         return view('products/create', compact('modelos', 'marcas'));
-    }
-    public function modelsBrand(Request $request)
-    {
-        $output = "";
-        $modelos = vehicleModel::where('brand_id', '=', '' . $request->selectMarca . '')->get();
-        foreach ($modelos as $model) {
-            $output .=
-                '<option id="' . $model->id . '" value="' . $model->id . '">' . $model->name . '</option>';
-        }
-        return response($output);
     }
 
     public function storeAccessory(Request $request)
@@ -202,11 +205,11 @@ class ProductController extends Controller
         return redirect()->route('accesorios.buscar');
     }
     public function catalogo()
-    {   
+    {
         // metodos para eliminar las ofertas y cotizaciones vencidas
-        
-         $this->verificarCotizaciones();
-         $this->verificarOfertas();
+
+        $this->verificarCotizaciones();
+        $this->verificarOfertas();
 
         //Elimino sessiones 
         session()->forget(['vehiculo1', 'vehiculo2', 'accesorio1', 'accesoriosSelec', 'vehiculosSelec', 'quotation']);
@@ -216,47 +219,49 @@ class ProductController extends Controller
         return view('catalogo', compact('vehiculos', 'marcas'));
     }
 
-    public function verificarOfertas(){
+    public function verificarOfertas()
+    {
         $listaOfertas = Offer::where('endDate', '<=', Carbon::now())->get();
         foreach ($listaOfertas as $unaOferta) {
-         $unaOferta->delete();         
-    }
-    // return $listaOfertas;
-}
-
-public function verificarCotizaciones(){
-    $listaCotizaciones = Quotation::where('dateTimeExpiration', '<=', Carbon::now())
-    ->where('valid','=','1')->get();
-    foreach ($listaCotizaciones as $unaCotiacion) {
-    $this->quotationExpiration($unaCotiacion);
-    $unaCotiacion->valid= '0';
-    $unaCotiacion->save();
-}
-// return $listaCotizaciones;
-}
-
-public function quotationExpiration(Quotation $quotation){
-    $vehiculos = $quotation->vehicles;
-      foreach ($vehiculos as $vehiculo) {
-        $colecAccesorios = [];
-        if ($vehiculo->getAccessoriesFromQuotation($quotation->id)) {
-        $colecAccesorios = $vehiculo->getAccessoriesFromQuotation($quotation->id);
-        foreach ($colecAccesorios as $unAccesorio) {
-            $acc = Accessory::find($unAccesorio["id"]);
-            $acc->addStock();
-            $acc->save();
+            $unaOferta->delete();
         }
+        // return $listaOfertas;
     }
-        $vehiculo->vehicleState = 'availabled';
-        $vehiculo->save();
-      }
-      
-      if ($quotation->reserve){
-        $quotation->reserve->reserveState = 'disabled';
-        $quotation->reserve->save();
-      }
 
-    return $quotation;
-}
+    public function verificarCotizaciones()
+    {
+        $listaCotizaciones = Quotation::where('dateTimeExpiration', '<=', Carbon::now())
+            ->where('valid', '=', '1')->get();
+        foreach ($listaCotizaciones as $unaCotiacion) {
+            $this->quotationExpiration($unaCotiacion);
+            $unaCotiacion->valid = '0';
+            $unaCotiacion->save();
+        }
+        // return $listaCotizaciones;
+    }
 
+    public function quotationExpiration(Quotation $quotation)
+    {
+        $vehiculos = $quotation->vehicles;
+        foreach ($vehiculos as $vehiculo) {
+            $colecAccesorios = [];
+            if ($vehiculo->getAccessoriesFromQuotation($quotation->id)) {
+                $colecAccesorios = $vehiculo->getAccessoriesFromQuotation($quotation->id);
+                foreach ($colecAccesorios as $unAccesorio) {
+                    $acc = Accessory::find($unAccesorio["id"]);
+                    $acc->addStock();
+                    $acc->save();
+                }
+            }
+            $vehiculo->vehicleState = 'availabled';
+            $vehiculo->save();
+        }
+
+        if ($quotation->reserve) {
+            $quotation->reserve->reserveState = 'disabled';
+            $quotation->reserve->save();
+        }
+
+        return $quotation;
+    }
 }
