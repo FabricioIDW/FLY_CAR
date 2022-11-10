@@ -33,6 +33,13 @@ class Accessory extends Model
         }
         return false;
     }
+    public function addStock()
+    {
+            $this->stock = $this->stock + 1;
+            $this->save();
+            return true;
+       
+    }
     public function setEnabled($valor)
     {
         $this->enabled = $valor;
