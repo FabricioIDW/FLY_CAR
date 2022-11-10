@@ -17,7 +17,7 @@
                         src="{{ $vehiculo->image }}"
                         alt="{{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}" />
                 </div>
-                <div class="p-3">
+                <div class="p-3 ">
                     <h3 class="font-semibold text-2xl leading-6 text-gray-700 my-2">
                         {{ $vehiculo->vehicleModel->brand->name }} {{ $vehiculo->vehicleModel->name }}
                         </h2>
@@ -27,15 +27,21 @@
                         <p class="paragraph-normal text-gray-600">
                             Número de chasis: {{ $vehiculo->chassis }}
                         </p>
+                        <div class="grid sm:grid-cols-2 grid-cols-1 w-full">
                         <p class="paragraph-normal text-gray-600">
-                            Precio: ${{ number_format($vehiculo->price, 2, ',', '.') }}
+                            Precio: 
                         </p>
+                        <p class="paragraph-normal text-gray-600">${{ number_format($vehiculo->getPrice(), 2, ',', '.') }}</p>
+                    </div>
                         @if (count($vehiculo->getAccessoriesFromQuotation(session('quotation')->id)) > 0)
                             <p class="font-semibold text-gray-600">
                                 Accesorios:
                             <ul>
                                 @foreach ($vehiculo->getAccessoriesFromQuotation(session('quotation')->id) as $accessory)
-                                    <li>{{ $accessory['name'] }} Precio: {{ $accessory['price'] }}</li>
+                                    <li class="grid sm:grid-cols-2 grid-cols-1">
+                                        <p class="text-left">{{ $accessory['name'] }}</p>
+                                        <p class="text-right">${{ $accessory['price'] }}</p>
+                                    </li>
                                 @endforeach
                             </ul>
                         @endif

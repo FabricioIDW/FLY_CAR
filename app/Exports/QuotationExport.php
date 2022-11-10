@@ -60,16 +60,21 @@ class QuotationExport implements
     public function map($quotation): array
     {
         $accessoriesData = [];
+        $accessoriesPrices = [];
         foreach ($quotation->vehicles as $vehicle) {
             $accessories = $vehicle->getAccessoriesFromQuotation($quotation->id);
             $data = '';
+            $accessoriesPrice = 0;
             if (count($accessories) > 0) {
                 foreach ($accessories as $accessory) {
-                    $data .= $accessory['name'] . ' $' . $accessory['price'];
+                    $data .= $accessory['name'] . ', ';
+                    $accessoriesPrice += $accessory['price'];
                 }
+                $accessoriesPrices[] = $accessoriesPrice;
                 $accessoriesData[] = $data;
             } else {
                 $accessoriesData[] = 'No posee';
+                $accessoriesPrices[] = 0;
             }
         }
         if (count($quotation->vehicles) > 1) {
@@ -87,21 +92,23 @@ class QuotationExport implements
                     'Año',
                     'Precio',
                     'Accesorios',
+                    'Precio total accesorios'
                 ],
                 [
                     $quotation->vehicles[0]->vehicleModel->brand->name,
                     $quotation->vehicles[0]->vehicleModel->name,
                     $quotation->vehicles[0]->year,
-                    $quotation->vehicles[0]->getPrice(),
+                    number_format($quotation->vehicles[0]->getPrice(), 2, ',', '.'),
                     $accessoriesData[0],
+                    number_format($accessoriesPrices[0], 2, ',', '.'),
                 ],
                 [
                     $quotation->vehicles[1]->vehicleModel->brand->name,
                     $quotation->vehicles[1]->vehicleModel->name,
                     $quotation->vehicles[1]->year,
-                    $quotation->vehicles[1]->getPrice(),
+                    number_format($quotation->vehicles[1]->getPrice(), 2, ',', '.'),
                     $accessoriesData[1],
-
+                    number_format($accessoriesPrices[1], 2, ',', '.'),
                 ],
             ];
         }
@@ -119,13 +126,15 @@ class QuotationExport implements
                 'Año',
                 'Precio',
                 'Accesorios',
+                'Precio total accesorios',
             ],
             [
                 $quotation->vehicles[0]->vehicleModel->brand->name,
                 $quotation->vehicles[0]->vehicleModel->name,
                 $quotation->vehicles[0]->year,
-                $quotation->vehicles[0]->getPrice(),
+                number_format($quotation->vehicles[0]->getPrice(), 2, ',', '.'),
                 $accessoriesData[0],
+                number_format($accessoriesPrices[0], 2, ',', '.'),
             ],
         ];
     }

@@ -110,7 +110,8 @@ class QuotationController extends Controller
                     if (session()->exists('accesoriosSelec')) {
                         $accesoriosSelec = session('accesoriosSelec');
                         foreach ($accesoriosSelec[$vehiculo->id] as $accesorio) {
-                            $precioFinal += $accesorio->getPrice($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price));
+                            // $precioFinal += $accesorio->getPrice($accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price));
+                            $precioFinal += $accesorio->getPrice($vehiculo->vehicleModel->accessories[0]->pivot->price);
                             $accesorio->discountStock();
                             $vehiculo->accessoriesQuotation()->attach($accesorio->id, ['quotation_id' => $quotation->id]);
                         }

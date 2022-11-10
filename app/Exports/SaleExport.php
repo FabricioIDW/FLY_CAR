@@ -49,27 +49,102 @@ class SaleExport implements
     {
         return [
             [
-                'Nro',
+                'Nro. Venta',
                 'Cliente',
                 'Fecha generada',
                 'Importe',
-                'Vendedor',
-                'Pago',
+                'Nro. Pago',
+                'DNI vendedor',
             ],
         ];
     }
     public function map($sale): array
     {
-        return [
-            [
-                $sale->id,
-                $sale->quotation->customer->name . ' ' . $sale->quotation->customer->lastName,
-                $sale->dateTimeGenerated,
-                number_format($sale->quotation->finalAmount, 2, ',', '.'),
-                $sale->seller->name . ' ' . $sale->seller->lastName,
-                $sale->payment->id,
-            ],
-        ];
+        $accessoriesData = [];
+        $accessoriesPrices = [];
+        foreach ($sale->quotation->vehicles as $vehicle) {
+            $accessories = $vehicle->getAccessoriesFromQuotation($sale->quotation->id);
+            $data = '';
+            $accessoriesPrice = 0;
+            if (count($accessories) > 0) {
+                foreach ($accessories as $accessory) {
+                    $data .= $accessory['name'] . ', ';
+                    $accessoriesPrice += $accessory['price'];
+                }
+                $accessoriesPrices[] = $accessoriesPrice;
+                $accessoriesData[] = $data;
+            } else {
+                $accessoriesData[] = 'No posee';
+                $accessoriesPrices[] = 0;
+            }
+        }
+        if (count($sale->quotation->vehicles) > 1) {
+            return  [
+                [
+                    $sale->id,
+                    $sale->quotation->customer->dni,
+                    $sale->dateTimeGenerated,
+                    number_format($sale->quotation->finalAmount, 2, ',', '.'),
+                    $sale->payment->id,
+                    $sale->seller->dni,
+                ],
+                [
+                    'Vehículos'
+                ],
+                [
+                    'Marca',
+                    'Modelo',
+                    'Año',
+                    'Precio',
+                    'Accesorios',
+                    'Precio total accesorios',
+                ],
+                [
+                    $sale->quotation->vehicles[0]->vehicleModel->brand->name,
+                    $sale->quotation->vehicles[0]->vehicleModel->name,
+                    $sale->quotation->vehicles[0]->year,
+                    number_format($sale->quotation->vehicles[0]->getPrice(), 2, ',', '.'),
+                    $accessoriesData[0],
+                    number_format($accessoriesPrices[0], 2, ',', '.'),
+                ],
+                [
+                    $sale->quotation->vehicles[1]->vehicleModel->brand->name,
+                    $sale->quotation->vehicles[1]->vehicleModel->name,
+                    $sale->quotation->vehicles[1]->year,
+                    number_format($sale->quotation->vehicles[1]->getPrice(), 2, ',', '.'),
+                    $accessoriesData[1],
+                    number_format($accessoriesPrices[1], 2, ',', '.'),
+                ],
+            ];
+        } else {
+            return
+                [
+                    [
+                        $sale->id,
+                        $sale->quotation->customer->dni,
+                        $sale->dateTimeGenerated,
+                        number_format($sale->quotation->finalAmount, 2, ',', '.'),
+                        $sale->payment->id,
+                        $sale->seller->dni,
+                    ],
+                    [
+                        'Marca',
+                        'Modelo',
+                        'Año',
+                        'Precio',
+                        'Accesorios',
+                        'Precio total accesorios',
+                    ],
+                    [
+                        $sale->quotation->vehicles[0]->vehicleModel->brand->name,
+                        $sale->quotation->vehicles[0]->vehicleModel->name,
+                        $sale->quotation->vehicles[0]->year,
+                        number_format($sale->quotation->vehicles[0]->getPrice(), 2, ',', '.'),
+                        $accessoriesData[0],
+                        number_format($accessoriesPrices[0], 2, ',', '.'),
+                    ]
+                ];
+        }
     }
     public function drawings()
     {
@@ -107,21 +182,21 @@ class SaleExport implements
                 ],
             ],
         ]);
-        // $sheet->getStyle('A12:' . $sheet->getHighestColumn() . '12')->applyFromArray([
-        //     'font' => [
-        //         'bold' => true,
-        //         'name' => 'Arial',
-        //     ],
-        //     'alignment' => [
-        //         'horizontal' => 'center',
-        //     ],
-        //     'fill' => [
-        //         'fillType' => 'solid',
-        //         'startColor' => [
-        //             'argb' => 'C5D9F1',
-        //         ],
-        //     ]
-        // ]);
+        $sheet->getStyle('A12:' . $sheet->getHighestColumn() . '12')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'name' => 'Arial',
+            ],
+            'alignment' => [
+                'horizontal' => 'center',
+            ],
+            'fill' => [
+                'fillType' => 'solid',
+                'startColor' => [
+                    'argb' => 'C5D9F1',
+                ],
+            ]
+        ]);
         $sheet->getStyle('B1')->applyFromArray([]);
     }
 }
