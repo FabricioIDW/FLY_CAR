@@ -94,6 +94,8 @@ Route::controller(ReserveController::class)->group(function () {
 // Sale
 Route::controller(SaleController::class)->group(function () {
     Route::get('/venta/{concretized}', 'create')->name('sales.create');
+    Route::get('/ventaRealizada', 'showSale')->name('sales.show');
+    Route::get('/excelVenta/{sale}', 'saleReport')->name('sales.report');
 });
 // User
 Route::controller(UserController::class)->group(function () {

@@ -149,10 +149,18 @@ class QuotationController extends Controller
 
     public function generarCotizacionVendedor()
     {
-        $quotation = $this->createQuotation();
-        $quotation->customer_id = session('customer_id');
-        $quotation->save();
-        Alert::success('La cotización de genero correctamente.');
+        // Probando
+        if (session()->exists('customer_id')) {
+            # code...
+            $quotation = $this->createQuotation();
+            $quotation->customer_id = session('customer_id');
+            $quotation->save();
+            session(['quotation' => $quotation]);
+            session()->forget('customer_id');
+            Alert::success('La cotización de genero correctamente.');
+        } else {
+            $quotation = session('quotation');
+        }
         return view('quotations.mostrarCotizacion', compact('quotation'));
     }
 
@@ -176,7 +184,7 @@ class QuotationController extends Controller
             }
         }
         $quotation->finalAmount = $precioFinal;
-        $quotation->dateTimeExpiration = ExpirationDate::getExpiration($quotation->dateTimeGenerated, 2); 
+        $quotation->dateTimeExpiration = ExpirationDate::getExpiration($quotation->dateTimeGenerated, 2);
         return $quotation;
     }
 
@@ -240,6 +248,6 @@ class QuotationController extends Controller
     {
         // return  $quotation->customer;
         $collection = Quotation::where('id', $quotation->id)->get();
-        return (new QuotationExport($collection))->download('mi_cotizacion.pdf', \Maatwebsite\Excel\Excel::DOMPDF);;
+        return (new QuotationExport($collection))->download('mi_cotizacion.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }

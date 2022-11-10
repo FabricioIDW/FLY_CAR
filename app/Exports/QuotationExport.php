@@ -55,11 +55,6 @@ class QuotationExport implements
                 'Fecha vencimiento',
                 'Importe'
             ],
-            // [
-            //     'Marca',
-            //     'Modelo',
-            //     'Año',
-            // ],
         ];
     }
     public function map($quotation): array

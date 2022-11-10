@@ -26,7 +26,7 @@ class Quotation extends Model
     // FUNCIONES
     public function updateTimes($current)
     {
-        $this->dateTimeGenerated = $current;
+        // $this->dateTimeGenerated = $current;
         $this->dateTimeExpiration = ExpirationDate::getExpiration($current, 7);
         $this->save();
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SaleExport;
 use App\Models\Sale;
 use App\Models\Seller;
 use App\Models\Vehicle;
@@ -35,12 +36,27 @@ class SaleController extends Controller
         if (session('quotation')->reserve && session('quotation')->reserve->reserveState == 'enabled') {
             session('quotation')->reserve->setState('disabled');
         }
-        session()->forget(['payment', 'quotation']);
         if ($concretized) {
-            Alert::success('Venta realizada! Número de venta: ' . $sale->id . '.');
+            Alert::success('Venta realizada! Número de venta: ' . $sale->id . '');
+            // TO DO generar el excel de la venta
+            // $this->saleReport($sale);
+            session(['sale' => $sale]);
+            // $this->saleReport($sale);
         } else {
             Alert::success('Reserva cancelada! El monto de la reserva fue devuelto al cliente.');
         }
-        return redirect()->action([ProductController::class, 'catalogo']);
+        session()->forget(['payment', 'quotation']);
+        // return redirect()->action([ProductController::class, 'catalogo']);
+        $this->showSale();
+    }
+    public function showSale()
+    {
+        return view('sales.show');
+    }
+    public function saleReport(Sale $sale)
+    {
+        // session()->forget(['sale']);
+        $collection = Sale::where('id', $sale->id)->get();
+        return (new SaleExport($collection))->download('venta_' . $sale->id . '.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 }

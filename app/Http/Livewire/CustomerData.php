@@ -40,7 +40,7 @@ class CustomerData extends Component
                 if ($customer->getQuotation()->reserve) {
                     $this->emit('errorAlert', 'El cliente posee una cotización con una reserva activa.');
                 } else {
-                    // TO DO Probar
+                    // TO DO aumentar stock de los accesorios
                     $customer->getQuotation()->setVehicles('availabled');
                     $customer->disableQuotation();
                     session(['customer_id' => $customer->id]);

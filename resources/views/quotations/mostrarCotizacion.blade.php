@@ -31,7 +31,7 @@
                     <span class="text-black">Número de chasis: </span>{{ $vehiculo->chassis }}
                 </p>
                 <p class="paragraph-normal text-gray-600">
-                    <span class="text-black">Precio:</span> ${{ number_format($vehiculo->price, 2, ',', '.') }}
+                    <span class="text-black">Precio:</span> ${{ number_format($vehiculo->getPrice(), 2, ',', '.') }}
                 </p>
                 @php
                     $accesorios = $vehiculo->getAccessoriesFromQuotation($quotation->id);
@@ -99,7 +99,10 @@
         </div>
         <div class="text-right grid justify-center md:grid-cols-1 lg:grid-cols-1 gap-2 lg:gap-2 my-1">
             <p class="font-bold text-black text-2xl">
-                Importe total: ${{ number_format($quotation->finalAmount, 2, ',', '.') }}
+                @php
+                    $amount = $quotation->reserve ? $quotation->finalAmount - $quotation->reserve->amount : $quotation->finalAmount;
+                @endphp
+                Importe total: ${{ number_format($amount, 2, ',', '.') }}
             </p>
         </div>
         <div class="col-span-2 text-center">
