@@ -6,8 +6,12 @@ use App\Http\Requests\StoreAccessory;
 use App\Http\Requests\StoreVehicle;
 use App\Models\Accessory;
 use App\Models\Brand;
+use App\Models\Offer;
+use App\Models\Quotation;
+use App\Models\Reserve;
 use App\Models\Vehicle;
 use App\Models\VehicleModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -198,13 +202,60 @@ class ProductController extends Controller
         return redirect()->route('accesorios.buscar');
     }
     public function catalogo()
-    {
+    {   
+        // metodos para eliminar las ofertas y cotizaciones vencidas
+        
+         $this->verificarCotizaciones();
+         $this->verificarOfertas();
+
         //Elimino sessiones 
         session()->forget(['vehiculo1', 'vehiculo2', 'accesorio1', 'accesoriosSelec', 'vehiculosSelec', 'quotation']);
         ///
         $marcas = Brand::all();
         $vehiculos = Vehicle::where('vehicleState', 'availabled')->get();
-
         return view('catalogo', compact('vehiculos', 'marcas'));
     }
+
+    public function verificarOfertas(){
+        $listaOfertas = Offer::where('endDate', '<=', Carbon::now())->get();
+        foreach ($listaOfertas as $unaOferta) {
+         $unaOferta->delete();         
+    }
+    // return $listaOfertas;
+}
+
+public function verificarCotizaciones(){
+    $listaCotizaciones = Quotation::where('dateTimeExpiration', '<=', Carbon::now())->get();
+    foreach ($listaCotizaciones as $unaCotiacion) {
+    $this->quotationExpiration($unaCotiacion);
+    $unaCotiacion->valid= '0';
+    $unaCotiacion->save();
+}
+// return $listaCotizaciones;
+}
+
+public function quotationExpiration(Quotation $quotation){
+    $vehiculos = $quotation->vehicles;
+      foreach ($vehiculos as $vehiculo) {
+        $colecAccesorios = [];
+        if ($vehiculo->getAccessoriesFromQuotation($quotation->id)) {
+        $colecAccesorios = $vehiculo->getAccessoriesFromQuotation($quotation->id);
+        foreach ($colecAccesorios as $unAccesorio) {
+            $acc = Accessory::find($unAccesorio["id"]);
+            $acc->addStock();
+            $acc->save();
+        }
+    }
+        $vehiculo->vehicleState = 'availabled';
+        $vehiculo->save();
+      }
+      
+      if ($quotation->reserve){
+        $quotation->reserve->reserveState = 'disabled';
+        $quotation->reserve->save();
+      }
+
+    return $quotation;
+}
+
 }
