@@ -249,6 +249,6 @@ class QuotationController extends Controller
     {
         // return  $quotation->customer;
         $collection = Quotation::where('id', $quotation->id)->get();
-        return (new QuotationExport($collection))->download('mi_cotizacion.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        return (new QuotationExport($collection))->download('mi_cotizacion.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

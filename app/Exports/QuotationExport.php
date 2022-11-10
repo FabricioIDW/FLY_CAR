@@ -150,6 +150,8 @@ class QuotationExport implements
     }
     public function styles(Worksheet $sheet)
     {
+        $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+        $sheet->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A3);
         $sheet->setTitle('Reporte');
         $sheet->mergeCells('D1:D9');
         $sheet->getStyle('A10:' . $sheet->getHighestColumn() . '10')->applyFromArray([

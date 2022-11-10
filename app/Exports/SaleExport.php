@@ -89,9 +89,6 @@ class SaleExport implements
                     $sale->seller->dni,
                 ],
                 [
-                    'Vehículos'
-                ],
-                [
                     'Marca',
                     'Modelo',
                     'Año',

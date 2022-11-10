@@ -80,7 +80,6 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'usersCustomer.update'])->syncRoles([$customer]);
         // Seller
         Permission::create(['name' => 'usersSeller.update'])->syncRoles([$seller]);
-        Permission::create(['name' => 'usersSeller.update'])->syncRoles([$seller]);
 
         // Create seller account
         Permission::create(['name' => 'usersSeller.create'])->syncRoles([$admin]);
