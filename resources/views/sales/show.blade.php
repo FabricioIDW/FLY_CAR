@@ -5,7 +5,7 @@
 @section('content')
     @if (session()->exists('sale'))
         <h3 class="pt-2 text-center font-semibold text-2xl  hover:shadow-sky-600">
-            Cotización N°: {{ session('sale')->quotation->id }}
+            Venta N°: {{ session('sale')->id }}
         </h3>
         @php
             $cols = count(session('sale')->quotation->vehicles) + 1;
@@ -72,6 +72,22 @@
                 </p>
                 <p class="pl-3 font-semibold text-black">
                     Email: <span class="text-gray-600">{{ session('sale')->quotation->customer->email }}</span>
+                </p>
+            </div>
+            <div>
+                <h3 class="pl-3 font-semibold text-xl leading-6 text-gray-700 my-2">
+                    Datos del vendedor:
+                </h3>
+                <p class="pl-3 font-semibold text-black">
+                    Nombre y Apellido: <span class="text-gray-600">{{ session('sale')->seller->name }}
+                        {{ session('sale')->seller->lastName }}</span>
+                </p>
+                <p class="pl-3 font-semibold text-black">
+                    DNI: <span class="text-gray-600">{{ session('sale')->seller->dni }}</span>
+                </p>
+                <p class="pl-3 font-semibold text-black">
+                    Comisión: <span
+                        class="text-gray-600">${{ number_format(session('sale')->comission, 2, ',', '.') }}</span>
                 </p>
             </div>
         </div>

@@ -28,7 +28,7 @@ class SaleExport implements
 {
     use Exportable;
 
-    private $fileName = 'sale.xlsx';
+    private $fileName = 'venta.xlsx';
 
     private $writerType = Excel::XLSX;
     public $sale;

@@ -18,36 +18,42 @@ class SaleController extends Controller
     }
     public function create($concretized)
     {
-        $sale = Sale::create([
-            'comission' => Sale::calculateComission(session('quotation')->finalAmount),
-            'payment_id' => session('payment') ? session('payment')->id : null,
-            'quotation_id' => session('quotation')->id,
-            'seller_id' => Auth::user()->seller->id,
-            'concretized' => $concretized,
-        ]);
-        // TO DO marcar la venta como no concretada
-        if ($concretized) {
-            session('quotation')->setVehicles('sold');
-            session('quotation')->setValid(false);
+        if (session('newSale')) {
+            # code...
+            $sale = Sale::create([
+                'comission' => Sale::calculateComission(session('quotation')->finalAmount),
+                'payment_id' => session('payment') ? session('payment')->id : null,
+                'quotation_id' => session('quotation')->id,
+                'seller_id' => Auth::user()->seller->id,
+                'concretized' => $concretized,
+            ]);
+            // TO DO marcar la venta como no concretada
+            if ($concretized) {
+                session('quotation')->setVehicles('sold');
+                session('quotation')->setValid(false);
+            } else {
+                session('quotation')->setVehicles('availabled');
+                session('quotation')->setValid(false);
+            }
+            if (session('quotation')->reserve && session('quotation')->reserve->reserveState == 'enabled') {
+                session('quotation')->reserve->setState('disabled');
+            }
+            session()->forget(['payment', 'quotation']);
+            if ($concretized) {
+                Alert::success('Venta realizada! Número de venta: ' . $sale->id . '');
+                // TO DO generar el excel de la venta
+                // $this->saleReport($sale);
+                session(['newSale' => false]);
+                session(['sale' => $sale]);
+                // $this->saleReport($sale);
+                return view('sales.show');
+            } else {
+                Alert::success('Reserva cancelada! El monto de la reserva fue devuelto al cliente.');
+                return redirect()->action([ProductController::class, 'catalogo']);
+            }
         } else {
-            session('quotation')->setVehicles('availabled');
-            session('quotation')->setValid(false);
+            return view('sales.show');
         }
-        if (session('quotation')->reserve && session('quotation')->reserve->reserveState == 'enabled') {
-            session('quotation')->reserve->setState('disabled');
-        }
-        if ($concretized) {
-            Alert::success('Venta realizada! Número de venta: ' . $sale->id . '');
-            // TO DO generar el excel de la venta
-            // $this->saleReport($sale);
-            session(['sale' => $sale]);
-            // $this->saleReport($sale);
-        } else {
-            Alert::success('Reserva cancelada! El monto de la reserva fue devuelto al cliente.');
-        }
-        session()->forget(['payment', 'quotation']);
-        // return redirect()->action([ProductController::class, 'catalogo']);
-        $this->showSale();
     }
     public function showSale()
     {
