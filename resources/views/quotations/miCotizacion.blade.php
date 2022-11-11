@@ -74,16 +74,22 @@
                     @php
                         $values = ['action' => 'reserve', 'amount' => session('reserve')->amount];
                     @endphp
-                    <div class="sm:text-end text-center">
-                        <x-popup class="float-right" openBtn="Reservar" title="Reserva" leftBtn="Realizar pago"
-                            rightBtn="Cancelar" ref="payments.index" :value=$values>
-                            <p>Importe de la cotización:
-                                ${{ number_format(session('quotation')->finalAmount, 2, ',', '.') }}</p>
-                            <p>Importe de la seña a pagar: ${{ number_format(session('reserve')->amount, 2, ',', '.') }}
-                            </p>
-                            <p>(5% del importe de la cotización)</p>
-                        </x-popup>
-                    </div>
+                    @if (session('quotation')->checkVehiclesState())
+                        <div class="sm:text-end text-center">
+                            <x-popup class="float-right" openBtn="Reservar" title="Reserva" leftBtn="Realizar pago"
+                                rightBtn="Cancelar" ref="payments.index" :value=$values>
+                                <p>Importe de la cotización:
+                                    ${{ number_format(session('quotation')->finalAmount, 2, ',', '.') }}</p>
+                                <p>Importe de la seña a pagar:
+                                    ${{ number_format(session('reserve')->amount, 2, ',', '.') }}
+                                </p>
+                                <p>(5% del importe de la cotización)</p>
+                            </x-popup>
+                        </div>
+                    @else
+                        <p>Alguno de los vehículos de la cotización sufrio un siniestro. Usted puede generar otra cotización
+                            o esperar a que el vehículo vuelva a estar disponible.</p>
+                    @endif
                 @endif
             </div>
             {{-- <div class="sm:text-left text-center sm:pl-0 pl-44">

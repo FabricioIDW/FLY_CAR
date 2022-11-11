@@ -29,7 +29,6 @@ class SaleController extends Controller
                 'seller_id' => Auth::user()->seller->id,
                 'concretized' => $concretized,
             ]);
-            // TO DO marcar la venta como no concretada
             if ($concretized) {
                 session('quotation')->setVehicles('sold');
                 session('quotation')->setValid(false);
@@ -38,7 +37,7 @@ class SaleController extends Controller
                 session('quotation')->setValid(false);
             }
             if (session('quotation')->reserve && session('quotation')->reserve->reserveState == 'enabled') {
-                session('quotation')->reserve->setState('disabled');
+                session('quotation')->reserve->setState('canceled');
             }
             session()->forget(['payment', 'quotation']);
             if ($concretized) {

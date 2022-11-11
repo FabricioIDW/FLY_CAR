@@ -24,6 +24,7 @@ class ShowCatalogo extends Component
             ->join('vehicle_models', 'vehicle_models.id', '=', 'vehicles.vehicle_model_id')
             ->join('brands', 'brands.id', '=', 'vehicle_models.brand_id')
             ->where('vehicleState', 'availabled')
+            ->where('enabled', '1')
             ->where('vehicles.removed', '=', 'false')->where(function ($query) {
                 $query->where('vehicle_models.name', 'LIKE', '%' . $this->search . '%')
                     ->orWhere('brands.name', 'LIKE', '%' . $this->search . '%')

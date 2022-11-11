@@ -215,7 +215,9 @@ class ProductController extends Controller
         session()->forget(['vehiculo1', 'vehiculo2', 'accesorio1', 'accesoriosSelec', 'vehiculosSelec', 'quotation']);
         ///
         $marcas = Brand::all();
-        $vehiculos = Vehicle::where('vehicleState', 'availabled')->get();
+        $vehiculos = Vehicle::where('vehicleState', 'availabled')
+        ->where('enabled', '1')
+        ->where('vehicles.removed', '=', 'false')->get();
         return view('catalogo', compact('vehiculos', 'marcas'));
     }
 

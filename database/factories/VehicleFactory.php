@@ -22,9 +22,9 @@ class VehicleFactory extends Factory
         $imagePath = '/vehicles/'. $model->brand->name . ' ' . $model->name . '.jpg';
         return [
             'chassis' => $this->faker->unique()->numberBetween(11111111111111111, 99999999999999999),
-            'price' => $this->faker->randomFloat(2, 500000, 14500500),
-            'description' => $this->faker->text(100),
-            'year' => $this->faker->numberBetween(2014, 2022),
+            'price' => $this->faker->randomFloat(2, 5000000, 14500500),
+            'description' => $this->faker->randomElement(['Semi automático', 'Full automático', 'Caja automática', 'Caja manual', 'Motor a nafta']),
+            'year' => $this->faker->numberBetween(2016, 2022),
             'image' => $imagePath,
             'offer_id' => Offer::all()->random()->id,
             'vehicle_model_id' => $model->id,

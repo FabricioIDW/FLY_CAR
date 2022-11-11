@@ -25,15 +25,10 @@
                     max="{{ now()->toDateString('Y-m-d') }}" />
             </div>
         </div>
-        {{-- @if ($enableBtns) --}}
         @if (count($result) > 0)
             <x-jet-button wire:click="generateReportExcel">Exportar a excel</x-jet-button>
             <x-jet-button wire:click="generateReportPDF">Exportar a PDF</x-jet-button>
         @endif
-        {{-- @else
-            <x-jet-button disabled>Exportar a excel</x-jet-button>
-            <x-jet-button disabled>Exportar a PDF</x-jet-button>
-        @endif --}}
         <div class="scroll-containerChico mx-auto">
 
             <div class="mt-4">
