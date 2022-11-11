@@ -212,7 +212,7 @@
                     if (Math.floor(Math.random() * (10 - 1) + 1) >= 3) {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Buen trabajo!',
+                            title: 'Transacción efectuada!',
                             text: 'Su pago fue aceptado',
                         })
                         this.$refs.accepted.value = true;

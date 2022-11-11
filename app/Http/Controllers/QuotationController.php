@@ -138,7 +138,7 @@ class QuotationController extends Controller
             session(['reserve' => $reserve]);
             session(['quotation' => $quotation]);
             session()->forget(['vehiculo1', 'vehiculo2', 'accesorio1', 'accesoriosSelec', 'vehiculosSelec']);
-            Alert::success('La cotización de genero correctamente.');
+            Alert::success('La cotización se generó correctamente.');
         } else {
             $quotation = session('quotation');
             $reserve = session('reserve');
@@ -158,7 +158,7 @@ class QuotationController extends Controller
             $quotation->save();
             session(['quotation' => $quotation]);
             session()->forget('customer_id');
-            Alert::success('La cotización de genero correctamente.');
+            Alert::success('La cotización se generó correctamente.');
         } else {
             $quotation = session('quotation');
         }

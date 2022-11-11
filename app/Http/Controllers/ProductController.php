@@ -97,7 +97,7 @@ class ProductController extends Controller
                 $accesorio->models()->attach($m, ['price' => $p]);
             }
         }
-        Alert::success('El accesorio se guardo correctamente.');
+        Alert::success('El accesorio se guardó correctamente.');
         return redirect()->route('accesorios.buscar');
     }
 
@@ -126,7 +126,7 @@ class ProductController extends Controller
         $vehiculo->chassis = $request->chassis;
         $vehiculo->image = $url;
         $vehiculo->save();
-        Alert::success('El vehiculo se guardo correctamente.');
+        Alert::success('El vehiculo se guardó correctamente.');
         return redirect()->route('vehiculos.buscar');
     }
 
@@ -159,7 +159,7 @@ class ProductController extends Controller
         $vehiculo->year = $request->anioV;
 
         $vehiculo->save();
-        Alert::success('El vehiculo se actualizo correctamente.');
+        Alert::success('El vehiculo se actualizó correctamente.');
         return redirect()->route('vehiculos.buscar');
     }
 
@@ -185,7 +185,7 @@ class ProductController extends Controller
             }
         }
         $accesorio->save();
-        Alert::success('El accesorio se actualizo correctamente.');
+        Alert::success('El accesorio se actualizó correctamente.');
         return redirect()->route('accesorios.buscar');
     }
 
@@ -194,14 +194,14 @@ class ProductController extends Controller
 
         $vehicle->removed = true;
         $vehicle->save();
-        Alert::success('El vehiculo se elimino correctamente.');
+        Alert::success('El vehiculo se eliminó correctamente.');
         return redirect()->route('vehiculos.buscar');
     }
     public function destroyAccesory(Accessory $accesorio)
     {
         $accesorio->removed = true;
         $accesorio->save();
-        Alert::success('El accesorio se elimino correctamente.');
+        Alert::success('El accesorio se eliminó correctamente.');
         return redirect()->route('accesorios.buscar');
     }
     public function catalogo()

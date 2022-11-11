@@ -21,6 +21,7 @@
                                 <th class="py-3 px-6 text-center">Marca</th>
                                 <th class="py-3 px-6 text-center">Modelo</th>
                                 <th class="py-3 px-6 text-center">N° de chasis</th>
+                                <th class="py-3 px-6 text-center">Estado</th>
                                 <th class="py-3 px-6 text-center">Acciones</th>
                             </tr>
                         </thead>
@@ -47,6 +48,19 @@
                                         <div class="items-center">
                                             <span>{{ $vehiculo->chassis }}</span>
                                         </div>
+                                    </td>
+                                    <td class="py-3 px-3 text-center whitespace-nowrap">
+                                        <div class="items-center">
+                                            <div class="mr-2">
+                                                @php
+                                                    $estado = $vehiculo->vehicleState;
+                                                    if ($estado == 'reserved') {
+                                                        echo '<span class="font-medium">Reservado</span>';
+                                                    } else {
+                                                        echo '<span class="font-medium">Disponible</span>';
+                                                    }
+                                                @endphp
+                                            </div>
                                     </td>
                                     <td class="py-3 px-3 text-center">
                                         <div class="flex item-center justify-center">
