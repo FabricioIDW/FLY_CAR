@@ -1,5 +1,5 @@
 @extends('layouts.plantilla')
-@section('title', 'Principal')
+@section('title', 'FLY CAR')
 @section('titleH1', 'Catálogo de vehículos')
 @section('content')
     @livewire('show-catalogo')

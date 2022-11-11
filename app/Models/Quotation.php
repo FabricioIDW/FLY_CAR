@@ -61,4 +61,28 @@ class Quotation extends Model
         }
         return true;
     }
+    public function changeProductsState(Quotation $quotation)
+    {
+        $vehiculos = $quotation->vehicles;
+        foreach ($vehiculos as $vehiculo) {
+            $colecAccesorios = [];
+            if ($vehiculo->getAccessoriesFromQuotation($quotation->id)) {
+                $colecAccesorios = $vehiculo->getAccessoriesFromQuotation($quotation->id);
+                foreach ($colecAccesorios as $unAccesorio) {
+                    $acc = Accessory::find($unAccesorio["id"]);
+                    $acc->addStock();
+                    $acc->save();
+                }
+            }
+            $vehiculo->vehicleState = 'availabled';
+            $vehiculo->save();
+        }
+
+        if ($quotation->reserve) {
+            $quotation->reserve->reserveState = 'disabled';
+            $quotation->reserve->save();
+        }
+
+        return $quotation;
+    }
 }

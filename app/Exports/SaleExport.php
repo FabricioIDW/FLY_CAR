@@ -52,9 +52,9 @@ class SaleExport implements
                 'Nro. Venta',
                 'Cliente',
                 'Fecha generada',
-                'Importe',
-                'Nro. Pago',
                 'DNI vendedor',
+                'Nro. Pago',
+                'Importe',
             ],
         ];
     }
@@ -84,9 +84,9 @@ class SaleExport implements
                     $sale->id,
                     $sale->quotation->customer->dni,
                     $sale->dateTimeGenerated,
-                    number_format($sale->quotation->finalAmount, 2, ',', '.'),
-                    $sale->payment->id,
                     $sale->seller->dni,
+                    $sale->payment->id,
+                    number_format($sale->quotation->finalAmount, 2, ',', '.'),
                 ],
                 [
                     'Marca',
@@ -120,9 +120,9 @@ class SaleExport implements
                         $sale->id,
                         $sale->quotation->customer->dni,
                         $sale->dateTimeGenerated,
-                        number_format($sale->quotation->finalAmount, 2, ',', '.'),
-                        $sale->payment->id,
                         $sale->seller->dni,
+                        $sale->payment->id,
+                        number_format($sale->quotation->finalAmount, 2, ',', '.'),
                     ],
                     [
                         'Marca',

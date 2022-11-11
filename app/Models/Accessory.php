@@ -35,10 +35,12 @@ class Accessory extends Model
     }
     public function addStock()
     {
-            $this->stock = $this->stock + 1;
-            $this->save();
-            return true;
-       
+        $this->stock = $this->stock + 1;
+        if ($this->stock > 0) {
+            $this->enabled = 1;
+        }
+        $this->save();
+        return true;
     }
     public function setEnabled($valor)
     {

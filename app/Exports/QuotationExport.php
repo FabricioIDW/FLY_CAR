@@ -47,18 +47,29 @@ class QuotationExport implements
     }
     public function headings(): array
     {
+        // if ($this->quotation[0]->reserve) {
+        //     # code...
+        // }
         return [
             [
                 'Nro',
                 'Cliente',
                 'Fecha generada',
                 'Fecha vencimiento',
-                'Importe'
+                'Importe',
+                'Reserva',
+                'Seña pagada',
             ],
         ];
     }
     public function map($quotation): array
     {
+        $reserva = 'No';
+        $importeReserva = 'No aplica';
+        if ($quotation->reserve) {
+            $reserva = 'Si';
+            $importeReserva = number_format($quotation->reserve->amount, 2, ',', '.');
+        }
         $accessoriesData = [];
         $accessoriesPrices = [];
         foreach ($quotation->vehicles as $vehicle) {
@@ -84,7 +95,9 @@ class QuotationExport implements
                     $quotation->customer->name . ' ' . $quotation->customer->lastName,
                     $quotation->dateTimeGenerated,
                     $quotation->dateTimeExpiration,
-                    number_format($quotation->finalAmount, 2, ',', '.')
+                    number_format($quotation->finalAmount, 2, ',', '.'),
+                    $reserva,
+                    $importeReserva,
                 ],
                 [
                     'Marca',
@@ -118,7 +131,9 @@ class QuotationExport implements
                 $quotation->customer->name . ' ' . $quotation->customer->lastName,
                 $quotation->dateTimeGenerated,
                 $quotation->dateTimeExpiration,
-                number_format($quotation->finalAmount, 2, ',', '.')
+                number_format($quotation->finalAmount, 2, ',', '.'),
+                $reserva,
+                $importeReserva,
             ],
             [
                 'Marca',
