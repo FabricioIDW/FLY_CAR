@@ -28,11 +28,12 @@
                             Número de chasis: {{ $vehiculo->chassis }}
                         </p>
                         <div class="grid sm:grid-cols-2 grid-cols-1 w-full">
-                        <p class="paragraph-normal text-gray-600">
-                            Precio: 
-                        </p>
-                        <p class="paragraph-normal text-gray-600">${{ number_format($vehiculo->getPrice(), 2, ',', '.') }}</p>
-                    </div>
+                            <p class="paragraph-normal text-gray-600">
+                                Precio:
+                            </p>
+                            <p class="paragraph-normal text-gray-600">
+                                ${{ number_format($vehiculo->getPrice(), 2, ',', '.') }}</p>
+                        </div>
                         @if (count($vehiculo->getAccessoriesFromQuotation(session('quotation')->id)) > 0)
                             <p class="font-semibold text-gray-600">
                                 Accesorios:

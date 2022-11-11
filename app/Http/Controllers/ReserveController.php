@@ -25,7 +25,7 @@ class ReserveController extends Controller
         session('quotation')->updateTimes($reserve->dateTimeGenerated);
         session()->forget(['payment', 'quotation', 'reserve']);
         $reserve->save();
-        Alert::success('La reserva de la cotización realizó correctamente.');
+        Alert::success('La reserva de la cotización se realizó correctamente.');
         return redirect()->action([QuotationController::class, 'miCotizacion']);
     }
 }

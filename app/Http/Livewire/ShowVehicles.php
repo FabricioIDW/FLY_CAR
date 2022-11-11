@@ -11,7 +11,7 @@ class ShowVehicles extends Component
     public $search;
     public function render()
     {
-        $vehiculos = Vehicle::select('vehicles.id', 'vehicles.chassis', 'brands.name as nombreMarca', 'vehicle_models.name as nombreModelo', 'vehicles.vehicle_model_id', 'vehicle_models.brand_id')
+        $vehiculos = Vehicle::select('vehicles.id', 'vehicles.vehicleState', 'vehicles.chassis', 'brands.name as nombreMarca', 'vehicle_models.name as nombreModelo', 'vehicles.vehicle_model_id', 'vehicle_models.brand_id')
             ->join('vehicle_models', 'vehicle_models.id', '=', 'vehicles.vehicle_model_id')
             ->join('brands', 'brands.id', '=', 'vehicle_models.brand_id')
             ->where('vehicles.removed', '=', 'false')
