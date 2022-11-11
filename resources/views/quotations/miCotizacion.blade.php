@@ -30,18 +30,16 @@
                         <div class="grid sm:grid-cols-2 grid-cols-1 w-full">
                             <p class="paragraph-normal text-gray-600">
                                 Precio:
+                                ${{ number_format($vehiculo->getPrice(), 2, ',', '.') }}
                             </p>
-                            <p class="paragraph-normal text-gray-600">
-                                ${{ number_format($vehiculo->getPrice(), 2, ',', '.') }}</p>
                         </div>
                         @if (count($vehiculo->getAccessoriesFromQuotation(session('quotation')->id)) > 0)
                             <p class="font-semibold text-gray-600">
                                 Accesorios:
                             <ul>
                                 @foreach ($vehiculo->getAccessoriesFromQuotation(session('quotation')->id) as $accessory)
-                                    <li class="grid sm:grid-cols-2 grid-cols-1">
-                                        <p class="text-left">{{ $accessory['name'] }}</p>
-                                        <p class="text-right">${{ $accessory['price'] }}</p>
+                                    <li class="">
+                                        <p class="text-left">{{ $accessory['name'] }} ${{ $accessory['price'] }}</p>
                                     </li>
                                 @endforeach
                             </ul>

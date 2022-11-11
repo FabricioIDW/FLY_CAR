@@ -26,7 +26,7 @@
             'can' => 'admin.reports',
         ],
         [
-            'name' => 'Crear cuenta vendedor',
+            'name' => 'Nuevo vendedor',
             'route' => route('usersSeller.create'),
             'active' => request()->routeIs('usersSeller.create'),
             'can' => 'usersSeller.create',
