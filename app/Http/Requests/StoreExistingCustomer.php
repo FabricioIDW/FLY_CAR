@@ -24,7 +24,7 @@ class StoreExistingCustomer extends FormRequest
     public function rules()
     {
         return [
-            'dni' => ['required', 'string', 'min:8', 'max:8', 'exists:customers,dni', 'regex:/^([0-9]+)/'],
+            'dni' => ['required', 'string', 'min:6', 'max:8', 'exists:customers,dni', 'regex:/^([0-9]+)/'],
             'email' => ['required', 'exists:customers,email', 'regex:/^.+@.+$/i'],
             'password' => 'required',
             'password_confirmation' => 'required',
@@ -41,8 +41,8 @@ class StoreExistingCustomer extends FormRequest
     {
         return [
             'dni.required' => 'El DNI es obligatorio.',
-            'dni.min' => 'El DNI debe ser de 8 dígitos (solo números).',
-            'dni.max' => 'El DNI debe ser de 8 dígitos (solo números).',
+            'dni.min' => 'El DNI debe ser de 6 a 8 dígitos (solo números).',
+            'dni.max' => 'El DNI debe ser de 6 a 8 dígitos (solo números).',
             'dni.exists' => 'El DNI ingresado no pertenece a un cliente que no posee una cuenta.',
             'dni.regex' => 'El formato del DNI ingresado no es válido.',
             'email.required' => 'El email es obligatorio.',

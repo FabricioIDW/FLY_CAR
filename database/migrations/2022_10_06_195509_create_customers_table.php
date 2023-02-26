@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('dni', 8)->unique();
+            $table->string('dni', 8)->unique(); //Capaz que tambien hay que modificar la longitud aca.
             $table->string('name');
             $table->string('lastName');
             $table->date('birthDate');
@@ -25,7 +25,6 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
         });
-        
     }
 
     /**

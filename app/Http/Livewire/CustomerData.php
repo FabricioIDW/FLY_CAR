@@ -14,12 +14,22 @@ class CustomerData extends Component
     public $hasQuotation = false;
     public $message = '';
     protected $rules = [
-        'dni' => 'required',
+        'dni' => 'required|min:6|max:8',
         'name' => 'required',
         'lastName' => 'required',
         'birthDate' => 'required',
         'address' => 'required',
         'email' => 'required',
+    ];
+    protected $messages = [
+        'dni.min' => 'El dni debe ser de 6 a 8 dígitos (solo números)',
+        'dni.max' => 'El dni debe ser de 6 a 8 dígitos (solo números)',
+        'dni.required' => 'El DNI es obligatorio.',
+        'name.required' => 'El nombre es obligatorio.',
+        'lastName.required' => 'El apellido es obligatorio.',
+        'birthDate.required' => 'La fecha de nacimiento es obligatoria.',
+        'address.required' => 'La dirección es obligatoria.',
+        'email.required' => 'El email es obligatorio.',
     ];
     public function render()
     {
