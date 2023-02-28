@@ -30,7 +30,9 @@
                         <div class="grid sm:grid-cols-2 grid-cols-1 w-full">
                             <p class="paragraph-normal text-gray-600">
                                 Precio:
+                            <p class="text-right text-black">
                                 ${{ number_format($vehiculo->getPrice(), 2, ',', '.') }}
+                            </p>
                             </p>
                         </div>
                         @if (count($vehiculo->getAccessoriesFromQuotation(session('quotation')->id)) > 0)
@@ -38,8 +40,12 @@
                                 Accesorios:
                             <ul>
                                 @foreach ($vehiculo->getAccessoriesFromQuotation(session('quotation')->id) as $accessory)
-                                    <li class="">
+                                    {{-- <li class="">
                                         <p class="text-left">{{ $accessory['name'] }} ${{ $accessory['price'] }}</p>
+                                    </li> --}}
+                                    <li class="paragraph-normal text-gray-600 grid grid-cols-2">
+                                        <p class="text-left">{{ $accessory['name'] }}</p>
+                                        <p class="text-right text-black">${{ $accessory['price'] }}</p>
                                     </li>
                                 @endforeach
                             </ul>
@@ -62,7 +68,7 @@
                     </form>
                 </span>
             </div>
-            <div class="sm:text-end text-center">
+            <div class="sm:text-end text-center mr-40">
                 <p class="text-2xl">Importe total: <span>$
                         {{ number_format(session('quotation')->finalAmount, 2, ',', '.') }}</span> </p>
                 @if (session('quotation')->reserve)

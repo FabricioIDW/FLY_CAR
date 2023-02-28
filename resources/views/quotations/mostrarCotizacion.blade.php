@@ -31,7 +31,8 @@
                     <span class="text-black">Número de chasis: </span>{{ $vehiculo->chassis }}
                 </p>
                 <p class="paragraph-normal text-gray-600">
-                    <span class="text-black">Precio:</span> ${{ number_format($vehiculo->getPrice(), 2, ',', '.') }}
+                <p class="text-black text-left">Precio:</p>
+                <p class="text-right">${{ number_format($vehiculo->getPrice(), 2, ',', '.') }}</p>
                 </p>
                 @php
                     $accesorios = $vehiculo->getAccessoriesFromQuotation($quotation->id);
@@ -43,7 +44,7 @@
                         @foreach ($accesorios as $accessory)
                             <li class="paragraph-normal text-gray-600 grid grid-cols-2">
                                 <p class="text-left">{{ $accessory['name'] }}</p>
-                                <p class="text-right">${{ $accessory['price'] }}</p>
+                                <p class="text-right text-black">${{ $accessory['price'] }}</p>
                             </li>
                         @endforeach
                     </ul>

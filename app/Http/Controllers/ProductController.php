@@ -55,7 +55,7 @@ class ProductController extends Controller
     public function modelsBrand(Request $request)
     {
         $output = "";
-        $modelos = vehicleModel::where('brand_id', '=', '' . $request->marca . '')->get();
+        $modelos = VehicleModel::where('brand_id', '=', $request->marca)->get();
         foreach ($modelos as $model) {
             if ($request->modelo == $model->name) {
                 $output .= '<option id="' . $model->id . '" value="' . $model->id . '" selected>' . $model->name . '</option>';
@@ -144,6 +144,14 @@ class ProductController extends Controller
 
     public function updateVehicle(Request $request, Vehicle $vehiculo)
     {
+        $request->validate([
+            "descripcionProducto" => "required",
+            "price" => "required",
+            "anioV" => "required",
+            "chassis" => 'required|unique:vehicles,chassis,' . $vehiculo->id . '|min:17|max:17',
+            "file" => "image",
+            "marcasVehiculos" => "required|not_in:0"
+        ]);
         if ($request->file('file')) {
             $imagen = $request->file('file')->store('public/imgVehiculos');
             $url = Storage::url($imagen);
@@ -165,6 +173,11 @@ class ProductController extends Controller
 
     public function updateAccesory(Request $request, Accessory $accesorio)
     {
+        $request->validate([
+            "descripcionProducto" => "required",
+            "stock" => "required|min:1",
+            "nombreA" => "required",
+        ]);
         $accesorio->description = $request->descripcionProducto;
         $accesorio->enabled = $request->selectEstado;
         $accesorio->name = $request->nombreA;
@@ -216,8 +229,8 @@ class ProductController extends Controller
         ///
         $marcas = Brand::all();
         $vehiculos = Vehicle::where('vehicleState', 'availabled')
-        ->where('enabled', '1')
-        ->where('vehicles.removed', '=', 'false')->get();
+            ->where('enabled', '1')
+            ->where('vehicles.removed', '=', 'false')->get();
         return view('catalogo', compact('vehiculos', 'marcas'));
     }
 

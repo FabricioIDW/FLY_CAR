@@ -254,12 +254,11 @@
     <script type="text/javascript">
         $("#marcaVehiculo").change(function() {
             $value = $(this).val();
-
             $.ajax({
                 type: 'get',
                 url: '{{ URL::to('modelsByBrand') }}',
                 data: {
-                    'selectMarca': $value
+                    'marca': $value
                 },
 
                 success: function(data) {

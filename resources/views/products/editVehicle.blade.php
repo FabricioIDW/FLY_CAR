@@ -32,7 +32,7 @@
 
                             <label for="idDescProd" class="block text-sm font-medium text-gray-700">
                                 Descripción del vehículo:
-                                <textarea name="descripcionProducto" id="idDescProd" cols="20" rows="3"
+                                <textarea required name="descripcionProducto" id="idDescProd" cols="20" rows="3"
                                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-black dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ $vehiculo->description }}</textarea>
                                 @error('descripcionProducto')
                                     <div class="text-xs text-red-800">La descripción del vehículo esta vacía.</div>
@@ -147,7 +147,7 @@
         $(document).ready(function() {
             $value = $('#marcaVehiculo').val();
             $modelo = $('#modeloActual').text();
-
+            console.log($value);
             $.ajax({
                 type: 'get',
                 url: '{{ URL::to('modelsByBrand') }}',
