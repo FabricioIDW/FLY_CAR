@@ -6,7 +6,7 @@
         <div class="w-11/12 mx-auto place-items-center max-h-full">
             <div class="px-6 py-4 flex item-center">
                 <x-jet-input class="flex-1 mr-4" type="text" wire:model="search"
-                    placeholder="Busque por id, modelo o marca." />{{-- BUSCADOR --}}
+                    placeholder="Busque por N°, modelo o marca." />{{-- BUSCADOR --}}
                 <a href="{{ route('productos.create') }}">
                     {{-- <x-button-normal openBtn="Crear vehículo"></x-button-normal> --}}
                     <x-jet-button>Crear vehículo</x-jet-button>
@@ -17,7 +17,7 @@
                     <table class="min-w-max w-full table-auto">
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6 text-center">ID</th>
+                                <th class="py-3 px-6 text-center">N°</th>
                                 <th class="py-3 px-6 text-center">Marca</th>
                                 <th class="py-3 px-6 text-center">Modelo</th>
                                 <th class="py-3 px-6 text-center">N° de chasis</th>
@@ -85,4 +85,5 @@
         </div>
     </div>
 </div>
+<div class="text-center">@include('layouts.partials.footer')</div>
 </div>

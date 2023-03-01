@@ -48,5 +48,5 @@
         }
     </script>
     {{-- Termina div content --}}
-    <div class="text-center">@include('layouts.partials.footer')</div>
+    {{-- <div class="text-center">@include('layouts.partials.footer')</div> --}}
 @endsection
